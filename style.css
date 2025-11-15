@@ -97,6 +97,7 @@ body {
     color: #fff;
 }
 
+/* Canvas для интерактивного фона */
 canvas {
     position: fixed;
     top:0;
@@ -104,7 +105,7 @@ canvas {
     z-index:0;
 }
 
-/* ------------------ Главная страница ------------------ */
+/* Главная страница */
 .home-page {
     position: relative;
     z-index: 1;
@@ -114,7 +115,7 @@ canvas {
     justify-content: center; 
     align-items: center;    
     text-align: center;
-    gap: 40px; /* расстояние между элементами */
+    gap: 40px;
 }
 
 .band-title {
@@ -124,14 +125,13 @@ canvas {
     animation: pulse 4s infinite;
 }
 
-/* Пульсация названия */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.08); }
     100% { transform: scale(1); }
 }
 
-/* ------------------ Кнопки ------------------ */
+/* Кнопки */
 .home-buttons {
     display: flex;
     gap: 20px;
@@ -167,7 +167,7 @@ canvas {
     100% { background-position: 0% 50%; }
 }
 
-/* ------------------ Мини-галерея альбомов ------------------ */
+/* Мини-галерея альбомов */
 .mini-albums {
     display: flex;
     gap: 15px;

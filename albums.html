@@ -113,7 +113,10 @@
     </div>
 </main>
 
-    <canvas id="particle-canvas"></canvas>
+<!-- Canvas для частиц -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- JS для частиц с реакцией на музыку -->
 <script>
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
@@ -126,68 +129,23 @@ window.addEventListener('resize', () => {
 });
 
 const particles = [];
-const colors = ['#ff00ff', '#ff66ff', '#66ffff', '#00ffff'];
-
-for (let i = 0; i < 80; i++) {
+const colors = ['#ff00ff','#ff66ff','#66ffff','#00ffff'];
+for(let i=0;i<120;i++){
     particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 3 + 1,
-        dx: (Math.random() - 0.5) * 0.8,
-        dy: (Math.random() - 0.5) * 0.8,
-        color: colors[Math.floor(Math.random() * colors.length)]
+        x:Math.random()*width,
+        y:Math.random()*height,
+        r:Math.random()*3+1,
+        dx:(Math.random()-0.5)*0.8,
+        dy:(Math.random()-0.5)*0.8,
+        color:colors[Math.floor(Math.random()*colors.length)]
     });
 }
 
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-    particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-
-        if (p.x < 0 || p.x > width) p.dx *= -1;
-        if (p.y < 0 || p.y > height) p.dy *= -1;
-    });
-    requestAnimationFrame(animate);
-}
-
-animate();
-</script>
-
-<script>
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
-
-window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-});
-
-const particles = [];
-const colors = ['#ff00ff', '#ff66ff', '#66ffff', '#00ffff'];
-for (let i = 0; i < 120; i++) {
-    particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 3 + 1,
-        dx: (Math.random() - 0.5) * 0.8,
-        dy: (Math.random() - 0.5) * 0.8,
-        color: colors[Math.floor(Math.random() * colors.length)]
-    });
-}
-
-// Подключаем аудио
+// Подключение аудио к анализатору
 const audioElements = document.querySelectorAll('.track-audio');
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const analysers = [];
-
-audioElements.forEach(audioEl => {
+audioElements.forEach(audioEl=>{
     const source = audioCtx.createMediaElementSource(audioEl);
     const analyser = audioCtx.createAnalyser();
     analyser.fftSize = 256;
@@ -196,50 +154,36 @@ audioElements.forEach(audioEl => {
     analysers.push(analyser);
 });
 
-// Функция для получения уровня громкости
-function getAverageVolume(array) {
-    let values = 0;
-    let length = array.length;
-    for (let i = 0; i < length; i++) {
-        values += array[i];
-    }
-    return values / length;
+function getAverageVolume(array){
+    let values=0;
+    for(let i=0;i<array.length;i++){values+=array[i];}
+    return values/array.length;
 }
 
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-
-    // Средняя громкость всех треков
-    let avgVol = 0;
-    analysers.forEach(analyser => {
+function animate(){
+    ctx.clearRect(0,0,width,height);
+    let avgVol=0;
+    analysers.forEach(analyser=>{
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         avgVol += getAverageVolume(dataArray);
     });
-    avgVol /= analysers.length || 1;
+    avgVol /= analysers.length||1;
 
-    particles.forEach(p => {
-        // движение частиц зависит от громкости
-        p.x += p.dx * (1 + avgVol/50);
-        p.y += p.dy * (1 + avgVol/50);
-        if (p.x < 0 || p.x > width) p.dx *= -1;
-        if (p.y < 0 || p.y > height) p.dy *= -1;
-
+    particles.forEach(p=>{
+        p.x += p.dx*(1+avgVol/50);
+        p.y += p.dy*(1+avgVol/50);
+        if(p.x<0||p.x>width)p.dx*=-1;
+        if(p.y<0||p.y>height)p.dy*=-1;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r + avgVol/100, 0, Math.PI*2);
-        ctx.fillStyle = p.color;
+        ctx.arc(p.x,p.y,p.r+avgVol/100,0,Math.PI*2);
+        ctx.fillStyle=p.color;
         ctx.fill();
     });
-
     requestAnimationFrame(animate);
 }
-
 animate();
 </script>
-    
+
 </body>
 </html>
-
-
-
-

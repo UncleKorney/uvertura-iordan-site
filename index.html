@@ -2,56 +2,54 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Увертюра Иордан</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Canvas для психоделического фона -->
     <canvas id="bg-canvas"></canvas>
 
     <!-- Главная секция -->
-    <section id="home" class="section home-page">
+    <section class="section home">
         <h1 class="band-title">Увертюра Иордан</h1>
-
         <div class="home-buttons">
             <a href="#albums" class="btn"><span>Альбомы</span></a>
             <a href="#gallery" class="btn"><span>Галерея</span></a>
-            <a href="https://music.apple.com/" target="_blank" class="btn"><span>Стриминг</span></a>
         </div>
-
-        <audio id="audio" controls>
-            <source src="music/track1.mp3" type="audio/mpeg">
-            Ваш браузер не поддерживает аудио.
-        </audio>
     </section>
 
     <!-- Альбомы -->
-    <section id="albums" class="section album-section">
+    <section class="section albums" id="albums">
         <h2>Альбомы</h2>
         <div class="albums-container">
+            <!-- Пример карточки альбома -->
             <div class="album-card">
-                <img src="albums/album1.jpg" alt="Альбом 1">
+                <img src="albums/album1.jpg" alt="Обложка Альбома 1">
                 <h3>Альбом 1</h3>
                 <audio controls>
-                    <source src="music/track1.mp3" type="audio/mpeg">
+                    <source src="albums/track1.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио.
                 </audio>
             </div>
+
             <div class="album-card">
-                <img src="albums/album2.jpg" alt="Альбом 2">
+                <img src="albums/album2.jpg" alt="Обложка Альбома 2">
                 <h3>Альбом 2</h3>
                 <audio controls>
-                    <source src="music/track2.mp3" type="audio/mpeg">
+                    <source src="albums/track2.mp3" type="audio/mpeg">
                 </audio>
             </div>
         </div>
     </section>
 
     <!-- Галерея -->
-    <section id="gallery" class="section gallery-section">
+    <section class="section gallery" id="gallery">
         <h2>Галерея</h2>
         <div class="mini-albums">
-            <img src="gallery/art1.jpg" alt="Арт 1">
-            <img src="gallery/art2.jpg" alt="Арт 2">
-            <img src="gallery/art3.jpg" alt="Арт 3">
+            <img src="gallery/image1.jpg" alt="Галерея 1">
+            <img src="gallery/image2.jpg" alt="Галерея 2">
+            <img src="gallery/image3.jpg" alt="Галерея 3">
         </div>
     </section>
 

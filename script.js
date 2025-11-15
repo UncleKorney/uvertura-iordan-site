@@ -37,20 +37,19 @@ window.onload = () => {
         let avg = 0;
         if (analyser) {
             analyser.getByteFrequencyData(dataArray);
-            avg = dataArray.reduce((a,b)=>a+b,0)/dataArray.length;
+            avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
         }
 
         stars.forEach(star => {
             ctx.beginPath();
-            ctx.arc(star.x, star.y, star.r + avg/100, 0, Math.PI * 2);
-            ctx.fillStyle = `hsl(${avg*2}, 100%, 70%)`;
-            ctx.shadowBlur = avg/2;
-            ctx.shadowColor = `hsl(${avg*2}, 100%, 50%)`;
+            ctx.arc(star.x, star.y, star.r + avg / 100, 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${avg * 2}, 100%, 70%)`;
+            ctx.shadowBlur = avg / 2;
+            ctx.shadowColor = `hsl(${avg * 2}, 100%, 50%)`;
             ctx.fill();
 
             star.x += star.dx;
             star.y += star.dy;
-
             if (star.x < 0 || star.x > canvas.width) star.dx *= -1;
             if (star.y < 0 || star.y > canvas.height) star.dy *= -1;
         });

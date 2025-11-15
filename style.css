@@ -86,28 +86,6 @@ body, html {
     z-index: 1;
 }
 
-/* ---------------- Мини-галерея ---------------- */
-.mini-albums {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-}
-
-.mini-albums img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px #fff;
-}
-
-.mini-albums img:hover {
-    transform: scale(1.2) rotate(5deg);
-    box-shadow: 0 0 20px #f0f, 0 0 30px #0ff;
-}
-
 /* ---------------- Альбомы ---------------- */
 .album-section h2,
 .gallery-section h2 {
@@ -156,4 +134,26 @@ body, html {
     width: 100%;
     outline: none;
     border-radius: 10px;
+}
+
+/* ---------------- Галерея ---------------- */
+.mini-albums {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.mini-albums img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 10px #fff;
+}
+
+.mini-albums img:hover {
+    transform: scale(1.2) rotate(5deg);
+    box-shadow: 0 0 20px #f0f, 0 0 30px #0ff;
 }

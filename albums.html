@@ -2,188 +2,103 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Альбомы — Увертюра Иордан</title>
+    <title>Увертюра Иордан — Альбомы</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="hero">
-        <h1>Увертюра Иордан</h1>
-        <nav>
-            <a href="index.html">Главная</a>
-            <a href="albums.html">Альбомы</a>
-            <a href="gallery.html">Галерея</a>
-        </nav>
-    </header>
+    <!-- Canvas для частиц -->
+    <canvas id="particle-canvas"></canvas>
 
-    <main class="albums-page">
-    <h2 style="text-align:center; margin:40px 0;">Альбомы</h2>
-
-    <div class="albums-grid">
-        <!-- Альбом 1 -->
-        <div class="album-card">
-            <img src="albums/album1.jpg" alt="Альбом 1">
-            <h3>Как будто ты в фонтан упал</h3>
-            <p>2025</p>
-
-            <div class="album-tracks">
-                <div class="track">
-                    <h4>Труп</h4>
-                    <audio class="track-audio" controls src="music/track1.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Одна</h4>
-                    <audio class="track-audio" controls src="music/track2.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Первый признак</h4>
-                    <audio class="track-audio" controls src="music/track3.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Над нами</h4>
-                    <audio class="track-audio" controls src="music/track4.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Песня гастронома</h4>
-                    <audio class="track-audio" controls src="music/track5.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Лицо</h4>
-                    <audio class="track-audio" controls src="music/track6.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Сколько раз</h4>
-                    <audio class="track-audio" controls src="music/track7.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Тише</h4>
-                    <audio class="track-audio" controls src="music/track8.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Они видят во мне врага</h4>
-                    <audio class="track-audio" controls src="music/track9.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Домой</h4>
-                    <audio class="track-audio" controls src="music/track10.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Второй признак</h4>
-                    <audio class="track-audio" controls src="music/track11.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Амнезия</h4>
-                    <audio class="track-audio" controls src="music/track12.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Пурт</h4>
-                    <audio class="track-audio" controls src="music/track13.mp3"></audio>
+    <div class="albums-page">
+        <h2>Альбомы</h2>
+        <div class="albums-grid">
+            <!-- Пример одной карточки -->
+            <div class="album-card">
+                <img src="album1.jpg" alt="Альбом 1">
+                <h3>Ка будто ты в фонтан упал</h3>
+                <div class="tracks">
+                    <div class="track">
+                        <h4>Труп</h4>
+                        <audio controls>
+                            <source src="track1.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    <div class="track">
+                        <h4>Одна</h4>
+                        <audio controls>
+                            <source src="track2.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
                 </div>
             </div>
 
-            <div class="links">
-                <a href="#" target="_blank">Spotify</a>
-                <a href="#" target="https://www.youtube.com/playlist?list=OLAK5uy_luKjn0cJBQwo35yeWvqSwkX3QRzWiSJBs">YouTube</a>
-                <a href="#" target="_blank">Apple Music</a>
-            </div>
-        </div>
-
-        <!-- Альбом 2 -->
-        <div class="album-card">
-            <img src="albums/album2.jpg" alt="Альбом 2">
-            <h3>Альбом?</h3>
-            <p>?</p>
-
-            <div class="album-tracks">
-                <div class="track">
-                    <h4>Трек 1</h4>
-                    <audio class="track-audio" controls src="music/track0.mp3"></audio>
-                </div>
-                <div class="track">
-                    <h4>Трек 2</h4>
-                    <audio class="track-audio" controls src="music/track0.mp3"></audio>
-                </div>
-            </div>
-
-            <div class="links">
-                <a href="#" target="_blank">Spotify</a>
-                <a href="#" target="_blank">YouTube</a>
-                <a href="#" target="_blank">Apple Music</a>
-            </div>
+            <!-- Можно добавлять другие карточки по такому же шаблону -->
         </div>
     </div>
-</main>
 
-<!-- Canvas для частиц -->
-<canvas id="particle-canvas"></canvas>
+    <!-- JS для частиц и радужного свечения -->
+    <script>
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-<!-- JS для частиц с реакцией на музыку -->
-<script>
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
-
-window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-});
-
-const particles = [];
-const colors = ['#ff00ff','#ff66ff','#66ffff','#00ffff'];
-for(let i=0;i<120;i++){
-    particles.push({
-        x:Math.random()*width,
-        y:Math.random()*height,
-        r:Math.random()*3+1,
-        dx:(Math.random()-0.5)*0.8,
-        dy:(Math.random()-0.5)*0.8,
-        color:colors[Math.floor(Math.random()*colors.length)]
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
     });
-}
 
-// Подключение аудио к анализатору
-const audioElements = document.querySelectorAll('.track-audio');
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const analysers = [];
-audioElements.forEach(audioEl=>{
-    const source = audioCtx.createMediaElementSource(audioEl);
-    const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analysers.push(analyser);
-});
+    // Частицы
+    const particles = [];
+    for(let i=0;i<100;i++){
+        particles.push({
+            x: Math.random()*width,
+            y: Math.random()*height,
+            r: Math.random()*3+1,
+            dx: (Math.random()-0.5)*2,
+            dy: (Math.random()-0.5)*2
+        });
+    }
 
-function getAverageVolume(array){
-    let values=0;
-    for(let i=0;i<array.length;i++){values+=array[i];}
-    return values/array.length;
-}
+    // Анимация частиц и радужное свечение
+    function getRainbowColor(offset=0){
+        const hue = (Date.now()/20 + offset) % 360;
+        return `hsl(${hue}, 100%, 50%)`;
+    }
 
-function animate(){
-    ctx.clearRect(0,0,width,height);
-    let avgVol=0;
-    analysers.forEach(analyser=>{
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(dataArray);
-        avgVol += getAverageVolume(dataArray);
-    });
-    avgVol /= analysers.length||1;
+    function animate(){
+        ctx.clearRect(0,0,width,height);
 
-    particles.forEach(p=>{
-        p.x += p.dx*(1+avgVol/50);
-        p.y += p.dy*(1+avgVol/50);
-        if(p.x<0||p.x>width)p.dx*=-1;
-        if(p.y<0||p.y>height)p.dy*=-1;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r+avgVol/100,0,Math.PI*2);
-        ctx.fillStyle=p.color;
-        ctx.fill();
-    });
-    requestAnimationFrame(animate);
-}
-animate();
-</script>
+        // Частицы
+        particles.forEach((p,i)=>{
+            p.x += p.dx;
+            p.y += p.dy;
+            if(p.x<0||p.x>width)p.dx*=-1;
+            if(p.y<0||p.y>height)p.dy*=-1;
 
+            const color = getRainbowColor(i*10);
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=color;
+            ctx.fill();
+        });
+
+        // Радужные карточки
+        const albumCards = document.querySelectorAll('.album-card');
+        albumCards.forEach((card,i)=>{
+            card.style.background = `rgba(0,0,0,0.2)`; // базовая прозрачность
+        });
+
+        // Радужное свечение треков
+        const trackTitles = document.querySelectorAll('.track h4');
+        trackTitles.forEach((title,i)=>{
+            title.style.textShadow = `0 0 ${5 + i*2}px ${getRainbowColor(i*30)}`;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+    </script>
 </body>
 </html>

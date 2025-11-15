@@ -1,168 +1,9 @@
+/* Общий фон */
 body {
     margin: 0;
-    font-family: 'Trebuchet MS', sans-serif;
-    background: linear-gradient(120deg, #160020, #002a3b, #22003b);
-    color: #f0f0f0;
-}
-
-.hero {
-    text-align: center;
-    padding: 120px 20px;
-    background: url('images/your_background.jpg') center/cover no-repeat;
-    backdrop-filter: blur(3px);
-    background-blend-mode: overlay;
-}
-
-.hero h1 {
-    font-size: 4rem;
-    text-shadow: 0 0 20px #ff00ff;
-}
-
-nav a {
-    margin: 0 15px;
-    color: #a5ffea;
-    text-decoration: none;
-    font-size: 1.2rem;
-}
-
-nav a:hover {
-    text-shadow: 0 0 10px #ff9800;
-}
-
-.intro {
-    padding: 60px 20px;
-    text-align: center;
-}
-
-.albums-page {
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
     background: linear-gradient(120deg, #1a0020, #001f2a, #20001f);
-    color: #f0f0f0;
-}
-
-.albums-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.album-card {
-    background: rgba(20, 0, 40, 0.8);
-    border: 2px solid #ff00ff;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.album-card img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.album-card h3 {
-    margin: 10px 0;
-    font-size: 1.5rem;
-    text-shadow: 0 0 10px #ff00ff;
-}
-
-.album-card p {
-    margin-bottom: 15px;
-    font-style: italic;
-    color: #ff99ff;
-}
-
-.album-card .links a {
-    margin: 0 10px;
-    padding: 8px 12px;
-    background: #ff00ff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background 0.3s, transform 0.3s;
-}
-
-.album-card .links a:hover {
-    background: #ff66ff;
-    transform: scale(1.1);
-}
-
-.album-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 40px rgba(255, 0, 255, 0.7);
-}
-
-.album-tracks {
-    margin-top: 15px;
-}
-
-.track {
-    margin-bottom: 10px;
-}
-
-.track h4 {
-    color: #ff66ff;
-    margin-bottom: 5px;
-    font-size: 1rem;
-}
-
-.track audio {
-    width: 100%;
-    border-radius: 8px;
-    background: #20001f;
-}
-
-@keyframes floatGlow {
-    0% {
-        transform: translateY(0px) rotate(-1deg);
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-    }
-    50% {
-        transform: translateY(-8px) rotate(1deg);
-        box-shadow: 0 0 40px rgba(255, 0, 255, 0.7);
-    }
-    100% {
-        transform: translateY(0px) rotate(-1deg);
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-    }
-}
-
-.album-card {
-    background: rgba(20, 0, 40, 0.8);
-    border: 2px solid #ff00ff;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-    animation: floatGlow 5s ease-in-out infinite;
-}
-
-.track h4 {
-    color: #ff66ff;
-    margin-bottom: 5px;
-    font-size: 1rem;
-    text-shadow: 0 0 8px #ff00ff, 0 0 12px #ff66ff;
-    transition: text-shadow 0.5s;
-}
-
-.track h4:hover {
-    text-shadow: 0 0 16px #ff00ff, 0 0 24px #ff66ff;
-}
-
-body {
-    animation: backgroundShift 20s infinite alternate;
-}
-
-@keyframes backgroundShift {
-    0% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
-    50% { background: linear-gradient(120deg, #20001f, #001f2a, #1a0020); }
-    100% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
+    overflow-x: hidden;
 }
 
 /* Canvas на весь экран */
@@ -172,19 +13,54 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* чтобы не мешал кликам */
-    z-index: -1; /* позади контента */
+    pointer-events: none;
+    z-index: -1;
 }
 
-/* Карточки слегка пульсируют и вибрируют */
+/* Основной контент */
+.albums-page {
+    position: relative;
+    z-index: 1;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+/* Сетка альбомов */
+.albums-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 40px;
+}
+
+/* Карточка альбома */
+.album-card {
+    background: rgba(0, 0, 0, 0.2); /* прозрачный фон */
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Пульсация карточек */
 @keyframes pulseGlow {
     0% { transform: translateY(0px) rotate(-1deg); box-shadow: 0 0 20px #ff00ff; }
     50% { transform: translateY(-6px) rotate(1deg); box-shadow: 0 0 50px #ff66ff; }
     100% { transform: translateY(0px) rotate(-1deg); box-shadow: 0 0 20px #ff00ff; }
 }
 
-.album-card {
-    animation: pulseGlow 4s ease-in-out infinite;
+/* Изображения альбомов */
+.album-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 /* Названия треков */
@@ -192,20 +68,29 @@ body {
     text-shadow: 0 0 8px #ff00ff, 0 0 12px #ff66ff;
     transition: text-shadow 0.3s;
 }
-
 .track h4:hover {
     text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff66ff;
 }
 
-/* Фон радужный */
-body {
-    animation: rainbowBG 15s linear infinite;
+/* Ссылки на стриминг */
+.links a {
+    margin: 0 5px;
+    color: #ff66ff;
+    text-decoration: none;
+}
+.links a:hover {
+    text-shadow: 0 0 15px #ff00ff;
 }
 
+/* Анимация радужного фона для body */
 @keyframes rainbowBG {
     0% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
     25% { background: linear-gradient(120deg, #20001f, #001f2a, #1a0020); }
     50% { background: linear-gradient(120deg, #1a0020, #20001f, #001f2a); }
     75% { background: linear-gradient(120deg, #001f2a, #1a0020, #20001f); }
     100% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
+}
+
+body {
+    animation: rainbowBG 15s linear infinite;
 }

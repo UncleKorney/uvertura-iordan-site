@@ -96,25 +96,27 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* центр по вертикали */
-    align-items: center;    /* центр по горизонтали */
+    justify-content: center; 
+    align-items: center;    
     text-align: center;
-    gap: 30px;              /* расстояние между названием и кнопками */
+    gap: 40px; /* расстояние между элементами */
 }
 
 .band-title {
-    font-size: 4rem;
-    margin-bottom: 40px;
+    font-size: 5rem;
+    font-weight: bold;
     color: #fff;
     animation: pulse 4s infinite;
 }
 
+/* Пульсация названия */
 @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.08); }
     100% { transform: scale(1); }
 }
 
+/* ------------------ Кнопки ------------------ */
 .home-buttons {
     display: flex;
     gap: 20px;
@@ -124,7 +126,7 @@ body {
 .btn {
     position: relative;
     display: inline-block;
-    padding: 15px 40px;
+    padding: 15px 45px;
     font-size: 1.3rem;
     font-weight: bold;
     color: #fff;
@@ -135,6 +137,7 @@ body {
     transition: transform 0.3s, box-shadow 0.3s, background-position 1s;
     box-shadow: 0 0 20px rgba(255,255,255,0.3);
     text-align: center;
+    animation: gradientShift 4s ease infinite;
 }
 
 .btn:hover {
@@ -143,15 +146,34 @@ body {
     background-position: 100% 0;
 }
 
-/* Анимация градиента на кнопках */
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-.btn {
-    animation: gradientShift 4s ease infinite;
+/* ------------------ Мини-галерея альбомов ------------------ */
+.mini-albums {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
+
+.mini-albums img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 2px solid #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mini-albums img:hover {
+    transform: scale(1.2) rotate(-5deg);
+    box-shadow: 0 0 30px rgba(255,255,255,0.7);
+}
+
 
 

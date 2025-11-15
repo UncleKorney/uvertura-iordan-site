@@ -1,4 +1,4 @@
-/* ---------------- Общие настройки ---------------- */
+/* Общие настройки */
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body, html {
     overflow-x: hidden;
     color: #fff;
     scroll-behavior: smooth;
-    /* background удален, чтобы canvas был виден */
+    background: transparent; /* Убираем фон, чтобы canvas был виден */
 }
 
 #bg-canvas {
@@ -24,20 +24,19 @@ body, html {
     height: 100%;
 }
 
-/* ---------------- Секции ---------------- */
+/* Секции */
 .section {
     min-height: 100vh;
     padding: 100px 20px;
     text-align: center;
 }
 
-/* ---------------- Главная секция ---------------- */
+/* Главная секция */
 .band-title {
     font-size: 4rem;
     margin-bottom: 40px;
-    color: #fff;
-    text-transform: uppercase;
     letter-spacing: 3px;
+    text-transform: uppercase;
     text-shadow: 0 0 10px #f0f, 0 0 20px #0ff, 0 0 30px #ff0;
 }
 
@@ -54,9 +53,9 @@ body, html {
     color: #fff;
     border: 2px solid #fff;
     border-radius: 50px;
-    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .home-buttons .btn::before {
@@ -67,7 +66,7 @@ body, html {
     width: 100%;
     height: 100%;
     background: linear-gradient(120deg, #f0f, #0ff, #ff0);
-    transition: all 0.5s;
+    transition: left 0.5s;
     z-index: 0;
 }
 
@@ -86,12 +85,11 @@ body, html {
     z-index: 1;
 }
 
-/* ---------------- Альбомы ---------------- */
+/* Альбомы */
 .album-section h2,
 .gallery-section h2 {
     font-size: 3rem;
     margin-bottom: 50px;
-    color: #fff;
     text-shadow: 0 0 15px #f0f, 0 0 30px #0ff;
 }
 
@@ -107,13 +105,13 @@ body, html {
     border: 2px solid rgba(255,255,255,0.2);
     border-radius: 20px;
     padding: 20px;
-    width: 250px;
+    width: 280px; /* чуть больше, чтобы иконки были крупнее */
     backdrop-filter: blur(5px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .album-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
     box-shadow: 0 0 25px #f0f, 0 0 40px #0ff;
 }
 
@@ -126,34 +124,33 @@ body, html {
 .album-card h3 {
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #fff;
     text-shadow: 0 0 5px #f0f, 0 0 10px #0ff;
 }
 
 .album-card audio {
     width: 100%;
-    outline: none;
     border-radius: 10px;
 }
 
-/* ---------------- Галерея ---------------- */
+/* Галерея */
 .mini-albums {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     flex-wrap: wrap;
+    padding: 20px;
 }
 
 .mini-albums img {
-    width: 120px;
-    height: 120px;
+    width: 180px; /* увеличен размер */
+    height: 180px;
     object-fit: cover;
     border-radius: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
 .mini-albums img:hover {
-    transform: scale(1.2) rotate(5deg);
-    box-shadow: 0 0 20px #f0f, 0 0 30px #0ff;
+    transform: scale(1.25) rotate(5deg);
+    box-shadow: 0 0 25px #f0f, 0 0 40px #0ff;
 }

@@ -13,22 +13,29 @@
     <div class="home-page">
         <h1 class="band-title">Увертюра Иордан</h1>
 
+        <!-- Кнопки -->
         <div class="home-buttons">
             <a href="albums.html" class="btn">Альбомы</a>
-            <a href="https://music.yandex.ru/artist/23657063?ysclid=mi0vpvcksh522707614" target="_blank" class="btn">Стриминг</a>
-            <a href="https://www.youtube.com/channel/UCTXIzl0ec7pBZzl8Ys2ceIQ" target="_blank" class="btn">YouTube</a>
+            <a href="https://music.apple.com/" target="_blank" class="btn">Стриминг</a>
+            <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
         </div>
+
+        <!-- Аудиоплеер -->
+        <audio id="audio" controls>
+            <source src="music/track1.mp3" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио.
+        </audio>
 
         <!-- Мини-галерея альбомов -->
         <div class="mini-albums">
-            <img src="images/album1.jpg" alt="Альбом 1">
-            <img src="images/album2.jpg" alt="Альбом 2">
-            <img src="images/album3.jpg" alt="Альбом 3">
+            <img src="albums/album1.jpg" alt="Альбом 1">
+            <img src="albums/album2.jpg" alt="Альбом 2">
+            <img src="albums/album3.jpg" alt="Альбом 3">
         </div>
     </div>
 
     <script>
-    // ---------------- Интерактивный сюрреалистический фон ----------------
+    // ---------------- Canvas ----------------
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -39,6 +46,7 @@
         height = canvas.height = window.innerHeight;
     });
 
+    // ---------------- Частицы ----------------
     const particles = [];
     for(let i=0;i<250;i++){
         particles.push({
@@ -50,6 +58,7 @@
         });
     }
 
+    // ---------------- Нейро-арт элементы ----------------
     const artElements = [];
     for(let i=0;i<10;i++){
         artElements.push({
@@ -63,22 +72,53 @@
         });
     }
 
+    // ---------------- Мышь ----------------
     let mouse = {x: width/2, y: height/2};
-    window.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 
     function getRainbowColor(offset=0){
         const hue = (Date.now()/20 + offset) % 360;
         return `hsl(${hue}, 100%, 50%)`;
     }
 
+    // ---------------- Аудио ----------------
+    const audio = document.getElementById('audio');
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioCtx.createAnalyser();
+    const source = audioCtx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 256;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function updateAudioVisuals(){
+        analyser.getByteFrequencyData(dataArray);
+        let sum = 0;
+        for(let i=0;i<dataArray.length;i++) sum += dataArray[i];
+        const avg = sum / dataArray.length;
+
+        particles.forEach(p => p.r = Math.random()*3 + 1 + avg/80);
+        artElements.forEach(a => a.opacity = 0.1 + avg/1000);
+
+        const title = document.querySelector('.band-title');
+        title.style.textShadow = `
+            0 0 ${10 + avg/10}px ${getRainbowColor(0)},
+            0 0 ${20 + avg/5}px ${getRainbowColor(50)},
+            0 0 ${30 + avg/2}px ${getRainbowColor(100)}
+        `;
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach((btn,i)=>{
+            btn.style.boxShadow = `0 0 ${5+avg/10}px ${getRainbowColor(i*30)}, 0 0 ${10+avg/5}px ${getRainbowColor(i*60)}`;
+        });
+    }
+
+    // ---------------- Анимация ----------------
     function animate(){
         ctx.fillStyle = "rgba(0,0,0,0.15)";
         ctx.fillRect(0,0,width,height);
 
-        // Частицы
         particles.forEach((p,i)=>{
             p.x += p.dx + (mouse.x-width/2)/1000;
             p.y += p.dy + (mouse.y-height/2)/1000;
@@ -91,7 +131,6 @@
             ctx.fill();
         });
 
-        // Сюрреалистические элементы (нейро-арт)
         artElements.forEach(a=>{
             a.x += a.dx;
             a.y += a.dy;
@@ -106,21 +145,8 @@
             ctx.globalAlpha = 1;
         });
 
-        // Радужное свечение названия группы
-        const title = document.querySelector('.band-title');
-        title.style.textShadow = `
-            0 0 20px ${getRainbowColor(0)},
-            0 0 40px ${getRainbowColor(50)},
-            0 0 60px ${getRainbowColor(100)}
-        `;
+        updateAudioVisuals();
 
-        // Радужное свечение кнопок
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach((btn,i)=>{
-            btn.style.boxShadow = `0 0 15px ${getRainbowColor(i*30)}, 0 0 30px ${getRainbowColor(i*60)}`;
-        });
-
-        // Анимация мини-галереи (легкое парение)
         const imgs = document.querySelectorAll('.mini-albums img');
         imgs.forEach((img,i)=>{
             const t = Date.now()/1000 + i;

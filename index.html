@@ -6,23 +6,30 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Canvas для частиц -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- Canvas для интерактивного психоделического фона -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Центральный блок -->
+    <!-- Главный контент -->
     <div class="home-page">
         <h1 class="band-title">Увертюра Иордан</h1>
 
         <div class="home-buttons">
             <a href="albums.html" class="btn">Альбомы</a>
             <a href="https://music.apple.com/" target="_blank" class="btn">Стриминг</a>
-            <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+            <a href="https://www.youtube.com/channel/UCTXIzl0ec7pBZzl8Ys2ceIQ" target="_blank" class="btn">YouTube</a>
+        </div>
+
+        <!-- Мини-галерея альбомов -->
+        <div class="mini-albums">
+            <img src="albums/album1.jpg" alt="Альбом 1">
+            <img src="albums/album2.jpg" alt="Альбом 2">
+            <img src="albums/album3.jpg" alt="Альбом 3">
         </div>
     </div>
 
     <script>
-    // Canvas для частиц (та же логика, что и на альбомах)
-    const canvas = document.getElementById('particle-canvas');
+    // ---------------- Интерактивный фон ----------------
+    const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
@@ -33,7 +40,7 @@
     });
 
     const particles = [];
-    for(let i=0;i<150;i++){
+    for(let i=0;i<200;i++){
         particles.push({
             x: Math.random()*width,
             y: Math.random()*height,
@@ -49,7 +56,8 @@
     }
 
     function animate(){
-        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillRect(0,0,width,height);
 
         particles.forEach((p,i)=>{
             p.x += p.dx;

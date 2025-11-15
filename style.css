@@ -175,3 +175,37 @@ body {
     pointer-events: none; /* чтобы не мешал кликам */
     z-index: -1; /* позади контента */
 }
+
+/* Карточки слегка пульсируют и вибрируют */
+@keyframes pulseGlow {
+    0% { transform: translateY(0px) rotate(-1deg); box-shadow: 0 0 20px #ff00ff; }
+    50% { transform: translateY(-6px) rotate(1deg); box-shadow: 0 0 50px #ff66ff; }
+    100% { transform: translateY(0px) rotate(-1deg); box-shadow: 0 0 20px #ff00ff; }
+}
+
+.album-card {
+    animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Названия треков */
+.track h4 {
+    text-shadow: 0 0 8px #ff00ff, 0 0 12px #ff66ff;
+    transition: text-shadow 0.3s;
+}
+
+.track h4:hover {
+    text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff66ff;
+}
+
+/* Фон радужный */
+body {
+    animation: rainbowBG 15s linear infinite;
+}
+
+@keyframes rainbowBG {
+    0% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
+    25% { background: linear-gradient(120deg, #20001f, #001f2a, #1a0020); }
+    50% { background: linear-gradient(120deg, #1a0020, #20001f, #001f2a); }
+    75% { background: linear-gradient(120deg, #001f2a, #1a0020, #20001f); }
+    100% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
+}

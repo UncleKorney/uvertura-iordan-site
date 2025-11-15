@@ -15,16 +15,39 @@ for (let i = 0; i < 150; i++) {
     });
 }
 
+// Настройка аудио
+const audio = document.getElementById('audio');
+audio.crossOrigin = "anonymous"; // если нужно
+let audioCtx, analyser, source, dataArray;
+
+audio.addEventListener('play', () => {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        source = audioCtx.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        analyser.fftSize = 64;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+    }
+});
+
 function animate() {
     ctx.fillStyle = 'rgba(10,10,20,0.4)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    let avg = 0;
+    if (analyser) {
+        analyser.getByteFrequencyData(dataArray);
+        avg = dataArray.reduce((a,b)=>a+b,0)/dataArray.length;
+    }
+
     stars.forEach(star => {
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#0ff';
+        ctx.arc(star.x, star.y, star.r + avg/100, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${avg*2}, 100%, 70%)`;
+        ctx.shadowBlur = avg/2;
+        ctx.shadowColor = `hsl(${avg*2}, 100%, 50%)`;
         ctx.fill();
 
         star.x += star.dx;

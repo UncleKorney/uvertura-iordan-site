@@ -6,157 +6,57 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Canvas для интерактивного сюрреалистического фона -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Главный контент -->
-    <div class="home-page">
+    <!-- Главная секция -->
+    <section id="home" class="section home-page">
         <h1 class="band-title">Увертюра Иордан</h1>
 
-        <!-- Кнопки -->
         <div class="home-buttons">
-            <a href="albums.html" class="btn">Альбомы</a>
-            <a href="https://music.apple.com/" target="_blank" class="btn">Стриминг</a>
-            <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+            <a href="#albums" class="btn"><span>Альбомы</span></a>
+            <a href="#gallery" class="btn"><span>Галерея</span></a>
+            <a href="https://music.apple.com/" target="_blank" class="btn"><span>Стриминг</span></a>
         </div>
 
-        <!-- Аудиоплеер -->
         <audio id="audio" controls>
             <source src="music/track1.mp3" type="audio/mpeg">
             Ваш браузер не поддерживает аудио.
         </audio>
+    </section>
 
-        <!-- Мини-галерея альбомов -->
-        <div class="mini-albums">
-            <img src="albums/album1.jpg" alt="Альбом 1">
-            <img src="albums/album2.jpg" alt="Альбом 2">
-            <img src="albums/album3.jpg" alt="Альбом 3">
+    <!-- Альбомы -->
+    <section id="albums" class="section album-section">
+        <h2>Альбомы</h2>
+        <div class="albums-container">
+            <div class="album-card">
+                <img src="albums/album1.jpg" alt="Альбом 1">
+                <h3>Альбом 1</h3>
+                <audio controls>
+                    <source src="music/track1.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            <div class="album-card">
+                <img src="albums/album2.jpg" alt="Альбом 2">
+                <h3>Альбом 2</h3>
+                <audio controls>
+                    <source src="music/track2.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            <!-- Добавляйте новые альбомы по аналогии -->
         </div>
-    </div>
+    </section>
 
-    <script>
-    // ---------------- Canvas ----------------
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    <!-- Галерея / нейро-арт -->
+    <section id="gallery" class="section gallery-section">
+        <h2>Галерея</h2>
+        <div class="mini-albums">
+            <img src="gallery/art1.jpg" alt="Арт 1">
+            <img src="gallery/art2.jpg" alt="Арт 2">
+            <img src="gallery/art3.jpg" alt="Арт 3">
+            <!-- Добавляйте новые изображения -->
+        </div>
+    </section>
 
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
-    // ---------------- Частицы ----------------
-    const particles = [];
-    for(let i=0;i<250;i++){
-        particles.push({
-            x: Math.random()*width,
-            y: Math.random()*height,
-            r: Math.random()*3+1,
-            dx: (Math.random()-0.5)*1.5,
-            dy: (Math.random()-0.5)*1.5
-        });
-    }
-
-    // ---------------- Нейро-арт элементы ----------------
-    const artElements = [];
-    for(let i=0;i<10;i++){
-        artElements.push({
-            x: Math.random()*width,
-            y: Math.random()*height,
-            size: Math.random()*50+50,
-            opacity: Math.random()*0.3+0.1,
-            dx: (Math.random()-0.5)*0.5,
-            dy: (Math.random()-0.5)*0.5,
-            color: `hsla(${Math.random()*360}, 80%, 60%, 0.5)`
-        });
-    }
-
-    // ---------------- Мышь ----------------
-    let mouse = {x: width/2, y: height/2};
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-    function getRainbowColor(offset=0){
-        const hue = (Date.now()/20 + offset) % 360;
-        return `hsl(${hue}, 100%, 50%)`;
-    }
-
-    // ---------------- Аудио ----------------
-    const audio = document.getElementById('audio');
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 256;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function updateAudioVisuals(){
-        analyser.getByteFrequencyData(dataArray);
-        let sum = 0;
-        for(let i=0;i<dataArray.length;i++) sum += dataArray[i];
-        const avg = sum / dataArray.length;
-
-        particles.forEach(p => p.r = Math.random()*3 + 1 + avg/80);
-        artElements.forEach(a => a.opacity = 0.1 + avg/1000);
-
-        const title = document.querySelector('.band-title');
-        title.style.textShadow = `
-            0 0 ${10 + avg/10}px ${getRainbowColor(0)},
-            0 0 ${20 + avg/5}px ${getRainbowColor(50)},
-            0 0 ${30 + avg/2}px ${getRainbowColor(100)}
-        `;
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach((btn,i)=>{
-            btn.style.boxShadow = `0 0 ${5+avg/10}px ${getRainbowColor(i*30)}, 0 0 ${10+avg/5}px ${getRainbowColor(i*60)}`;
-        });
-    }
-
-    // ---------------- Анимация ----------------
-    function animate(){
-        ctx.fillStyle = "rgba(0,0,0,0.15)";
-        ctx.fillRect(0,0,width,height);
-
-        particles.forEach((p,i)=>{
-            p.x += p.dx + (mouse.x-width/2)/1000;
-            p.y += p.dy + (mouse.y-height/2)/1000;
-            if(p.x<0||p.x>width)p.dx*=-1;
-            if(p.y<0||p.y>height)p.dy*=-1;
-
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fillStyle=getRainbowColor(i*10);
-            ctx.fill();
-        });
-
-        artElements.forEach(a=>{
-            a.x += a.dx;
-            a.y += a.dy;
-            if(a.x<0||a.x>width)a.dx*=-1;
-            if(a.y<0||a.y>height)a.dy*=-1;
-
-            ctx.beginPath();
-            ctx.ellipse(a.x, a.y, a.size, a.size*0.6, Math.PI/4, 0, Math.PI*2);
-            ctx.fillStyle = a.color;
-            ctx.globalAlpha = a.opacity;
-            ctx.fill();
-            ctx.globalAlpha = 1;
-        });
-
-        updateAudioVisuals();
-
-        const imgs = document.querySelectorAll('.mini-albums img');
-        imgs.forEach((img,i)=>{
-            const t = Date.now()/1000 + i;
-            img.style.transform = `translateY(${Math.sin(t)*5}px) rotate(${Math.sin(t/2)*3}deg) scale(1.05)`;
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

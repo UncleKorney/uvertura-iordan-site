@@ -12,27 +12,47 @@
     <div class="albums-page">
         <h2>Альбомы</h2>
         <div class="albums-grid">
-            <!-- Пример одной карточки -->
+            <!-- Альбом 1 -->
             <div class="album-card">
-                <img src="album1.jpg" alt="Альбом 1">
-                <h3>Ка будто ты в фонтан упал</h3>
+                <img src="images/album1.jpg" alt="Альбом 1">
+                <h3>Как будто ты в фонтан упал</h3>
                 <div class="tracks">
                     <div class="track">
                         <h4>Труп</h4>
                         <audio controls>
-                            <source src="track1.mp3" type="audio/mpeg">
+                            <source src="audio/track1.mp3" type="audio/mpeg">
                         </audio>
                     </div>
                     <div class="track">
                         <h4>Одна</h4>
                         <audio controls>
-                            <source src="track2.mp3" type="audio/mpeg">
+                            <source src="audio/track2.mp3" type="audio/mpeg">
                         </audio>
                     </div>
                 </div>
             </div>
 
-            <!-- Можно добавлять другие карточки по такому же шаблону -->
+            <!-- Альбом 2 -->
+            <div class="album-card">
+                <img src="images/album2.jpg" alt="Альбом 2">
+                <h3>Сг?2</h3>
+                <div class="tracks">
+                    <div class="track">
+                        <h4>!!</h4>
+                        <audio controls>
+                            <source src="audio/track3.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    <div class="track">
+                        <h4>"№</h4>
+                        <audio controls>
+                            <source src="audio/track4.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Добавляйте новые альбомы по такому же шаблону -->
         </div>
     </div>
 
@@ -60,7 +80,6 @@
         });
     }
 
-    // Анимация частиц и радужное свечение
     function getRainbowColor(offset=0){
         const hue = (Date.now()/20 + offset) % 360;
         return `hsl(${hue}, 100%, 50%)`;
@@ -83,13 +102,13 @@
             ctx.fill();
         });
 
-        // Радужные карточки
+        // Карточки (фон остаётся прозрачным, радужное свечение только для текста)
         const albumCards = document.querySelectorAll('.album-card');
-        albumCards.forEach((card,i)=>{
-            card.style.background = `rgba(0,0,0,0.2)`; // базовая прозрачность
+        albumCards.forEach(card => {
+            card.style.background = `rgba(0,0,0,0.2)`;
         });
 
-        // Радужное свечение треков
+        // Треки с радужным свечением
         const trackTitles = document.querySelectorAll('.track h4');
         trackTitles.forEach((title,i)=>{
             title.style.textShadow = `0 0 ${5 + i*2}px ${getRainbowColor(i*30)}`;

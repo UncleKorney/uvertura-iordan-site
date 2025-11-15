@@ -96,9 +96,10 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* центр по вертикали */
+    align-items: center;    /* центр по горизонтали */
     text-align: center;
+    gap: 30px;              /* расстояние между названием и кнопками */
 }
 
 .band-title {
@@ -152,4 +153,5 @@ body {
 .btn {
     animation: gradientShift 4s ease infinite;
 }
+
 

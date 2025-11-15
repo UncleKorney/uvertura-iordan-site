@@ -1,162 +1,159 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Увертюра Иордан</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Canvas для интерактивного сюрреалистического фона -->
-    <canvas id="bg-canvas"></canvas>
+/* ---------------- Общие настройки ---------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
 
-    <!-- Главный контент -->
-    <div class="home-page">
-        <h1 class="band-title">Увертюра Иордан</h1>
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #1a1a1a, #111);
+    color: #fff;
+    scroll-behavior: smooth;
+}
 
-        <!-- Кнопки -->
-        <div class="home-buttons">
-            <a href="albums.html" class="btn">Альбомы</a>
-            <a href="https://music.apple.com/" target="_blank" class="btn">Стриминг</a>
-            <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
-        </div>
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
 
-        <!-- Аудиоплеер -->
-        <audio id="audio" controls>
-            <source src="music/track1.mp3" type="audio/mpeg">
-            Ваш браузер не поддерживает аудио.
-        </audio>
+/* ---------------- Секции ---------------- */
+.section {
+    min-height: 100vh;
+    padding: 100px 20px;
+    text-align: center;
+}
 
-        <!-- Мини-галерея альбомов -->
-        <div class="mini-albums">
-            <img src="albums/album1.jpg" alt="Альбом 1">
-            <img src="albums/album2.jpg" alt="Альбом 2">
-            <img src="albums/album3.jpg" alt="Альбом 3">
-        </div>
-    </div>
+/* ---------------- Главная секция ---------------- */
+.band-title {
+    font-size: 4rem;
+    margin-bottom: 40px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px #f0f, 0 0 20px #0ff, 0 0 30px #ff0;
+}
 
-    <script>
-    // ---------------- Canvas ----------------
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+.home-buttons {
+    margin-bottom: 60px;
+}
 
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
+.home-buttons .btn {
+    display: inline-block;
+    margin: 0 15px;
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
 
-    // ---------------- Частицы ----------------
-    const particles = [];
-    for(let i=0;i<250;i++){
-        particles.push({
-            x: Math.random()*width,
-            y: Math.random()*height,
-            r: Math.random()*3+1,
-            dx: (Math.random()-0.5)*1.5,
-            dy: (Math.random()-0.5)*1.5
-        });
-    }
+.home-buttons .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, #f0f, #0ff, #ff0);
+    transition: all 0.5s;
+    z-index: 0;
+}
 
-    // ---------------- Нейро-арт элементы ----------------
-    const artElements = [];
-    for(let i=0;i<10;i++){
-        artElements.push({
-            x: Math.random()*width,
-            y: Math.random()*height,
-            size: Math.random()*50+50,
-            opacity: Math.random()*0.3+0.1,
-            dx: (Math.random()-0.5)*0.5,
-            dy: (Math.random()-0.5)*0.5,
-            color: `hsla(${Math.random()*360}, 80%, 60%, 0.5)`
-        });
-    }
+.home-buttons .btn:hover::before {
+    left: 0;
+}
 
-    // ---------------- Мышь ----------------
-    let mouse = {x: width/2, y: height/2};
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+.home-buttons .btn:hover {
+    color: #000;
+    box-shadow: 0 0 15px #f0f, 0 0 30px #0ff;
+    border-color: transparent;
+}
 
-    function getRainbowColor(offset=0){
-        const hue = (Date.now()/20 + offset) % 360;
-        return `hsl(${hue}, 100%, 50%)`;
-    }
+.home-buttons .btn span {
+    position: relative;
+    z-index: 1;
+}
 
-    // ---------------- Аудио ----------------
-    const audio = document.getElementById('audio');
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioCtx.createAnalyser();
-    const source = audioCtx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 256;
+/* ---------------- Мини-галерея ---------------- */
+.mini-albums {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
 
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+.mini-albums img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 10px #fff;
+}
 
-    function updateAudioVisuals(){
-        analyser.getByteFrequencyData(dataArray);
-        let sum = 0;
-        for(let i=0;i<dataArray.length;i++) sum += dataArray[i];
-        const avg = sum / dataArray.length;
+.mini-albums img:hover {
+    transform: scale(1.2) rotate(5deg);
+    box-shadow: 0 0 20px #f0f, 0 0 30px #0ff;
+}
 
-        particles.forEach(p => p.r = Math.random()*3 + 1 + avg/80);
-        artElements.forEach(a => a.opacity = 0.1 + avg/1000);
+/* ---------------- Альбомы ---------------- */
+.album-section h2,
+.gallery-section h2 {
+    font-size: 3rem;
+    margin-bottom: 50px;
+    color: #fff;
+    text-shadow: 0 0 15px #f0f, 0 0 30px #0ff;
+}
 
-        const title = document.querySelector('.band-title');
-        title.style.textShadow = `
-            0 0 ${10 + avg/10}px ${getRainbowColor(0)},
-            0 0 ${20 + avg/5}px ${getRainbowColor(50)},
-            0 0 ${30 + avg/2}px ${getRainbowColor(100)}
-        `;
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach((btn,i)=>{
-            btn.style.boxShadow = `0 0 ${5+avg/10}px ${getRainbowColor(i*30)}, 0 0 ${10+avg/5}px ${getRainbowColor(i*60)}`;
-        });
-    }
+.albums-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
 
-    // ---------------- Анимация ----------------
-    function animate(){
-        ctx.fillStyle = "rgba(0,0,0,0.15)";
-        ctx.fillRect(0,0,width,height);
+.album-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 20px;
+    width: 250px;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        particles.forEach((p,i)=>{
-            p.x += p.dx + (mouse.x-width/2)/1000;
-            p.y += p.dy + (mouse.y-height/2)/1000;
-            if(p.x<0||p.x>width)p.dx*=-1;
-            if(p.y<0||p.y>height)p.dy*=-1;
+.album-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #f0f, 0 0 40px #0ff;
+}
 
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fillStyle=getRainbowColor(i*10);
-            ctx.fill();
-        });
+.album-card img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
 
-        artElements.forEach(a=>{
-            a.x += a.dx;
-            a.y += a.dy;
-            if(a.x<0||a.x>width)a.dx*=-1;
-            if(a.y<0||a.y>height)a.dy*=-1;
+.album-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 0 0 5px #f0f, 0 0 10px #0ff;
+}
 
-            ctx.beginPath();
-            ctx.ellipse(a.x, a.y, a.size, a.size*0.6, Math.PI/4, 0, Math.PI*2);
-            ctx.fillStyle = a.color;
-            ctx.globalAlpha = a.opacity;
-            ctx.fill();
-            ctx.globalAlpha = 1;
-        });
-
-        updateAudioVisuals();
-
-        const imgs = document.querySelectorAll('.mini-albums img');
-        imgs.forEach((img,i)=>{
-            const t = Date.now()/1000 + i;
-            img.style.transform = `translateY(${Math.sin(t)*5}px) rotate(${Math.sin(t/2)*3}deg) scale(1.05)`;
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-    </script>
-</body>
-</html>
+.album-card audio {
+    width: 100%;
+    outline: none;
+    border-radius: 10px;
+}

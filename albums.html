@@ -6,15 +6,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 style="text-align:center;">Альбомы</h1>
+    <header class="hero">
+        <h1>Увертюра Иордан</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="albums.html">Альбомы</a>
+            <a href="gallery.html">Галерея</a>
+        </nav>
+    </header>
 
-    <div class="albums">
-        <div class="album">
-            <img src="albums/album1.jpg" alt="">
-            <h3>Название альбома</h3>
-            <p>2025</p>
-            <a href="#">Слушать</a>
+    <main class="albums-page">
+        <h2 style="text-align:center; margin:40px 0;">Альбомы</h2>
+
+        <div class="albums-grid">
+            <!-- Пример одного альбома -->
+            <div class="album-card">
+                <img src="albums/album1.jpg" alt="Название альбома">
+                <h3>Название альбома 1</h3>
+                <p>2025</p>
+                <div class="links">
+                    <a href="#" target="_blank">Spotify</a>
+                    <a href="#" target="_blank">YouTube</a>
+                    <a href="#" target="_blank">Apple Music</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <img src="albums/album2.jpg" alt="Название альбома">
+                <h3>Название альбома 2</h3>
+                <p>2024</p>
+                <div class="links">
+                    <a href="#" target="_blank">Spotify</a>
+                    <a href="#" target="_blank">YouTube</a>
+                    <a href="#" target="_blank">Apple Music</a>
+                </div>
+            </div>
+
+            <!-- Добавляй новые альбомы по шаблону -->
         </div>
-    </div>
+    </main>
 </body>
 </html>

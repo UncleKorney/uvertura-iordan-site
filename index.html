@@ -6,19 +6,77 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="hero">
-        <h1>Увертюра Иордан</h1>
-        <p>Психоделический рок / регги</p>
-        <nav>
-            <a href="albums.html">Альбомы</a>
-            <a href="gallery.html">Галерея</a>
-        </nav>
-    </header>
+    <!-- Canvas для частиц -->
+    <canvas id="particle-canvas"></canvas>
 
-    <section class="intro">
-        <h2>Добро пожаловать</h2>
-        <p>Тут был Корней.</p>
-    </section>
+    <!-- Центральный блок -->
+    <div class="home-page">
+        <h1 class="band-title">Увертюра Иордан</h1>
+
+        <div class="home-buttons">
+            <a href="albums.html" class="btn">Альбомы</a>
+            <a href="https://music.apple.com/" target="_blank" class="btn">Стриминг</a>
+            <a href="https://instagram.com/" target="_blank" class="btn">Instagram</a>
+        </div>
+    </div>
+
+    <script>
+    // Canvas для частиц (та же логика, что и на альбомах)
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    for(let i=0;i<150;i++){
+        particles.push({
+            x: Math.random()*width,
+            y: Math.random()*height,
+            r: Math.random()*3+1,
+            dx: (Math.random()-0.5)*2,
+            dy: (Math.random()-0.5)*2
+        });
+    }
+
+    function getRainbowColor(offset=0){
+        const hue = (Date.now()/20 + offset) % 360;
+        return `hsl(${hue}, 100%, 50%)`;
+    }
+
+    function animate(){
+        ctx.clearRect(0,0,width,height);
+
+        particles.forEach((p,i)=>{
+            p.x += p.dx;
+            p.y += p.dy;
+            if(p.x<0||p.x>width)p.dx*=-1;
+            if(p.y<0||p.y>height)p.dy*=-1;
+
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=getRainbowColor(i*10);
+            ctx.fill();
+        });
+
+        // Радужное свечение названия группы
+        const title = document.querySelector('.band-title');
+        title.style.textShadow = `0 0 20px ${getRainbowColor(0)}, 0 0 40px ${getRainbowColor(50)}`;
+
+        // Радужное свечение кнопок
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach((btn,i)=>{
+            btn.style.boxShadow = `0 0 10px ${getRainbowColor(i*30)}, 0 0 20px ${getRainbowColor(i*60)}`;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+    </script>
 </body>
 </html>
-

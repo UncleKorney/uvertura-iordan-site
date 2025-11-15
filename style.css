@@ -121,16 +121,35 @@ body {
 }
 
 .btn {
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-weight: bold;
     color: #fff;
-    background: rgba(0,0,0,0.3);
-    border-radius: 10px;
     text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+    background-size: 300% 300%;
+    transition: transform 0.3s, box-shadow 0.3s, background-position 1s;
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    text-align: center;
 }
 
 .btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px #ff66ff, 0 0 60px #ff00ff;
+    transform: scale(1.15) rotate(-2deg);
+    box-shadow: 0 0 40px rgba(255,255,255,0.6);
+    background-position: 100% 0;
 }
+
+/* Анимация градиента на кнопках */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.btn {
+    animation: gradientShift 4s ease infinite;
+}
+

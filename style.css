@@ -96,3 +96,71 @@ nav a:hover {
     transform: translateY(-5px);
     box-shadow: 0 0 40px rgba(255, 0, 255, 0.7);
 }
+
+.album-tracks {
+    margin-top: 15px;
+}
+
+.track {
+    margin-bottom: 10px;
+}
+
+.track h4 {
+    color: #ff66ff;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.track audio {
+    width: 100%;
+    border-radius: 8px;
+    background: #20001f;
+}
+
+@keyframes floatGlow {
+    0% {
+        transform: translateY(0px) rotate(-1deg);
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    }
+    50% {
+        transform: translateY(-8px) rotate(1deg);
+        box-shadow: 0 0 40px rgba(255, 0, 255, 0.7);
+    }
+    100% {
+        transform: translateY(0px) rotate(-1deg);
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    }
+}
+
+.album-card {
+    background: rgba(20, 0, 40, 0.8);
+    border: 2px solid #ff00ff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: floatGlow 5s ease-in-out infinite;
+}
+
+.track h4 {
+    color: #ff66ff;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    text-shadow: 0 0 8px #ff00ff, 0 0 12px #ff66ff;
+    transition: text-shadow 0.5s;
+}
+
+.track h4:hover {
+    text-shadow: 0 0 16px #ff00ff, 0 0 24px #ff66ff;
+}
+
+body {
+    animation: backgroundShift 20s infinite alternate;
+}
+
+@keyframes backgroundShift {
+    0% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
+    50% { background: linear-gradient(120deg, #20001f, #001f2a, #1a0020); }
+    100% { background: linear-gradient(120deg, #1a0020, #001f2a, #20001f); }
+}

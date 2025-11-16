@@ -8,41 +8,45 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { width:100%; height:100%; overflow-x:hidden; font-family:'Arial', sans-serif; background:#111; color:#fff; }
 
-h1 {
+h1{
   text-align:center;
   font-size:4em;
   margin-top:50px;
-  animation: glitch 2s infinite;
+  position:relative;
+  display:inline-block;
 }
-@keyframes glitch {
-  0%{ text-shadow:2px 2px red,-2px -2px cyan; transform:skew(0deg); }
-  25%{ text-shadow:-2px 2px lime,2px -2px magenta; transform:skew(5deg); }
-  50%{ text-shadow:2px -2px yellow,-2px 2px blue; transform:skew(-5deg); }
-  75%{ text-shadow:-2px -2px orange,2px 2px pink; transform:skew(3deg); }
-  100%{ text-shadow:2px 2px red,-2px -2px cyan; transform:skew(0deg); }
+.glitch-letter{
+  display:inline-block;
+  animation: jitter 1s infinite, colorShift 2s infinite alternate;
+  position:relative;
 }
-.glitch-letter{ display:inline-block; animation:jitter 1s infinite; }
 @keyframes jitter{
-  0%,100%{ transform:translate(0,0) rotate(0deg); }
-  25%{ transform:translate(-2px,1px) rotate(-1deg); }
-  50%{ transform:translate(1px,-2px) rotate(2deg); }
-  75%{ transform:translate(-1px,2px) rotate(-2deg); }
+  0%,100%{ transform:translate(0,0) rotate(0deg) scale(1); }
+  25%{ transform:translate(-2px,1px) rotate(-1deg) scale(1.05); }
+  50%{ transform:translate(1px,-2px) rotate(2deg) scale(0.95); }
+  75%{ transform:translate(-1px,2px) rotate(-2deg) scale(1.1); }
+}
+@keyframes colorShift{
+  0%{ color:red; }
+  25%{ color:lime; }
+  50%{ color:cyan; }
+  75%{ color:magenta; }
+  100%{ color:yellow; }
 }
 
+/* Навигация */
 .nav-links { text-align:center; margin:30px 0; }
 .nav-links a {
   display:inline-block;
   margin:0 15px;
   text-decoration:none;
-  color:#fff;
   font-size:1.8em;
-  transition: all 0.3s ease;
   position:relative;
+  transition:all 0.3s ease;
 }
-.nav-links a:hover {
-  color:lime;
+.nav-links a:hover{
   transform:rotate(5deg) scale(1.3);
-  text-shadow:0 0 10px #0f0,0 0 20px #0f0;
+  text-shadow:0 0 15px #0f0,0 0 25px #0f0;
 }
 
 /* Галерея и альбомы */
@@ -50,20 +54,13 @@ h1 {
 .album{
   width:220px; height:220px; overflow:hidden; cursor:pointer;
   transition: all 0.5s ease;
-  animation: float 5s ease-in-out infinite alternate;
+  position:relative;
 }
 .album img{
   width:100%; height:100%; object-fit:cover;
   filter:saturate(200%) contrast(150%) blur(0.5px);
   transition: all 0.5s ease;
 }
-.album:hover img{
-  transform:scale(1.5) rotate(10deg);
-  filter:saturate(400%) contrast(250%) blur(1px);
-}
-
-/* Плавающая анимация альбомов */
-@keyframes float{ 0%{ transform:translateY(0px) rotate(0deg); } 50%{ transform:translateY(-20px) rotate(5deg); } 100%{ transform:translateY(0px) rotate(0deg); } }
 
 /* Фон и дым */
 body::before{
@@ -77,13 +74,30 @@ body::before{
 @keyframes fog{ 0%{ transform:translate(0,0); } 50%{ transform:translate(200px,50px) rotate(10deg); } 100%{ transform:translate(0,0); } }
 
 section{ padding:50px 0; transition:transform 0.3s ease; }
-
-/* Цветные плавающие фигуры */
 .shape { position:absolute; border-radius:50%; pointer-events:none; mix-blend-mode:screen; }
+.random-move{ position:relative; animation: moveRandom 5s infinite alternate ease-in-out; }
 
-/* Скролл эффект на текст */
-body.scrolling h1{ transform: skewX(10deg) skewY(5deg) scale(1.1); opacity:0.9; }
+@keyframes moveRandom{
+  0%{ transform:translate(0,0) rotate(0deg) scale(1); color:#fff; }
+  20%{ transform:translate(10px,-5px) rotate(3deg) scale(1.05); color:lime; }
+  40%{ transform:translate(-8px,10px) rotate(-5deg) scale(0.95); color:cyan; }
+  60%{ transform:translate(5px,-12px) rotate(7deg) scale(1.1); color:magenta; }
+  80%{ transform:translate(-10px,5px) rotate(-3deg) scale(0.9); color:yellow; }
+  100%{ transform:translate(0,0) rotate(0deg) scale(1); color:#fff; }
+}
 
+/* Разрушающийся текст */
+.chaos-text span{
+  display:inline-block;
+  animation: chaosMove 2s infinite alternate ease-in-out;
+}
+@keyframes chaosMove{
+  0%{ transform:translate(0,0) rotate(0deg) scale(1); opacity:1; color:#fff; }
+  25%{ transform:translate(5px,-3px) rotate(3deg) scale(1.1); opacity:0.9; color:red; }
+  50%{ transform:translate(-4px,6px) rotate(-4deg) scale(0.9); opacity:0.8; color:lime; }
+  75%{ transform:translate(6px,-2px) rotate(5deg) scale(1.2); opacity:0.7; color:cyan; }
+  100%{ transform:translate(0,0) rotate(0deg) scale(1); opacity:1; color:#fff; }
+}
 </style>
 </head>
 <body>
@@ -91,47 +105,41 @@ body.scrolling h1{ transform: skewX(10deg) skewY(5deg) scale(1.1); opacity:0.9; 
 <canvas id="acidCanvas"></canvas>
 <canvas id="glitchCanvas"></canvas>
 
-<h1>
-<span class="glitch-letter">У</span><span class="glitch-letter">в</span><span class="glitch-letter">е</span>
-<span class="glitch-letter">р</span><span class="glitch-letter">т</span><span class="glitch-letter">ю</span>
-<span class="glitch-letter">р</span><span class="glitch-letter">а</span> <span class="glitch-letter">И</span>
-<span class="glitch-letter">о</span><span class="glitch-letter">р</span><span class="glitch-letter">д</span>
-<span class="glitch-letter">а</span><span class="glitch-letter">н</span>
-</h1>
+<h1 id="mainTitle"></h1>
 
-<div class="nav-links">
+<div class="nav-links random-move">
   <a href="#albums">Альбомы</a>
   <a href="#gallery">Галерея</a>
   <a href="#contact">Контакты</a>
 </div>
 
-<section id="albums" class="albums">
-  <div class="album"><img src="albums/album1.jpg" alt="Album 1"></div>
-  <div class="album"><img src="albums/album2.jpg" alt="Album 2"></div>
-  <div class="album"><img src="albums/album3.jpg" alt="Album 3"></div>
-  <div class="album"><img src="albums/album4.jpg" alt="Album 4"></div>
+<section id="albums" class="albums random-move">
+  <div class="album"><img src="albums/album1.jpg" alt="Album 1" class="random-move"></div>
+  <div class="album"><img src="albums/album2.jpg" alt="Album 2" class="random-move"></div>
+  <div class="album"><img src="albums/album3.jpg" alt="Album 3" class="random-move"></div>
+  <div class="album"><img src="albums/album4.jpg" alt="Album 4" class="random-move"></div>
 </section>
 
-<section id="gallery" class="albums">
-  <div class="album"><img src="gallery/img1.jpg" alt="Art 1"></div>
-  <div class="album"><img src="gallery/img2.jpg" alt="Art 2"></div>
-  <div class="album"><img src="gallery/img3.jpg" alt="Art 3"></div>
+<section id="gallery" class="albums random-move">
+  <div class="album"><img src="gallery/img1.jpg" alt="Art 1" class="random-move"></div>
+  <div class="album"><img src="gallery/img2.jpg" alt="Art 2" class="random-move"></div>
+  <div class="album"><img src="gallery/img3.jpg" alt="Art 3" class="random-move"></div>
 </section>
 
 <script>
-// Кислотные частицы
+// Создание кислотных частиц
 const canvas=document.getElementById('acidCanvas');
 const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth; canvas.height=window.innerHeight;
 
 let particles=[];
-for(let i=0;i<400;i++){
+for(let i=0;i<500;i++){
   particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height,
-                  r:Math.random()*4+1, dx:(Math.random()-0.5)*2, dy:(Math.random()-0.5)*2,
+                  r:Math.random()*5+1, dx:(Math.random()-0.5)*3, dy:(Math.random()-0.5)*3,
                   color:`hsl(${Math.random()*360},100%,50%)`});
 }
 function animate(){
-  ctx.fillStyle="rgba(0,0,0,0.07)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
   for(let p of particles){
     ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=p.color; ctx.fill();
     p.x+=p.dx; p.y+=p.dy;
@@ -148,7 +156,7 @@ const gCtx=gCanvas.getContext('2d');
 gCanvas.width=window.innerWidth; gCanvas.height=window.innerHeight;
 function glitchEffect(){
   gCtx.clearRect(0,0,gCanvas.width,gCanvas.height);
-  for(let i=0;i<50;i++){
+  for(let i=0;i<80;i++){
     gCtx.strokeStyle=`hsl(${Math.random()*360},100%,50%)`;
     gCtx.beginPath();
     let y=Math.random()*gCanvas.height;
@@ -161,16 +169,16 @@ function glitchEffect(){
 glitchEffect();
 
 // Плавающие фигуры
-for(let i=0;i<30;i++){
+for(let i=0;i<50;i++){
   let div=document.createElement('div');
   div.className='shape';
-  div.style.width=Math.random()*80+20+'px';
+  div.style.width=Math.random()*100+30+'px';
   div.style.height=div.style.width;
   div.style.left=Math.random()*window.innerWidth+'px';
   div.style.top=Math.random()*window.innerHeight+'px';
   div.style.background=`hsl(${Math.random()*360},100%,50%)`;
   document.body.appendChild(div);
-  let dx=(Math.random()-0.5)*2, dy=(Math.random()-0.5)*2;
+  let dx=(Math.random()-0.5)*3, dy=(Math.random()-0.5)*3;
   (function animateShape(d){
     requestAnimationFrame(()=>animateShape(d));
     let rect=d.getBoundingClientRect();
@@ -181,11 +189,30 @@ for(let i=0;i<30;i++){
   })(div);
 }
 
-// Скролл эффект
-window.addEventListener('scroll',()=>{
-  document.body.classList.add('scrolling');
-  setTimeout(()=>document.body.classList.remove('scrolling'),100);
-});
+// Разрушение текста
+const mainTitle = document.getElementById('mainTitle');
+const titleText = "Увертюра Иордан";
+mainTitle.innerHTML = titleText.split("").map(c=>`<span>${c}</span>`).join("");
+
+function chaosLetters(){
+  mainTitle.querySelectorAll('span').forEach(span=>{
+    span.style.transform = `translate(${Math.random()*20-10}px,${Math.random()*20-10}px) rotate(${Math.random()*20-10}deg) scale(${0.8+Math.random()*0.5})`;
+    span.style.color = `hsl(${Math.random()*360},100%,50%)`;
+    span.style.opacity = (0.5+Math.random()*0.5);
+  });
+  setTimeout(chaosLetters, 300);
+}
+chaosLetters();
+
+// Самопроизвольное хаотическое смещение альбомов и текста
+function randomChaos(){
+  document.querySelectorAll('.random-move').forEach(el=>{
+    el.style.transform=`translate(${Math.random()*20-10}px,${Math.random()*20-10}px) rotate(${Math.random()*10-5}deg) scale(${0.9+Math.random()*0.2})`;
+    el.style.color=`hsl(${Math.random()*360},100%,50%)`;
+  });
+  setTimeout(randomChaos, 700);
+}
+randomChaos();
 
 window.addEventListener('resize',()=>{
   canvas.width=window.innerWidth; canvas.height=window.innerHeight;

@@ -143,25 +143,32 @@ audio{
 /* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
 .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 50%;
+    left: -300px;  /* Начальная позиция за пределами экрана */
+    transform: translateY(-50%);
+    width: 300px;
+    height: 200px;
     background-color: rgba(0, 0, 0, 0.8);
     display: none;
     justify-content: center;
     align-items: center;
     z-index:100; /* Модальное окно всегда поверх всего */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 180, 0.3);
+    padding: 20px;
+    color: #fff;
+    text-align: center;
 }
 
 .modal-content {
-    background-color: #222;
-    color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 255, 180, 0.3);
-    max-width: 400px;
-    text-align: center;
+    font-size: 1.2em;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+@keyframes modalSlideIn {
+    0% { left: -300px; }
+    100% { left: 20px; }
 }
 </style>
 </head>
@@ -203,7 +210,7 @@ audio{
 <!-- ------------------- МОДАЛЬНОЕ ОКНО ------------------- -->
 <div class="modal" id="modal">
     <div class="modal-content">
-        <p>Добро пожаловать в мир Канализационных Пограничий. Внимание! Этот путь может быть опасен для вашего психического здоровья...</p>
+        <p>Проходя по неосвещённой улице, ты не замечаешь открытый люк, так удачно расположившийся на твоём пути. Внезапно ты падаешь, поглощённый темнотой, и перед тобой открывается мир, забытый и заброшенный. Канализация. Она ждала тебя.</p>
     </div>
 </div>
 
@@ -213,16 +220,24 @@ const album = document.getElementById("album");
 const tracklist = document.getElementById("tracklist");
 const openSound = document.getElementById("open-sound");
 const modal = document.getElementById('modal');
+let modalShown = false;
 
 let open = false;
 
-album.addEventListener("click",()=>{
+album.addEventListener("click", () => {
     open = !open;
     tracklist.style.maxHeight = open ? "500px" : "0";
 
-    if(open){
+    if (open) {
         openSound.currentTime = 0;
         openSound.play();
+    }
+
+    // Показ модального окна только один раз
+    if (!modalShown) {
+        modal.style.display = "flex";
+        modal.style.animation = "modalSlideIn 0.5s ease-out forwards";
+        modalShown = true;
     }
 });
 
@@ -231,19 +246,9 @@ function spawnRat(){
     const r = document.createElement("div");
     r.classList.add("rat");
 
-    // Случайный старт
-    const startPosition = Math.random() > 0.5 ? "bottom" : (Math.random() > 0.5 ? "left" : "right");
-    if (startPosition === "bottom") {
-        r.style.bottom = (Math.random() * 50) + "px";
-    } else if (startPosition === "left") {
-        r.style.left = (Math.random() * 100) + "%";
-    } else {
-        r.style.right = (Math.random() * 100) + "%";
-    }
-
-    // Случайная скорость и направление
-    const speed = Math.random() * 3 + 2;  // случайная скорость от 2 до 5
-    const direction = Math.random() > 0.5 ? 1 : -1;  // случайное направление
+    // Настроим случайную позицию старта и скорость
+    const speed = Math.random() * 5 + 3; // Случайная скорость от 3 до 8 секунд
+    const direction = Math.random() > 0.5 ? 1 : -1;  // Случайное направление
     r.style.animationDuration = speed + 's'; // задаём скорость крысы
 
     r.style.animation = direction === 1 ? 'ratRun 3s linear forwards' : 'ratCrawl 5s linear forwards';
@@ -274,11 +279,11 @@ setInterval(() => {
 
 /* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
 album.addEventListener("click", () => {
-    modal.style.display = "flex";  // Показываем модальное окно при клике
-});
-
-modal.addEventListener("click", () => {
-    modal.style.display = "none";  // Закрытие модального окна по клику
+    if (!modalShown) {
+        modal.style.display = "flex";
+        modal.style.animation = "modalSlideIn 0.5s ease-out forwards";
+        modalShown = true;
+    }
 });
 </script>
 

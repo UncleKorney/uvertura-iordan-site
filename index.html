@@ -151,7 +151,7 @@ audio{
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index:100; /* Модальное окно всегда поверх всего */
 }
 
 .modal-content {
@@ -160,6 +160,8 @@ audio{
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 255, 180, 0.3);
+    max-width: 400px;
+    text-align: center;
 }
 </style>
 </head>
@@ -241,21 +243,21 @@ function spawnRat(){
 
     // Случайная скорость и направление
     const speed = Math.random() * 3 + 2;  // случайная скорость от 2 до 5
-    const direction = Math.random() > 0.5 ? 1 : -1; // случайное направление (вправо или влево)
-    const randomAnim = Math.random() > 0.5 ? "ratRun" : "ratCrawl";
-    
-    r.style.animation = `${randomAnim} ${speed}s linear infinite ${direction === 1 ? '' : 'reverse'}`;
-    
-    document.body.appendChild(r);
-    setTimeout(() => r.remove(), speed * 1000);
+    const direction = Math.random() > 0.5 ? 1 : -1;  // случайное направление
+    r.style.animationDuration = speed + 's'; // задаём скорость крысы
 
-        // Звук
+    r.style.animation = direction === 1 ? 'ratRun 3s linear forwards' : 'ratCrawl 5s linear forwards';
+
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), speed * 1000); // Удаляем крысу через определённое время
+
+    // Звук
     const ratSound = new Audio('audio/rat-sound.mp3');
     ratSound.play();
 }
 
-setInterval(()=>{
-    if(Math.random() < 0.9) spawnRat();  // Почти всегда появляется крыса
+setInterval(() => {
+    if (Math.random() < 0.9) spawnRat();  // Почти всегда появляется крыса
 }, 2000);  // Частота появления крыс — каждую секунду
 
 /* ---------------------- ТЕНИ ---------------------- */
@@ -266,13 +268,13 @@ function spawnShadow(){
     document.body.appendChild(s);
     setTimeout(() => s.remove(), 4000);
 }
-setInterval(()=>{
-    if(Math.random() < 0.25) spawnShadow();  // Появление теней — 25% шанс
+setInterval(() => {
+    if (Math.random() < 0.25) spawnShadow();  // Появление теней — 25% шанс
 }, 8000);
 
 /* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
-album.addEventListener("mouseover", () => {
-    modal.style.display = "flex";
+album.addEventListener("click", () => {
+    modal.style.display = "flex";  // Показываем модальное окно при клике
 });
 
 modal.addEventListener("click", () => {

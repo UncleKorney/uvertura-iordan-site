@@ -4,24 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Увертюра Иордан — Психоделическая Вселенная</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- Фон с фрактальными волнами -->
+<!-- ФОНЫ -->
 <canvas id="waves"></canvas>
-
-<!-- Психоделический дым -->
 <canvas id="smoke"></canvas>
 
-<!-- Психоделические кольца -->
-<div class="psy-ring ring1"></div>
-<div class="psy-ring ring2"></div>
-<div class="psy-ring ring3"></div>
-
-<!-- Навигация -->
+<!-- НАВИГАЦИЯ -->
 <nav id="main-nav">
     <ul>
         <li><a href="#home">Главная</a></li>
@@ -30,20 +23,22 @@
     </ul>
 </nav>
 
+<!-- ГЛАВНАЯ -->
 <section id="home" class="section home-section">
-    <h1 class="band-title glitch">Увертюра Иордан</h1>
-    <p class="band-tagline">Психоделический рок / регги</p>
-    <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">
-        Вход в вселенную
+    <h1 class="title glitch">Увертюра Иордан</h1>
+    <p class="tagline">Психоделический рок / регги</p>
+    <button class="btn-enter" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">
+        Войти в мир
     </button>
 </section>
 
+<!-- АЛЬБОМЫ -->
 <section id="albums" class="section">
-    <h2 class="color-shift">Альбомы</h2>
+    <h2 class="section-title">Альбомы</h2>
 
-    <div class="albums-container">
+    <div class="album-grid">
         <div class="album-card">
-            <img src="albums/album1.jpg" alt="ПсихоСфера">
+            <img src="albums/album1.jpg" alt="">
             <h3>ПсихоСфера</h3>
             <audio controls>
                 <source src="albums/album1/track1.mp3" type="audio/mpeg">
@@ -51,7 +46,7 @@
         </div>
 
         <div class="album-card">
-            <img src="albums/album2.jpg" alt="РеггиГалактика">
+            <img src="albums/album2.jpg" alt="">
             <h3>РеггиГалактика</h3>
             <audio controls>
                 <source src="albums/album2/track1.mp3" type="audio/mpeg">
@@ -60,84 +55,83 @@
     </div>
 </section>
 
+<!-- ГАЛЕРЕЯ -->
 <section id="gallery" class="section">
-    <h2 class="color-shift">Галерея</h2>
-    <div class="gallery-container">
-        <img class="gallery-img" src="gallery/img1.jpg">
-        <img class="gallery-img" src="gallery/img2.jpg">
-        <img class="gallery-img" src="gallery/img3.jpg">
+    <h2 class="section-title">Галерея</h2>
+    <div class="gallery-grid">
+        <img src="gallery/img1.jpg" class="gallery-img">
+        <img src="gallery/img2.jpg" class="gallery-img">
+        <img src="gallery/img3.jpg" class="gallery-img">
     </div>
 </section>
 
-<!-- Встроенный скрипт -->
+<!-- ВСЯ АНИМАЦИЯ ВСТРОЕНА -->
 <script>
-/* --- Фрактальные волны ---- */
-const waves = document.getElementById("waves");
-const wctx = waves.getContext("2d");
-
-function resizeWaves() {
-    waves.width = window.innerWidth;
-    waves.height = window.innerHeight;
+/* ---------- CANVAS SIZE ---------- */
+function resizeCanvas(c) {
+    c.width = document.documentElement.scrollWidth;
+    c.height = document.documentElement.scrollHeight;
 }
-resizeWaves();
-window.addEventListener("resize", resizeWaves);
 
+const waves = document.getElementById("waves");
+const smoke = document.getElementById("smoke");
+
+resizeCanvas(waves);
+resizeCanvas(smoke);
+
+window.addEventListener("resize", () => {
+    resizeCanvas(waves);
+    resizeCanvas(smoke);
+});
+
+/* ---------- ПСИХОДЕЛИЧЕСКИЕ ВОЛНЫ ---------- */
+const wctx = waves.getContext("2d");
 let t = 0;
+
 function drawWaves() {
     wctx.clearRect(0,0,waves.width,waves.height);
 
-    for(let y = 0; y < waves.height; y += 25){
-        for(let x = 0; x < waves.width; x += 25){
-            let dx = Math.sin((x + t)*0.01) * 15;
-            let dy = Math.cos((y + t)*0.01) * 15;
-            wctx.fillStyle = `hsl(${(x+y+t)/7 % 360}, 80%, 50%)`;
-            wctx.fillRect(x + dx, y + dy, 8, 8);
+    for (let y = 0; y < waves.height; y += 40) {
+        for (let x = 0; x < waves.width; x += 40) {
+            let dx = Math.sin((x+t)*0.01) * 20;
+            let dy = Math.cos((y+t)*0.01) * 20;
+            wctx.fillStyle = `hsl(${(x+y+t)/10 % 360}, 80%, 55%)`;
+            wctx.fillRect(x+dx, y+dy, 15, 15);
         }
     }
-    t += 0.5;
+
+    t += 0.8;
     requestAnimationFrame(drawWaves);
 }
 drawWaves();
 
-/* ---- Психоделический дым ---- */
-const smoke = document.getElementById("smoke");
+/* ---------- ДЫМ / ТУМАН ---------- */
 const sctx = smoke.getContext("2d");
-smoke.width = window.innerWidth;
-smoke.height = window.innerHeight;
-
-let particles = [];
-for(let i=0;i<50;i++){
-    particles.push({
-        x: Math.random()*smoke.width,
-        y: Math.random()*smoke.height,
-        r: 150 + Math.random()*150,
-        a: Math.random()*360,
-        speed: 0.2 + Math.random()*0.3,
-        color: `hsla(${Math.random()*360},70%,60%,0.07)`
-    });
-}
+let p = 0;
 
 function drawSmoke() {
     sctx.clearRect(0,0,smoke.width,smoke.height);
-    particles.forEach(p=>{
-        p.a += p.speed;
-        let dx = Math.cos(p.a*0.02)*p.r*0.1;
-        let dy = Math.sin(p.a*0.02)*p.r*0.1;
+
+    for (let i = 0; i < 200; i++) {
+        let x = Math.sin(i*0.5 + p*0.02) * 300 + smoke.width/2;
+        let y = Math.cos(i*0.3 + p*0.015) * 250 + smoke.height/2;
+
+        sctx.fillStyle = `hsla(${(i*5 + p)%360}, 90%, 65%, 0.1)`;
         sctx.beginPath();
-        sctx.arc(p.x+dx, p.y+dy, p.r, 0, Math.PI*2);
-        sctx.fillStyle = p.color;
+        sctx.arc(x, y, 120, 0, Math.PI*2);
         sctx.fill();
-    });
+    }
+
+    p += 1;
     requestAnimationFrame(drawSmoke);
 }
 drawSmoke();
 
-/* --- Искажение при скролле --- */
-let lastScroll = 0;
+/* ---------- ИСКАЖЕНИЕ ПРИ СКРОЛЛЕ ---------- */
 window.addEventListener("scroll", () => {
-    const sc = window.scrollY;
-    document.body.style.transform = `skewY(${(sc - lastScroll)*0.05}deg)`;
-    lastScroll = sc;
+    let sc = window.scrollY * 0.02;
+    waves.style.transform = `scale(1.05) translateY(${sc}px)`;
+    smoke.style.transform = `scale(1.1) translateY(${sc*1.5}px)`;
 });
 </script>
 

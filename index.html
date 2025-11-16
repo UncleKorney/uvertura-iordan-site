@@ -221,70 +221,75 @@
             <audio controls src="audio/track1.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 2 — (название позже)</div>
             <audio controls src="audio/track2.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 3 — (название позже)</div>
             <audio controls src="audio/track3.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 4 — (название позже)</div>
             <audio controls src="audio/track4.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 5 — (название позже)</div>
             <audio controls src="audio/track5.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 6 — (название позже)</div>
             <audio controls src="audio/track6.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 7 — (название позже)</div>
             <audio controls src="audio/track7.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 8 — (название позже)</div>
             <audio controls src="audio/track8.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 9 — (название позже)</div>
             <audio controls src="audio/track9.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
             <div class="track-name">Трек 10 — (название позже)</div>
             <audio controls src="audio/track10.mp3"></audio>
         </div>
 
-         <div class="track">
-            <div class="track-name">Трек 12 — (название позже)</div>
-            <audio controls src="audio/track12.mp3"></audio>
+        <div class="track">
+            <div class="track-name">Трек 11 — (название позже)</div>
+            <audio controls src="audio/track11.mp3"></audio>
         </div>
 
-         <div class="track">
+        <div class="track">
+            <div class="track-name">Трек 12 — (название позже)</div>
+            <audio controls src="audio/track1.mp3"></audio>
+        </div>
+
+        <div class="track">
             <div class="track-name">Трек 13 — (название позже)</div>
             <audio controls src="audio/track13.mp3"></audio>
         </div>
     </div>
 </div>
 
+<!-- ------------------- ЗВУК РАСКРЫТИЯ ------------------- -->
+<audio id="open-sound" src="audio/open.mp3" preload="auto"></audio>
+
 <!-- ------------------- МОДАЛЬНОЕ ОКНО ------------------- -->
 <div class="modal" id="modal">
     <button class="modal-close" id="modal-close">X</button>
-    <p>Ты шагаешь, не замечая, как земля под ногами теряет прочность... 
-       В одно мгновение всё привычное уходит. 
-       Твой взгляд скользит по стенкам открытого канализационного люка, 
-       и в этот миг приходит осознание — слишком поздно.</p>
+    <p>Ты шагаешь, не замечая, как земля под ногами теряет прочность...</p>
 </div>
 
 <!-- ------------------- РАТЫ И ТЕНИ ------------------- -->
@@ -300,6 +305,7 @@
     const modal = document.getElementById("modal");
     const modalClose = document.getElementById("modal-close");
     const cursor = document.getElementById("cursor");
+    const openSound = document.getElementById("open-sound");
     let open = false;
     let modalShown = false;
 
@@ -307,6 +313,7 @@
         open = !open;
         if (open) {
             tracklist.classList.add("open");
+            openSound.play();  // Воспроизводим звук раскрытия
         } else {
             tracklist.classList.remove("open");
         }
@@ -377,4 +384,3 @@
 
 </body>
 </html>
-

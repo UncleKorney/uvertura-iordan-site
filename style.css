@@ -1,0 +1,162 @@
+/* Основные шрифты и сброс */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    overflow-x: hidden;
+    background: #111; /* Темный фон для сюрреализма */
+    color: #fff;
+}
+
+/* Канвас для живого фона */
+#scene-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* На заднем фоне */
+}
+
+/* Меню */
+#main-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+#main-nav:hover {
+    opacity: 1;
+}
+#main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+#main-nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+#main-nav a:hover {
+    color: #ff66cc;
+    text-shadow: 0 0 10px #ff66cc;
+}
+
+/* Секции */
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+/* Главная секция */
+.home-section .band-title {
+    font-family: 'Monoton', cursive;
+    font-size: 4rem;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #ff0080, #7928ca, #00fff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleGlow 3s infinite alternate;
+}
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080; }
+    100% { text-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7; }
+}
+.home-section .band-tagline {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+.btn-scroll {
+    margin-top: 40px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #ff0080, #00fff7);
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-scroll:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #ff0080, 0 0 40px #00fff7;
+}
+
+/* Альбомы */
+.albums-section h2 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+.albums-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+}
+.album-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid #fff;
+    border-radius: 20px;
+    padding: 20px;
+    width: 220px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(10px);
+}
+.album-card:hover {
+    transform: scale(1.05) rotate(-2deg);
+    box-shadow: 0 0 30px #ff0080, 0 0 60px #00fff7;
+}
+.album-card img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+.album-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Галерея */
+.gallery-section h2 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+.gallery-container img {
+    width: 180px;
+    border-radius: 15px;
+    transition: transform 0.4s, filter 0.4s;
+    cursor: pointer;
+}
+.gallery-container img:hover {
+    transform: scale(1.2) rotate(5deg);
+    filter: hue-rotate(90deg);
+}

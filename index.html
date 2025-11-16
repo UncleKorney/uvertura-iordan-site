@@ -140,18 +140,18 @@
         /* ---------------------- КРЫСЫ ---------------------- */
         .rat {
             position: fixed;
-            bottom: 0;
             width: 80px;
             height: 40px;
             background: url('images/rat-silhouette.png') center/contain no-repeat;
             opacity: 0.7;
             pointer-events: none;
-            animation: ratRun 3s linear forwards;
             z-index: 50;
+            animation: ratMove 5s linear infinite;
         }
-        @keyframes ratRun {
-            0% { transform: translateX(-150px); }
-            100% { transform: translateX(120vw); }
+
+        @keyframes ratMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100vw); }
         }
 
         /* ---------------------- ТЕНИ СУЩЕСТВ ---------------------- */
@@ -209,7 +209,7 @@
     <button class="modal-close" id="close-modal">&times;</button>
     <p>
         Ты шагаешь, не замечая, как земля под ногами теряет прочность. В одно мгновение всё привычное уходит. 
-        Лишь на мгновение твой взгляд скользит по открывшемуся люку, и ты понимаешь — слишком поздно.
+        Твой взгляд скользит по открывшемуся люку, и ты понимаешь — слишком поздно.
     </p>
 </div>
 
@@ -248,14 +248,25 @@
     function spawnRat() {
         const r = document.createElement("div");
         r.classList.add("rat");
+        // Рандомизация позиции (снизу, сбоку и т.д.)
+        r.style.left = `${Math.random() * 100}vw`;
         r.style.bottom = `${Math.random() * 40}px`;
+
+        // Рандомизация скорости
+        const speed = Math.random() * 3 + 2; // скорость от 2s до 5s
+        r.style.animationDuration = `${speed}s`;
+
         document.body.appendChild(r);
+
+        // Удаляем крысу через несколько секунд после появления
+        setTimeout(() => {
+            r.remove();
+        }, speed * 1000);
     }
 
-    /* Спавним крысят периодически */
-    setInterval(spawnRat, 1500);
+    setInterval(spawnRat, Math.random() * 2000 + 500);  // Периодичность появления (от 500 до 2500 мс)
 
-    /* ---------------------- СУЩЕСТВА В ТЕНЯХ ---------------------- */
+    /* ---------------------- ТЕНИ СУЩЕСТВ ---------------------- */
     function spawnCreatureShadow() {
         const shadow = document.createElement("div");
         shadow.classList.add("shadow-creature");

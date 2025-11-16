@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Психоделический Хаос</title>
+<title>Увертюра Иордан — Как будто ты в фонтан упал</title>
 <style>
 body{
   margin:0; padding:0; overflow:hidden;
@@ -11,9 +11,12 @@ body{
   font-family:sans-serif; color:white; position:relative;
   transform-origin:center center;
 }
+
+/* Основной заголовок */
 h1{position:relative; font-size:4em; text-align:center; margin:50px 0; z-index:5;}
 h1 span{display:inline-block; transition: transform 0.1s,color 0.1s;}
 
+/* Курсор */
 .cursor{
   width:80px; height:80px; border-radius:50%;
   position:fixed; pointer-events:none; z-index:9999;
@@ -33,48 +36,50 @@ h1 span{display:inline-block; transition: transform 0.1s,color 0.1s;}
   mix-blend-mode:difference; opacity:0.6; transform:translate(-50%,-50%);
 }
 
+/* спиральный фон */
+.spiral-bg{position:fixed; top:50%; left:50%; width:300%; height:300%; background:radial-gradient(circle at center, #ff00ff 0%, transparent 70%), radial-gradient(circle at center, #00ffff 0%, transparent 70%); transform:translate(-50%,-50%) rotate(0deg); mix-blend-mode:screen; z-index:1; animation:rotateSpiral 60s linear infinite;}
+@keyframes rotateSpiral{0%{transform:translate(-50%,-50%) rotate(0deg);}100%{transform:translate(-50%,-50%) rotate(360deg);}}
+
+/* шум */
 .noise{position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; opacity:0.05;
   background:repeating-linear-gradient(0deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, rgba(0,0,0,0.05) 2px);
   mix-blend-mode:difference; animation:noiseAnim 0.05s infinite;
 }
 @keyframes noiseAnim{0%,100%{opacity:0.05;}50%{opacity:0.3;}}
 
+/* вспышка по клику */
 .flash{position:fixed; left:0; top:0; width:100%; height:100%; pointer-events:none;
   background:radial-gradient(circle, white 0%, transparent 80%); opacity:0;
   mix-blend-mode:difference; animation:flashAnim 0.3s forwards;}
 @keyframes flashAnim{0%{opacity:0;}50%{opacity:0.7;}100%{opacity:0;}}
 
+/* странные объекты */
 .strange{position:fixed; pointer-events:none; z-index:900; font-size:2em; font-weight:bold; color:red;
   mix-blend-mode:difference; opacity:0.8; transition: transform 0.5s, opacity 0.5s;}
 
-.chaos{position:fixed; pointer-events:none; z-index:800; mix-blend-mode:difference; font-size:3em; opacity:0.5; transition: transform 0.5s;}
+/* галерея прокручиваемая */
+#gallery .gallery-scroll{display:flex; overflow-x:auto; gap:10px; padding:10px;}
+#gallery img{flex:0 0 auto; width:200px; height:150px; object-fit:cover; border-radius:10px; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s;}
+#gallery img:hover{transform:scale(1.2) rotate(5deg); box-shadow:0 0 20px hsl(200,100%,70%);}
 
-.screen-flicker{position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;
-  background:linear-gradient(45deg,rgba(255,0,255,0.1),rgba(0,255,255,0.1));
-  mix-blend-mode:difference; opacity:0; animation:flickerAnim 0.2s infinite;}
-@keyframes flickerAnim{0%,100%{opacity:0;}50%{opacity:0.3;}}
-
-#band-info, #album, #gallery{position:relative; z-index:10000; color:white; padding:20px; margin:20px;
-  background:rgba(0,0,0,0.6); border:2px solid hsl(200,100%,50%); border-radius:15px;}
-
-#band-info h2, #album h2, #gallery h2{text-align:center; font-size:2em; color:hsl(280,100%,70%);}
-
-.tracklist{margin:10px 0;}
-.tracklist li{cursor:pointer; padding:5px; transition: transform 0.3s,color 0.3s;}
-.tracklist li:hover{transform:scale(1.3) rotate(5deg); color:hsl(120,100%,70%);}
-
-.gallery-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
-.gallery-grid img{width:100%; border-radius:10px; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s;}
-.gallery-grid img:hover{transform:scale(1.2) rotate(5deg); box-shadow:0 0 20px hsl(200,100%,70%);}
-
+/* модалка */
 .modal{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9);
   display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition: opacity 0.3s; z-index:10001;}
 .modal img{max-width:90%; max-height:90%; border-radius:15px;}
 .modal.show{opacity:1; pointer-events:auto;}
+
+/* секции */
+#band-info, #album, #gallery{position:relative; z-index:10000; color:white; padding:20px; margin:20px;
+  background:rgba(0,0,0,0.6); border:2px solid hsl(200,100%,50%); border-radius:15px;}
+#band-info h2, #album h2, #gallery h2{text-align:center; font-size:2em; color:hsl(280,100%,70%);}
+.tracklist{margin:10px 0;}
+.tracklist li{cursor:pointer; padding:5px; transition: transform 0.3s,color 0.3s;}
+.tracklist li:hover{transform:scale(1.3) rotate(5deg); color:hsl(120,100%,70%);}
 </style>
 </head>
 <body>
 
+<div class="spiral-bg"></div>
 <h1 id="title">
   <span>У</span><span>В</span><span>Е</span><span>Р</span><span>Т</span><span>Ю</span><span>Р</span><span>А</span>
   <span> </span>
@@ -83,24 +88,30 @@ h1 span{display:inline-block; transition: transform 0.1s,color 0.1s;}
 
 <div id="band-info">
   <h2>Группа: Увертюра Иордан</h2>
-  <p>Жанр: Психоделический хаос / Лизергиновый электроник</p>
-  <p>Участники: Алекс, Лена, Виталий, Даша</p>
+  <p>Жанр: психоделический рок / регги</p>
 </div>
 
 <div id="album">
-  <h2>Альбом: Chaos Odyssey</h2>
+  <h2>Альбом: Как будто ты в фонтан упал</h2>
+  <img src="images/album1.jpg" alt="Обложка альбома" style="width:200px; display:block; margin:10px auto; border-radius:15px; border:2px solid hsl(280,100%,70%);">
   <ul class="tracklist">
-    <li data-audio="audio/track1.mp3">1. Dark Entrance</li>
-    <li data-audio="audio/track2.mp3">2. Psychedelic Vortex</li>
-    <li data-audio="audio/track3.mp3">3. Brainstorm</li>
+    <li data-audio="audio/track1.mp3">Трек 1</li>
+    <li data-audio="audio/track2.mp3">Трек 2</li>
+    <li data-audio="audio/track3.mp3">Трек 3</li>
+    <li data-audio="audio/track4.mp3">Трек 4</li>
+    <li data-audio="audio/track5.mp3">Трек 5</li>
   </ul>
   <audio id="player" controls style="width:100%; margin-top:10px;"></audio>
 </div>
 
 <div id="gallery">
   <h2>Галерея</h2>
-  <div class="gallery-grid">
+  <div class="gallery-scroll">
     <img src="images/album1.jpg" alt="Обложка альбома">
+    <img src="images/photo1.jpg" alt="Фото группы">
+    <img src="images/photo1.jpg" alt="Фото группы">
+    <img src="images/album1.jpg" alt="Обложка альбома">
+    <img src="images/photo1.jpg" alt="Фото группы">
     <img src="images/photo1.jpg" alt="Фото группы">
   </div>
 </div>
@@ -111,7 +122,6 @@ h1 span{display:inline-block; transition: transform 0.1s,color 0.1s;}
 
 <div class="cursor"></div>
 <div class="noise"></div>
-<div class="screen-flicker"></div>
 
 <script>
 // --- курсор ---
@@ -178,7 +188,7 @@ document.addEventListener('mousemove', e=>{
 // --- странные объекты ---
 function spawnStrange(){
   const s=document.createElement('div'); s.classList.add('strange');
-  const texts=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴'];
+  const texts=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴','🌪️','🌈','🌀'];
   s.textContent=texts[Math.floor(Math.random()*texts.length)];
   s.style.left=Math.random()*100+'vw'; s.style.top=Math.random()*100+'vh';
   s.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*4})`;
@@ -205,13 +215,14 @@ tracklist.forEach(li=>{
 });
 
 // --- галерея ---
-const galleryImgs=document.querySelectorAll('.gallery-grid img');
+const galleryImgs=document.querySelectorAll('#gallery img');
 const modal=document.getElementById('modal');
 const modalImg=modal.querySelector('img');
 galleryImgs.forEach(img=>{
   img.addEventListener('click', ()=>{ modalImg.src=img.src; modal.classList.add('show'); });
 });
 modal.addEventListener('click', ()=>{ modal.classList.remove('show'); });
+
 </script>
 </body>
 </html>

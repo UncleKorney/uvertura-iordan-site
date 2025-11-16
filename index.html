@@ -15,38 +15,14 @@ html, body {
     color: white;
 }
 
-/* === Фон: переливающийся градиент === */
-#background {
+/* === Canvas фон === */
+#bgCanvas {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: -3;
-    background: linear-gradient(120deg, #ff0080, #8000ff, #00ffff);
-    background-size: 600% 600%;
-    animation: bgAnim 30s ease infinite;
-}
-
-@keyframes bgAnim {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* === Туман === */
-#fog {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: -2;
-    background: url('images/fog.png') repeat;
-    opacity: 0.4;
-    pointer-events: none;
-    animation: fogMove 80s linear infinite;
-}
-
-@keyframes fogMove {
-    0% { background-position:0 0; }
-    100% { background-position:2000px 2000px; }
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -5;
 }
 
 /* === Заголовок === */
@@ -107,6 +83,22 @@ nav a:hover {
     max-height: 500px;
 }
 
+/* === Кнопка без тряски === */
+#toggleTracklist {
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    margin-top: 10px;
+}
+
+#toggleTracklist:hover {
+    background: #444;
+}
+
 /* === Галерея === */
 .gallery {
     display: flex;
@@ -164,8 +156,7 @@ nav a:hover {
 </head>
 <body>
 
-<div id="background"></div>
-<div id="fog"></div>
+<canvas id="bgCanvas"></canvas>
 
 <h1 class="glitch">Увертюра Иордан</h1>
 
@@ -190,6 +181,51 @@ nav a:hover {
 </section>
 
 <script>
+// Canvas фон с градиентом и туманом
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let gradientOffset = 0;
+
+// Туманные облака
+const fogs = [];
+for(let i=0;i<30;i++){
+    fogs.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        radius: 50 + Math.random()*100,
+        speed: 0.2 + Math.random()*0.5,
+        opacity: 0.1 + Math.random()*0.2
+    });
+}
+
+function draw() {
+    // Градиент
+    const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+    gradient.addColorStop(0, `hsl(${(gradientOffset)%360}, 80%, 50%)`);
+    gradient.addColorStop(0.5, `hsl(${(gradientOffset+120)%360}, 80%, 50%)`);
+    gradient.addColorStop(1, `hsl(${(gradientOffset+240)%360}, 80%, 50%)`);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // Туман
+    fogs.forEach(fog => {
+        ctx.beginPath();
+        ctx.arc(fog.x, fog.y, fog.radius, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${fog.opacity})`;
+        ctx.fill();
+        fog.x += fog.speed;
+        if(fog.x - fog.radius > canvas.width) fog.x = -fog.radius;
+    });
+
+    gradientOffset += 0.2;
+    requestAnimationFrame(draw);
+}
+
+draw();
+
 // Разворачиваем трек-лист
 const toggleBtn = document.getElementById('toggleTracklist');
 const tracklist = document.getElementById('tracklist');
@@ -206,18 +242,24 @@ function createAnomaly() {
     document.body.appendChild(anomaly);
     setTimeout(() => anomaly.remove(), 4000);
 }
-// Аномалии каждые 0.3 секунды
 setInterval(createAnomaly, 300);
 
-// Усиленный курсор-глитч
+// Усиленный курсор-глитч (кроме кнопки)
 document.addEventListener('mousemove', e => {
     const dx = (e.clientX - window.innerWidth/2)/50;
     const dy = (e.clientY - window.innerHeight/2)/50;
-    document.querySelectorAll('h1, .album, .glitch').forEach(el => {
+    document.querySelectorAll('h1, .album img, .glitch').forEach(el => {
+        if(el.id === 'toggleTracklist') return;
         const rx = (Math.random()-0.5)*3;
         const ry = (Math.random()-0.5)*3;
         el.style.transform = `translate(${dx+rx}px,${dy+ry}px) rotate(${rx*5}deg)`;
     });
+});
+
+// Подгонка canvas при изменении окна
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 });
 </script>
 

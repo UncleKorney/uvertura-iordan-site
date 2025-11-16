@@ -3,170 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Nightmare Trip 11/10</title>
+<title>Ultimate Psychedelic Chaos Level 2</title>
 <style>
-/* --- Основной стиль тела --- */
-body{
-  margin:0;
-  padding:0;
-  overflow:hidden;
-  background:#0a001f;
-  cursor:none;
-  font-family:sans-serif;
-  color:white;
-  position:relative;
-  transform-origin:center center;
+body, html{
+  margin:0; padding:0; overflow:hidden;
+  background:#0a001f; font-family:sans-serif; cursor:none;
+  color:white; transform-origin:center center;
 }
-
-/* --- Заголовок --- */
 h1{
-  position:relative;
-  font-size:4em;
-  text-align:center;
-  margin:50px 0;
-  z-index:5;
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:5em; z-index:5;
 }
 h1 span{
-  display:inline-block;
-  transition: transform 0.1s,color 0.1s;
+  display:inline-block; transition:transform 0.1s,color 0.1s;
 }
-
-/* --- Лизергиновый курсор --- */
 .cursor{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
+  width:100px; height:100px; border-radius:50%;
+  position:fixed; pointer-events:none; z-index:9999;
   background:conic-gradient(
     hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%),
     hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%)
   );
-  mix-blend-mode:difference;
-  animation:pulse 1s infinite linear;
+  mix-blend-mode:difference; animation:pulse 1s infinite linear;
 }
 @keyframes pulse{
-  0%,100%{ transform:translate(-50%,-50%) scale(1); }
-  50%{ transform:translate(-50%,-50%) scale(1.5); }
+  0%,100%{ transform:translate(-50%,-50%) scale(1);}
+  50%{ transform:translate(-50%,-50%) scale(1.6);}
 }
-
-/* --- Шлейф частиц за курсором --- */
-.trail{
-  position:fixed;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:1000;
+.trail, .psy-cloud, .explosive, .chaos, .strange{
+  position:fixed; pointer-events:none; border-radius:50%;
   mix-blend-mode:difference;
-  opacity:0.7;
+  transition:transform 0.3s,opacity 0.3s;
 }
-
-/* --- Лизергиновое облако вокруг курсора --- */
-.psy-cloud{
-  position:fixed;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:998;
-  background:conic-gradient(
-    hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%),
-    hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%)
-  );
-  mix-blend-mode:difference;
-  opacity:0.6;
-  transform:translate(-50%,-50%);
-}
-
-/* --- Шум экрана --- */
+.trail{ width:10px; height:10px; opacity:0.7; }
+.psy-cloud{ width:20px; height:20px; opacity:0.5; }
+.explosive{ width:20px; height:20px; opacity:0.6; }
+.strange{ font-size:2em; font-weight:bold; color:red; opacity:0.8; }
+.chaos{ font-size:3em; opacity:0.4; }
 .noise{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  opacity:0.05;
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; opacity:0.05;
   background:repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,0.05),
-    rgba(255,255,255,0.05) 1px,
+    0deg,rgba(255,255,255,0.05),rgba(255,255,255,0.05) 1px,
     rgba(0,0,0,0.05) 2px
   );
-  mix-blend-mode:difference;
-  animation:noiseAnim 0.05s infinite;
+  mix-blend-mode:difference; animation:noiseAnim 0.05s infinite;
 }
 @keyframes noiseAnim{
-  0%,100%{opacity:0.05;}
-  50%{opacity:0.3;}
+  0%,100%{opacity:0.05;} 50%{opacity:0.3;}
 }
-
-/* --- Вспышки --- */
-.flash{
-  position:fixed;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  background:radial-gradient(circle, white 0%, transparent 80%);
-  opacity:0;
-  mix-blend-mode:difference;
-  animation:flashAnim 0.3s forwards;
-}
-@keyframes flashAnim{
-  0%{opacity:0;}
-  50%{opacity:0.7;}
-  100%{opacity:0;}
-}
-
-/* --- Странные элементы --- */
-.strange{
-  position:fixed;
-  pointer-events:none;
-  z-index:900;
-  font-size:2em;
-  font-weight:bold;
-  color:red;
-  mix-blend-mode:difference;
-  opacity:0.8;
-  transition: transform 0.5s, opacity 0.5s;
-}
-
-/* --- Фоновые хаотичные объекты --- */
-.chaos{
-  position:fixed;
-  pointer-events:none;
-  z-index:800;
-  mix-blend-mode:difference;
-  font-size:3em;
-  opacity:0.5;
-  transition: transform 0.5s;
-}
-
-/* --- Экранные мерцания --- */
 .screen-flicker{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  background:linear-gradient(45deg,rgba(255,0,255,0.1),rgba(0,255,255,0.1));
-  mix-blend-mode:difference;
-  opacity:0;
-  animation:flickerAnim 0.2s infinite;
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; background:linear-gradient(45deg,rgba(255,0,255,0.1),rgba(0,255,255,0.1));
+  mix-blend-mode:difference; opacity:0; animation:flickerAnim 0.2s infinite;
 }
 @keyframes flickerAnim{
-  0%,100%{opacity:0;}
-  50%{opacity:0.3;}
+  0%,100%{opacity:0;} 50%{opacity:0.3;}
+}
+.flash{
+  position:fixed; left:0; top:0; width:100%; height:100%;
+  pointer-events:none; background:radial-gradient(circle, white 0%, transparent 80%);
+  opacity:0; mix-blend-mode:difference; animation:flashAnim 0.3s forwards;
+}
+@keyframes flashAnim{
+  0%{opacity:0;} 50%{opacity:0.7;} 100%{opacity:0;}
 }
 </style>
 </head>
 <body>
+
 <h1 id="title">
   <span>Т</span><span>Р</span><span>И</span><span>П</span>
   <span>О</span><span>В</span><span>Ы</span><span>Й</span>
@@ -178,170 +84,103 @@ h1 span{
 <div class="screen-flicker"></div>
 
 <script>
-// --- Курсор ---
 const cursor = document.querySelector('.cursor');
-let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+let mouseX=window.innerWidth/2, mouseY=window.innerHeight/2;
 document.addEventListener('mousemove', e=>{
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX+'px';
-  cursor.style.top = mouseY+'px';
+  mouseX=e.clientX; mouseY=e.clientY;
+  cursor.style.left=mouseX+'px'; cursor.style.top=mouseY+'px';
 });
 
-// --- Шлейф частиц ---
-let trail = [];
-function spawnTrail(){
-  for(let i=0;i<10;i++){
-    const t=document.createElement('div');
-    t.classList.add('trail');
-    t.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    t.x=mouseX; t.y=mouseY;
-    t.vx=(Math.random()-0.5)*15;
-    t.vy=(Math.random()-0.5)*15;
-    document.body.appendChild(t);
-    trail.push(t);
-    setTimeout(()=>{
-      t.remove();
-      trail.splice(trail.indexOf(t),1);
-    },4000);
-  }
-}
-document.addEventListener('mousemove',spawnTrail);
-function updateTrail(){
-  trail.forEach(t=>{
-    t.x+=t.vx;
-    t.y+=t.vy;
-    t.style.left=t.x+'px';
-    t.style.top=t.y+'px';
-  });
-  requestAnimationFrame(updateTrail);
-}
-updateTrail();
-
-// --- Лизергиновое облако ---
-let cloud=[];
-for(let i=0;i<200;i++){
-  const c=document.createElement('div');
-  c.classList.add('psy-cloud');
-  c.style.width=c.style.height=(Math.random()*60+20)+'px';
-  c.style.opacity=Math.random()*0.6+0.2;
-  document.body.appendChild(c);
-  cloud.push({
-    el:c,
-    x:mouseX,
-    y:mouseY,
-    vx:(Math.random()-0.5)*8,
-    vy:(Math.random()-0.5)*8
-  });
-}
-function updateCloud(){
-  cloud.forEach(p=>{
-    let dx=mouseX-p.x+(Math.random()*300-150);
-    let dy=mouseY-p.y+(Math.random()*300-150);
-    p.vx+=(dx*0.03);
-    p.vy+=(dy*0.03);
-    p.vx*=0.7;
-    p.vy*=0.7;
-    p.x+=p.vx;
-    p.y+=p.vy;
-    p.el.style.left=p.x+'px';
-    p.el.style.top=p.y+'px';
-    p.el.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
-  });
-  requestAnimationFrame(updateCloud);
-}
-updateCloud();
-
-// --- Текст убегает от курсора ---
+// --- Текст убегает ---
 const titleSpans = document.querySelectorAll('h1 span');
 document.addEventListener('mousemove', e=>{
   titleSpans.forEach(span=>{
-    const rect = span.getBoundingClientRect();
+    const rect=span.getBoundingClientRect();
     const dx = rect.left+rect.width/2 - e.clientX;
     const dy = rect.top+rect.height/2 - e.clientY;
     const dist = Math.sqrt(dx*dx+dy*dy);
-    if(dist < 350){
-      const moveX = dx/dist * 120;
-      const moveY = dy/dist * 120;
+    if(dist<300){
+      const moveX = dx/dist*150; const moveY = dy/dist*150;
       span.style.transform = `translate(${moveX}px,${moveY}px) rotate(${Math.random()*120-60}deg) scale(${Math.random()*2})`;
       span.style.color = `hsl(${Math.random()*360},100%,50%)`;
-    } else {
-      span.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
-    }
+    } else span.style.transform='translate(0,0) rotate(0deg) scale(1)';
   });
 });
 
-// --- Странные объекты ---
-function spawnStrange(){
-  const s=document.createElement('div');
-  s.classList.add('strange');
-  const texts=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴'];
-  s.textContent=texts[Math.floor(Math.random()*texts.length)];
-  s.style.left=Math.random()*100+'vw';
-  s.style.top=Math.random()*100+'vh';
-  s.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*4})`;
-  s.style.color=`hsl(${Math.random()*360},100%,50%)`;
-  document.body.appendChild(s);
-  setTimeout(()=>{
-    s.style.opacity=0;
-    setTimeout(()=>s.remove(),500);
-  },Math.random()*6000+2000);
+// --- Создание 1000+ элементов ---
+const allElements=[];
+function createElement(type){
+  const el=document.createElement('div');
+  el.className=type;
+  if(type==='trail'||type==='psy-cloud'||type==='explosive'){
+    el.style.background=`hsl(${Math.random()*360},100%,50%)`;
+  }
+  if(type==='strange'||type==='chaos'){
+    const symbols=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴'];
+    el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left=Math.random()*100+'vw';
+    el.style.top=Math.random()*100+'vh';
+    el.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*5})`;
+    el.style.color=`hsl(${Math.random()*360},100%,50%)`;
+  }
+  document.body.appendChild(el);
+  return {el,x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:Math.random()*10-5,vy:Math.random()*10-5};
 }
-setInterval(spawnStrange,150);
 
-// --- Экранные вспышки на клик ---
-document.addEventListener('click', e=>{
+// --- Генерация тысяч частиц ---
+for(let i=0;i<400;i++) allElements.push(createElement('psy-cloud'));
+for(let i=0;i<300;i++) allElements.push(createElement('trail'));
+for(let i=0;i<150;i++) allElements.push(createElement('chaos'));
+for(let i=0;i<100;i++) allElements.push(createElement('strange'));
+for(let i=0;i<100;i++) allElements.push(createElement('explosive'));
+
+// --- Обновление движения ---
+function updateElements(){
+  allElements.forEach(obj=>{
+    // Лизергиновое притяжение к курсору
+    const dx=mouseX-obj.x; const dy=mouseY-obj.y;
+    obj.vx+=dx*0.01; obj.vy+=dy*0.01;
+    obj.vx*=0.75; obj.vy*=0.75;
+    obj.x+=obj.vx; obj.y+=obj.vy;
+    obj.el.style.left=obj.x+'px'; obj.el.style.top=obj.y+'px';
+    // Случайные спирали и ротации
+    obj.el.style.transform=`translate(-50%,-50%) rotate(${Math.random()*360}deg) scale(${Math.random()*2})`;
+  });
+  requestAnimationFrame(updateElements);
+}
+updateElements();
+
+// --- Вспышки на клик ---
+document.addEventListener('click',()=>{
   const flash=document.createElement('div');
-  flash.classList.add('flash');
+  flash.className='flash';
   document.body.appendChild(flash);
   setTimeout(()=>flash.remove(),300);
 });
 
-// --- Постоянные хаотичные объекты ---
-function spawnChaos(){
-  const c=document.createElement('div');
-  c.classList.add('chaos');
-  c.textContent=['⚡','🔥','☣️','💀','👹','💉','☠️','👁️','🕷️'][Math.floor(Math.random()*9)];
-  c.style.left=Math.random()*100+'vw';
-  c.style.top=Math.random()*100+'vh';
-  c.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*5})`;
-  c.style.color=`hsl(${Math.random()*360},100%,50%)`;
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),Math.random()*5000+2000);
-}
-setInterval(spawnChaos,50);
-
-// --- Эксплозивные частицы ---
-function explode(){
-  const e=document.createElement('div');
-  e.classList.add('psy-cloud');
-  e.style.width=e.style.height=(Math.random()*120+40)+'px';
-  e.style.left=Math.random()*window.innerWidth+'px';
-  e.style.top=Math.random()*window.innerHeight+'px';
-  e.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
-  e.style.opacity=0.8;
-  document.body.appendChild(e);
-  setTimeout(()=>e.remove(),2000);
-}
-setInterval(explode,300);
-
-// --- Дрожащая страница ---
-document.addEventListener('mousemove', e=>{
-  const shakeX = (Math.random()-0.5)*15;
-  const shakeY = (Math.random()-0.5)*15;
-  document.body.style.transform = `translate(${shakeX}px,${shakeY}px)`;
+// --- Дрожание всего тела ---
+document.addEventListener('mousemove',()=>{
+  const shakeX=(Math.random()-0.5)*25;
+  const shakeY=(Math.random()-0.5)*25;
+  document.body.style.transform=`translate(${shakeX}px,${shakeY}px)`;
 });
 
-// --- Постоянные мерцания ---
-const flicker = document.querySelector('.screen-flicker');
+// --- Постоянные хаотические появления ---
 setInterval(()=>{
-  flicker.style.opacity=Math.random()*0.5;
+  const e=createElement('strange');
+  setTimeout(()=>{ e.el.style.opacity=0; setTimeout(()=>e.el.remove(),500); },Math.random()*8000+2000);
 },100);
 
-// --- Конец первой волны хаоса ---
-// Следующий шаг: можно добавить ещё тысячи мелких анимированных элементов,
-// случайные линии, геометрические фигуры, бегущие текстовые потоки,
-// кислотные спирали и триповые тени по всей странице
+setInterval(()=>{
+  const e=createElement('explosive');
+  setTimeout(()=>e.el.remove(),2000);
+},200);
+
+setInterval(()=>{
+  document.querySelector('.screen-flicker').style.opacity=Math.random()*0.5;
+},100);
+
+// --- Конец первой фазы "Невозможной Бороды" ---
 </script>
 </body>
 </html>

@@ -3,102 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Увертюра Иордан</title>
+    <title>Увертюра Иордан — Психоделическая Вселенная</title>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="scene-canvas"></canvas>
 
-    <nav id="main-nav">
-        <ul>
-            <li><a href="#home">Главная</a></li>
-            <li><a href="#albums">Альбомы</a></li>
-            <li><a href="#gallery">Галерея</a></li>
-        </ul>
-    </nav>
+<!-- Пульсирующие психоделические кольца -->
+<div class="psy-ring ring1"></div>
+<div class="psy-ring ring2"></div>
+<div class="psy-ring ring3"></div>
 
-    <section id="home" class="section home-section">
-        <h1 class="band-title">Увертюра Иордан</h1>
-        <p class="band-tagline">Психоделический рок / регги</p>
-        <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">Альбомы</button>
-    </section>
+<!-- Фоновые фрактальные волны -->
+<canvas id="waves"></canvas>
 
-    <section id="albums" class="section">
-        <h2>Альбомы</h2>
-        <div class="albums-container">
-            <div class="album-card">
-                <img src="assets/albums/album1.jpg" alt="Альбом 1">
-                <h3>ПсихоСфера</h3>
-                <audio controls>
-                    <source src="assets/albums/album1/track1.mp3" type="audio/mpeg">
-                    Ваш браузер не поддерживает аудио.
-                </audio>
-            </div>
-            <div class="album-card">
-                <img src="albums/album2.jpg" alt="Альбом 2">
-                <h3>РеггиГалактика</h3>
-                <audio controls>
-                    <source src="albums/album2/track1.mp3" type="audio/mpeg">
-                    Ваш браузер не поддерживает аудио.
-                </audio>
-            </div>
+
+<!-- Навигация -->
+<nav id="main-nav">
+    <ul>
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#albums">Альбомы</a></li>
+        <li><a href="#gallery">Галерея</a></li>
+    </ul>
+</nav>
+
+
+<!-- Главная секция -->
+<section id="home" class="section home-section">
+    <h1 class="band-title glitch">Увертюра Иордан</h1>
+    <p class="band-tagline">Психоделический рок / регги</p>
+    <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">Вход в вселенную</button>
+</section>
+
+
+<!-- Альбомы -->
+<section id="albums" class="section">
+    <h2 class="color-shift">Альбомы</h2>
+    <div class="albums-container">
+        <div class="album-card floaty">
+            <img src="albums/album1.jpg" alt="ПсихоСфера">
+            <h3>ПсихоСфера</h3>
+            <audio controls>
+                <source src="albums/album1/track1.mp3" type="audio/mpeg">
+            </audio>
         </div>
-    </section>
 
-    <section id="gallery" class="section">
-        <h2>Галерея</h2>
-        <div class="gallery-container">
-            <img src="assets/gallery/img1.jpg" alt="Галерея 1">
-            <img src="gallery/img2.jpg" alt="Галерея 2">
-            <img src="gallery/img3.jpg" alt="Галерея 3">
+        <div class="album-card floaty delay2">
+            <img src="albums/album2.jpg" alt="РеггиГалактика">
+            <h3>РеггиГалактика</h3>
+            <audio controls>
+                <source src="albums/album2/track1.mp3" type="audio/mpeg">
+            </audio>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-        const canvas = document.getElementById('scene-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
 
-        const particles = [];
-        const colors = ['#ff33cc','#33ccff','#ffcc33','#33ff99','#cc33ff','#ff66ff'];
+<!-- Галерея -->
+<section id="gallery" class="section">
+    <h2 class="color-shift">Галерея</h2>
+    <div class="gallery-container">
+        <img class="gallery-img glitch-small" src="gallery/img1.jpg">
+        <img class="gallery-img glitch-small delay2" src="gallery/img2.jpg">
+        <img class="gallery-img glitch-small delay3" src="gallery/img3.jpg">
+    </div>
+</section>
 
-        for(let i=0;i<300;i++){
-            particles.push({
-                x: Math.random()*canvas.width,
-                y: Math.random()*canvas.height,
-                radius: Math.random()*3 + 1,
-                color: colors[Math.floor(Math.random()*colors.length)],
-                dx: (Math.random()-0.5)*2,
-                dy: (Math.random()-0.5)*2
-            });
+
+<!-- JS встроенный -->
+<script>
+const canvas = document.getElementById("waves");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let t = 0;
+
+function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    for(let y = 0; y < canvas.height; y += 20){
+        ctx.beginPath();
+        for(let x = 0; x < canvas.width; x += 20){
+            let dx = Math.sin((x+t) * 0.01) * 20;
+            let dy = Math.cos((y+t) * 0.01) * 20;
+
+            ctx.fillStyle = `hsl(${(x+y+t)/5 % 360}, 80%, 50%)`;
+            ctx.fillRect(x + dx, y + dy, 6, 6);
         }
+    }
+    t += 0.7;
+    requestAnimationFrame(draw);
+}
 
-        function animate(){
-            ctx.fillStyle = 'rgba(0,0,0,0.08)';
-            ctx.fillRect(0,0,canvas.width,canvas.height);
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-                ctx.fillStyle = p.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = p.color;
-                ctx.fill();
-                p.x += p.dx;
-                p.y += p.dy;
-                if(p.x<0||p.x>canvas.width)p.dx*=-1;
-                if(p.y<0||p.y>canvas.height)p.dy*=-1;
-            });
-            requestAnimationFrame(animate);
-        }
+draw();
 
-        animate();
+window.addEventListener("resize", ()=>{
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+});
+</script>
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
 </body>
 </html>

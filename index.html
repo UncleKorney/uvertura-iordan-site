@@ -286,14 +286,9 @@
 
         // Случайная скорость и направление
         const speed = Math.random() * 5 + 2;
-        const directionX = Math.random() > 0.5 ? 1 : -1;  // Положительное или отрицательное движение по X
-        const directionY = Math.random() > 0.5 ? 1 : -1;  // Положительное или отрицательное движение по Y
 
         rat.style.animationDuration = `${speed}s`;
         rat.style.animationName = `ratMove`;
-
-        // Движение в случайном направлении по обеим осям
-        rat.style.animationDirection = directionX === 1 ? "normal" : "reverse";
 
         document.body.appendChild(rat);
 

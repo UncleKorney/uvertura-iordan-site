@@ -116,7 +116,13 @@ audio{
     100%{ transform:translateX(120vw); }
 }
 
-/* ---------------------- ТЕНИ СУЩЕСТ ---------------------- */
+@keyframes ratCrawl{
+    0%{ transform:translateX(-150px); }
+    50%{ transform:translateY(10px); }
+    100%{ transform:translateX(120vw); }
+}
+
+/* ---------------------- ТЕНИ СУЩЕСТВ ---------------------- */
 .shadow-creature{
     position:fixed;
     width:180px;
@@ -132,6 +138,28 @@ audio{
     20%{ opacity:0.4; }
     80%{ opacity:0.4; }
     100%{ transform:translateX(130vw); opacity:0; }
+}
+
+/* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 180, 0.3);
 }
 </style>
 </head>
@@ -170,11 +198,19 @@ audio{
 <!-- ------------------- ЗВУК РАСКРЫТИЯ ------------------- -->
 <audio id="open-sound" src="audio/open.mp3" preload="auto"></audio>
 
+<!-- ------------------- МОДАЛЬНОЕ ОКНО ------------------- -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <p>Добро пожаловать в мир Канализационных Пограничий. Внимание! Этот путь может быть опасен для вашего психического здоровья...</p>
+    </div>
+</div>
+
 <script>
 /* ---------------------- ТРЕКЛИСТ ---------------------- */
 const album = document.getElementById("album");
 const tracklist = document.getElementById("tracklist");
 const openSound = document.getElementById("open-sound");
+const modal = document.getElementById('modal');
 
 let open = false;
 
@@ -190,28 +226,58 @@ album.addEventListener("click",()=>{
 
 /* ---------------------- КРЫСЫ ---------------------- */
 function spawnRat(){
-    const r=document.createElement("div");
+    const r = document.createElement("div");
     r.classList.add("rat");
-    r.style.bottom = (Math.random()*50)+"px";
+
+    // Случайный старт
+    const startPosition = Math.random() > 0.5 ? "bottom" : (Math.random() > 0.5 ? "left" : "right");
+    if (startPosition === "bottom") {
+        r.style.bottom = (Math.random() * 50) + "px";
+    } else if (startPosition === "left") {
+        r.style.left = (Math.random() * 100) + "%";
+    } else {
+        r.style.right = (Math.random() * 100) + "%";
+    }
+
+    // Случайная скорость и направление
+    const speed = Math.random() * 3 + 2;  // случайная скорость от 2 до 5
+    const direction = Math.random() > 0.5 ? 1 : -1; // случайное направление (вправо или влево)
+    const randomAnim = Math.random() > 0.5 ? "ratRun" : "ratCrawl";
+    
+    r.style.animation = `${randomAnim} ${speed}s linear infinite ${direction === 1 ? '' : 'reverse'}`;
+    
     document.body.appendChild(r);
-    setTimeout(()=>r.remove(),3000);
+    setTimeout(() => r.remove(), speed * 1000);
+
+        // Звук
+    const ratSound = new Audio('audio/rat-sound.mp3');
+    ratSound.play();
 }
+
 setInterval(()=>{
-    if(Math.random()<0.7) spawnRat();
-},4000);
+    if(Math.random() < 0.9) spawnRat();  // Почти всегда появляется крыса
+}, 2000);  // Частота появления крыс — каждую секунду
 
 /* ---------------------- ТЕНИ ---------------------- */
 function spawnShadow(){
-    const s=document.createElement("div");
+    const s = document.createElement("div");
     s.classList.add("shadow-creature");
-    s.style.top = (Math.random()*50)+"vh";
+    s.style.top = (Math.random() * 50) + "vh";
     document.body.appendChild(s);
-    setTimeout(()=>s.remove(),4000);
+    setTimeout(() => s.remove(), 4000);
 }
 setInterval(()=>{
-    if(Math.random()<0.25) spawnShadow();
-},8000);
+    if(Math.random() < 0.25) spawnShadow();  // Появление теней — 25% шанс
+}, 8000);
 
+/* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
+album.addEventListener("mouseover", () => {
+    modal.style.display = "flex";
+});
+
+modal.addEventListener("click", () => {
+    modal.style.display = "none";  // Закрытие модального окна по клику
+});
 </script>
 
 </body>

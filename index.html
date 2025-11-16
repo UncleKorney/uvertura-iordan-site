@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан</title>
+<title>Увертюра Иордан — Психоделика</title>
 <style>
 body {
     margin:0;
@@ -11,10 +11,11 @@ body {
     overflow-x:hidden;
     font-family: 'Arial', sans-serif;
     color:#fff;
-    background: #111;
+    background:#111;
+    position:relative;
 }
 
-/* Фон — градиент + туман */
+/* Canvas для фона */
 #background {
     position: fixed;
     top:0; left:0;
@@ -28,6 +29,7 @@ h1 {
     text-align:center;
     margin-top:50px;
     cursor:pointer;
+    position:relative;
 }
 h1 span {
     display:inline-block;
@@ -42,6 +44,10 @@ h1 span {
 .album img {
     width:300px;
     border:2px solid #fff;
+    transition: transform 0.3s;
+}
+.album img:hover {
+    transform: scale(1.05) rotate(-2deg);
 }
 .tracks {
     margin-top:20px;
@@ -53,7 +59,7 @@ h1 span {
     width:300px;
 }
 
-/* Кнопка раскрытия */
+/* Кнопка раскрытия треков */
 .show-tracks {
     margin-top:15px;
     padding:10px 20px;
@@ -79,16 +85,12 @@ h1 span {
     width:200px;
     transition: transform 0.3s, filter 0.3s;
     cursor:pointer;
-}
-.gallery img:hover {
-    transform:scale(1.2) rotate(5deg);
-    filter:hue-rotate(90deg) blur(1px);
+    position:relative;
 }
 </style>
 </head>
 <body>
 
-<!-- Canvas для тумана и градиента -->
 <canvas id="background"></canvas>
 
 <h1 id="glitch-title">
@@ -112,7 +114,7 @@ h1 span {
 </div>
 
 <script>
-// --- Глитч-эффект на заголовке ---
+// --- Глитч-эффект заголовка ---
 const letters = document.querySelectorAll('#glitch-title span');
 
 document.addEventListener('mousemove', e => {
@@ -120,13 +122,13 @@ document.addEventListener('mousemove', e => {
     const y = e.clientY / window.innerHeight;
 
     letters.forEach(letter => {
-        const offsetX = (Math.random() - 0.5) * 10 * x;
-        const offsetY = (Math.random() - 0.5) * 10 * y;
-        const rotate = (Math.random() - 0.5) * 20 * x;
-        const hueShift = (Math.random() * 60 - 30) * y;
+        const offsetX = (Math.random() - 0.5) * 20 * x;
+        const offsetY = (Math.random() - 0.5) * 20 * y;
+        const rotate = (Math.random() - 0.5) * 40 * x;
+        const hueShift = (Math.random() * 360);
 
         letter.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
-        letter.style.color = `hsl(${hueShift + 200}, 80%, 50%)`;
+        letter.style.color = `hsl(${hueShift}, 80%, 60%)`;
     });
 });
 
@@ -142,41 +144,64 @@ btn.addEventListener('click', () => {
     }
 });
 
-// --- Фон: градиент + туман ---
+// --- Фон: градиент + туман + шум ---
 const canvas = document.getElementById('background');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-function drawFog(){
+function drawBackground() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    
+
     // Градиент
     const grad = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
     grad.addColorStop(0,'#440044');
     grad.addColorStop(1,'#002244');
     ctx.fillStyle = grad;
     ctx.fillRect(0,0,canvas.width,canvas.height);
-    
-    // Псевдо-туман
+
+    // Туман
     for(let i=0;i<100;i++){
         const x = Math.random()*canvas.width;
         const y = Math.random()*canvas.height;
-        const radius = Math.random()*100+50;
-        const alpha = Math.random()*0.05;
+        const r = Math.random()*150 + 50;
+        const a = Math.random()*0.05 + 0.02;
         ctx.beginPath();
-        ctx.arc(x,y,radius,0,Math.PI*2);
-        ctx.fillStyle = `rgba(200,200,255,${alpha})`;
+        ctx.arc(x,y,r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(200,200,255,${a})`;
         ctx.fill();
     }
-    requestAnimationFrame(drawFog);
-}
-drawFog();
 
+    // Визуальный шум
+    for(let i=0;i<500;i++){
+        const x = Math.random()*canvas.width;
+        const y = Math.random()*canvas.height;
+        ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.02})`;
+        ctx.fillRect(x,y,1,1);
+    }
+
+    requestAnimationFrame(drawBackground);
+}
+drawBackground();
 window.addEventListener('resize', ()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
+
+// --- Галерея: хаотические аномалии ---
+const galleryImages = document.querySelectorAll('.gallery img');
+function randomGlitch(){
+    galleryImages.forEach(img=>{
+        const offsetX = (Math.random()-0.5)*30;
+        const offsetY = (Math.random()-0.5)*30;
+        const rotate = (Math.random()-0.5)*20;
+        const hue = Math.random()*360;
+        img.style.transform = `translate(${offsetX}px,${offsetY}px) rotate(${rotate}deg)`;
+        img.style.filter = `hue-rotate(${hue}deg) blur(${Math.random()*1.5}px)`;
+    });
+}
+setInterval(randomGlitch, 500); // каждые 0.5 секунды новые аномалии
+
 </script>
 
 </body>

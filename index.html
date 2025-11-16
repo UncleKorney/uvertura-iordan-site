@@ -50,31 +50,7 @@
             font-size: 1.2em;
             text-align: center;
             z-index: 10;
-            opacity: 1;
-            display: none;
-            animation: modalSlideIn 0.5s ease-out forwards;
-        }
-
-        /* Анимация появления модального окна */
-        @keyframes modalSlideIn {
-            0% {
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 0;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Плавное исчезновение модального окна */
-        @keyframes modalFadeOut {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
+            display: none;  /* Скрыто по умолчанию */
         }
 
         /* ---------------------- КНОПКА ЗАКРЫТИЯ ---------------------- */
@@ -224,9 +200,6 @@
 
         if (!modalShown) {
             modal.style.display = "flex";  // Показываем модальное окно
-            setTimeout(() => {
-                modal.style.animation = "modalFadeOut 2s forwards";  // Модальное окно исчезает
-            }, 3000);  // После 3 секунд плавное исчезновение
             modalShown = true;
         }
     });

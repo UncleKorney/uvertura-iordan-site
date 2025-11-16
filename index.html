@@ -136,6 +136,42 @@
             width: 100%;
             margin-bottom: 10px;
         }
+
+        /* ---------------------- КРЫСЫ ---------------------- */
+        .rat {
+            position: fixed;
+            bottom: 0;
+            width: 80px;
+            height: 40px;
+            background: url('images/rat-silhouette.png') center/contain no-repeat;
+            opacity: 0.7;
+            pointer-events: none;
+            animation: ratRun 3s linear forwards;
+            z-index: 50;
+        }
+        @keyframes ratRun {
+            0% { transform: translateX(-150px); }
+            100% { transform: translateX(120vw); }
+        }
+
+        /* ---------------------- ТЕНИ СУЩЕСТВ ---------------------- */
+        .shadow-creature {
+            position: fixed;
+            width: 180px;
+            height: 330px;
+            background: rgba(0, 0, 0, 0.3);
+            filter: blur(25px);
+            pointer-events: none;
+            animation: creep 4s linear forwards;
+            z-index: 4;
+        }
+        @keyframes creep {
+            0% { transform: translateX(-200px); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateX(130vw); opacity: 0; }
+        }
+
     </style>
 </head>
 
@@ -208,6 +244,30 @@
         modal.style.display = "none";  // Закрытие модального окна по кнопке
     });
 
+    /* ---------------------- КРЫСЫ ---------------------- */
+    function spawnRat() {
+        const r = document.createElement("div");
+        r.classList.add("rat");
+        r.style.bottom = `${Math.random() * 40}px`;
+        document.body.appendChild(r);
+    }
+
+    /* Спавним крысят периодически */
+    setInterval(spawnRat, 1500);
+
+    /* ---------------------- СУЩЕСТВА В ТЕНЯХ ---------------------- */
+    function spawnCreatureShadow() {
+        const shadow = document.createElement("div");
+        shadow.classList.add("shadow-creature");
+        shadow.style.top = `${Math.random() * 90 + 5}%`;
+        document.body.appendChild(shadow);
+
+        setTimeout(() => {
+            shadow.remove();
+        }, 4000);
+    }
+
+    setInterval(spawnCreatureShadow, 5000);
 </script>
 
 </body>

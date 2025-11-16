@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Увертюра Иордан</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <!-- Канвас для живого фона -->
     <canvas id="scene-canvas"></canvas>
 
@@ -24,27 +23,27 @@
     <!-- Главная секция -->
     <section id="home" class="section home-section">
         <h1 class="band-title">Увертюра Иордан</h1>
-        <p class="band-tagline">Психоделический рок и регги в абсурдном измерении</p>
-        <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({ behavior: 'smooth' });">Смотреть альбомы</button>
+        <p class="band-tagline">Психоделический рок / регги</p>
+        <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">Альбомы</button>
     </section>
 
     <!-- Альбомы -->
-    <section id="albums" class="section albums-section">
+    <section id="albums" class="section">
         <h2>Альбомы</h2>
         <div class="albums-container">
             <div class="album-card">
-                <img src="assets/albums/album1.jpg" alt="Album 1">
-                <h3>Album 1</h3>
+                <img src="albums/album1.jpg" alt="Альбом 1">
+                <h3>ПсихоСфера</h3>
                 <audio controls>
-                    <source src="assets/albums/track1.mp3" type="audio/mpeg">
+                    <source src="albums/album1/track1.mp3" type="audio/mpeg">
                     Ваш браузер не поддерживает аудио.
                 </audio>
             </div>
             <div class="album-card">
-                <img src="assets/albums/album2.jpg" alt="Album 2">
-                <h3>Album 2</h3>
+                <img src="albums/album2.jpg" alt="Альбом 2">
+                <h3>РеггиГалактика</h3>
                 <audio controls>
-                    <source src="assets/albums/track2.mp3" type="audio/mpeg">
+                    <source src="albums/album2/track1.mp3" type="audio/mpeg">
                     Ваш браузер не поддерживает аудио.
                 </audio>
             </div>
@@ -52,16 +51,59 @@
     </section>
 
     <!-- Галерея -->
-    <section id="gallery" class="section gallery-section">
+    <section id="gallery" class="section">
         <h2>Галерея</h2>
         <div class="gallery-container">
-            <img src="assets/gallery/img1.jpg" alt="Gallery 1">
-            <img src="assets/gallery/img2.jpg" alt="Gallery 2">
-            <img src="assets/gallery/img3.jpg" alt="Gallery 3">
+            <img src="gallery/img1.jpg" alt="Галерея 1">
+            <img src="gallery/img2.jpg" alt="Галерея 2">
+            <img src="gallery/img3.jpg" alt="Галерея 3">
         </div>
     </section>
 
-    <!-- JS -->
-    <script src="script.js"></script>
+    <!-- JS прямо в HTML -->
+    <script>
+        const canvas = document.getElementById('scene-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const colors = ['#ff33cc','#33ccff','#ffcc33','#33ff99','#cc33ff','#ff66ff'];
+
+        for(let i=0;i<200;i++){
+            particles.push({
+                x: Math.random()*canvas.width,
+                y: Math.random()*canvas.height,
+                radius: Math.random()*3 + 1,
+                color: colors[Math.floor(Math.random()*colors.length)],
+                dx: (Math.random()-0.5)*1.5,
+                dy: (Math.random()-0.5)*1.5
+            });
+        }
+
+        function animate(){
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if(p.x<0||p.x>canvas.width)p.dx*=-1;
+                if(p.y<0||p.y>canvas.height)p.dy*=-1;
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>

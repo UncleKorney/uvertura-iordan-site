@@ -288,8 +288,11 @@
 
 <!-- ------------------- МОДАЛЬНОЕ ОКНО ------------------- -->
 <div class="modal" id="modal">
-    <button class="modal-close" id="modal-close">X</button>
-    <p>Ты шагаешь, не замечая, как земля под ногами теряет прочность...</p>
+    <button class="modal-close" id="close-modal">&times;</button>
+    <p>
+        Ты шагаешь, не замечая, как земля под ногами теряет прочность. В одно мгновение всё привычное уходит. 
+        Лишь на мгновение твой взгляд скользит по открывшемуся люку, и ты понимаешь — слишком поздно.
+    </p>
 </div>
 
 <!-- ------------------- РАТЫ И ТЕНИ ------------------- -->
@@ -313,11 +316,10 @@
     // Клик на альбом
     album.addEventListener("click", () => {
         open = !open;
+        tracklist.style.maxHeight = open ? "500px" : "0";
         if (open) {
-            tracklist.classList.add("open");
-            openSound.play();  // Воспроизводим звук раскрытия
-        } else {
-            tracklist.classList.remove("open");
+            openSound.currentTime = 0;
+            openSound.play();
         }
 
         if (!modalShown) {
@@ -326,10 +328,8 @@
         }
     });
 
-    // Закрытие модального окна
-    modalClose.addEventListener("click", () => {
-        modal.style.display = "none";  // Скрыть модальное окно
-        modalShown = false;  // Устанавливаем флаг, чтобы окно не открылось снова
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";  // Закрытие модального окна по кнопке
     });
 
     /* ---------------------- КРЫСЫ ---------------------- */
@@ -343,9 +343,14 @@
 
         // Случайная скорость и направление
         const speed = Math.random() * 5 + 2;
+        const directionX = Math.random() > 0.5 ? 1 : -1;  // Положительное или отрицательное движение по X
+        const directionY = Math.random() > 0.5 ? 1 : -1;  // Положительное или отрицательное движение по Y
 
         rat.style.animationDuration = `${speed}s`;
         rat.style.animationName = `ratMove`;
+
+        // Движение в случайном направлении по обеим осям
+        rat.style.animationDirection = directionX === 1 ? "normal" : "reverse";
 
         document.body.appendChild(rat);
 
@@ -392,4 +397,3 @@
 
 </body>
 </html>
-

@@ -3,306 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Психоделический хаос</title>
+<title>Увертюра Иордан</title>
 <style>
-/* --- Базовый стиль --- */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-  overflow-x: hidden;
-  background: #0a001f;
-  color: #fff;
-  transition: background 3s;
+/* --- Базовые стили --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Arial', sans-serif;
+    background: radial-gradient(circle at 50% 50%, #0f0c29, #302b63, #24243e);
+    color: #fff;
+    height: 100%;
 }
 
-/* --- Заголовок с глитчем и аномалиями --- */
+/* --- Плавающий градиент + туман --- */
+#background {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events: none;
+    z-index: -2;
+    background: radial-gradient(circle, rgba(255,0,150,0.2), rgba(0,255,200,0.1));
+    animation: floatBackground 30s linear infinite;
+}
+@keyframes floatBackground {
+    0%{background-position:0 0;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0 0;}
+}
+#mist {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events: none;
+    z-index: -1;
+    background: url('images/photo1.jpg') center/cover no-repeat;
+    opacity:0.03;
+    filter: blur(20px);
+}
+
+/* --- Курсор --- */
+#custom-cursor {
+    position: fixed;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, #ff00ff, #00ffff);
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    z-index:9999;
+}
+
+/* --- Заголовок с глитч-эффектом --- */
 h1 {
-  font-size: 4em;
-  text-align: center;
-  margin: 40px 0;
-  position: relative;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
+    font-size: 4em;
+    text-align:center;
+    position: relative;
+    margin: 50px 0 30px;
 }
 h1 span {
-  display: inline-block;
-  transition: transform 0.3s, color 0.3s;
-  animation: glitchShake 5s infinite;
+    display:inline-block;
+    position:relative;
+    animation: glitch 2s infinite;
 }
-@keyframes glitchShake {
-  0%,100%{transform:translate(0,0) rotate(0deg);}
-  10%{transform:translate(-2px,1px) rotate(-1deg);}
-  20%{transform:translate(2px,-1px) rotate(1deg);}
-  30%{transform:translate(-1px,2px) rotate(0deg);}
-  40%{transform:translate(1px,-2px) rotate(-1deg);}
-  50%{transform:translate(-1px,1px) rotate(1deg);}
-  60%{transform:translate(2px,-1px) rotate(0deg);}
-  70%{transform:translate(-2px,1px) rotate(1deg);}
-  80%{transform:translate(1px,-1px) rotate(-1deg);}
-  90%{transform:translate(0,2px) rotate(0deg);}
+@keyframes glitch {
+    0%{transform: translate(0,0);}
+    20%{transform: translate(-2px,2px);}
+    40%{transform: translate(2px,-2px);}
+    60%{transform: translate(-2px,-2px);}
+    80%{transform: translate(2px,2px);}
+    100%{transform: translate(0,0);}
+}
+
+/* --- Навигация --- */
+nav {
+    text-align:center;
+    margin-bottom:50px;
+}
+nav a {
+    margin:0 15px;
+    text-decoration:none;
+    color:#fff;
+    font-size:1.2em;
+    position: relative;
+}
+nav a::after {
+    content:'';
+    display:block;
+    height:2px;
+    background:#ff00ff;
+    transition:0.3s;
+    transform: scaleX(0);
+}
+nav a:hover::after {
+    transform: scaleX(1);
 }
 
 /* --- Альбом --- */
 .album {
-  text-align: center;
-  margin-bottom: 80px;
-  position: relative;
-  z-index: 5;
-  animation: subtleShake 10s infinite;
+    text-align:center;
+    margin-bottom:50px;
+    position:relative;
 }
 .album img {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
-  border: 4px solid #fff;
-  transition: transform 0.5s, filter 0.5s;
+    width:300px;
+    border:3px solid #fff;
+    transition: transform 0.3s, filter 0.3s;
 }
 .album img:hover {
-  transform: scale(1.05) rotate(2deg) hue-rotate(120deg);
+    transform: scale(1.1) rotate(2deg);
+    filter: hue-rotate(60deg) brightness(1.2);
 }
 .tracklist {
-  margin-top: 20px;
-  display: none;
-  text-align: left;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+    max-width:400px;
+    margin: 20px auto;
+    text-align:left;
+    display:none;
 }
 .tracklist audio {
-  width: 100%;
-  margin-bottom: 10px;
+    width:100%;
+    margin:5px 0;
 }
 .show-tracks {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #fff;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1em;
+    display:block;
+    text-align:center;
+    margin-top:10px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#0ff;
 }
 
 /* --- Галерея --- */
 .gallery {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 40px;
-  margin: 60px 0;
-  position: relative;
-  z-index: 5;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    margin-bottom:100px;
 }
 .gallery img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border: 3px solid #fff;
-  transition: transform 0.5s, filter 0.5s;
+    width:200px;
+    transition: transform 0.5s, filter 0.5s;
 }
 .gallery img:hover {
-  transform: scale(1.2) rotate(5deg);
-  filter: hue-rotate(90deg) blur(1px);
+    transform: scale(1.3) rotate(5deg);
+    filter: hue-rotate(90deg) blur(1px);
 }
 
-/* --- Туман и линии --- */
-.fog {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: url('images/photo1.jpg') repeat; /* временно для примера */
-  opacity: 0.1;
-  pointer-events: none;
-  animation: fogmove 60s linear infinite;
-  z-index: 1;
-  filter: blur(10px);
+/* --- Плавающий текст --- */
+.floating-text {
+    position:absolute;
+    font-size:1.2em;
+    opacity:0.4;
+    animation: floatText 10s infinite linear;
 }
-@keyframes fogmove {
-  0%{background-position:0 0;}
-  100%{background-position:1000px 1000px;}
-}
-.lines {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  pointer-events: none;
-  z-index: 2;
-  overflow: hidden;
-}
-.line {
-  position: absolute;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(to bottom, #f0f, #0ff, #ff0);
-  opacity: 0.15;
-  animation: lineMove 5s linear infinite;
-}
-@keyframes lineMove {
-  0%{transform:translateX(0);}
-  100%{transform:translateX(100vw);}
-}
-
-/* --- Курсор --- */
-body{cursor:none;}
-.cursor{
-  width:50px;height:50px;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
-  animation:pulse 2s infinite;
-  background:conic-gradient(#ff0,#f0f,#0ff,#f0f,#ff0);
-  mix-blend-mode:difference;
-}
-@keyframes pulse{
-  0%,100%{transform:scale(1) translate(-50%,-50%);}
-  50%{transform:scale(1.5) translate(-50%,-50%);}
-}
-.trail{
-  position:absolute;
-  width:14px;height:14px;
-  border-radius:50%;
-  background:conic-gradient(#ff0,#f0f,#0ff,#f0f,#ff0);
-  pointer-events:none;
-  mix-blend-mode:difference;
-  animation:fadeOut 1s forwards;
-}
-@keyframes fadeOut{
-  0%{opacity:1;}
-  100%{opacity:0; transform:scale(0);}
-}
-
-/* --- Аномалии текста --- */
-.anom{
-  display:inline-block;
-  position:relative;
-  animation:shake 3s infinite;
-}
-@keyframes shake{
-  0%,100%{transform:translate(0,0) rotate(0deg);}
-  10%{transform:translate(-2px,1px) rotate(-1deg);}
-  20%{transform:translate(1px,-1px) rotate(1deg);}
-  30%{transform:translate(-1px,2px) rotate(0deg);}
-  40%{transform:translate(1px,-2px) rotate(-1deg);}
-  50%{transform:translate(-1px,1px) rotate(1deg);}
-  60%{transform:translate(2px,-1px) rotate(0deg);}
-  70%{transform:translate(-2px,1px) rotate(1deg);}
-  80%{transform:translate(1px,-1px) rotate(-1deg);}
-  90%{transform:translate(0,2px) rotate(0deg);}
-}
-
-/* --- Слабая дрожь альбома --- */
-@keyframes subtleShake{
-  0%,100%{transform:translate(0,0);}
-  25%{transform:translate(1px,-1px);}
-  50%{transform:translate(-1px,1px);}
-  75%{transform:translate(1px,1px);}
+@keyframes floatText {
+    0%{transform: translateY(0);}
+    50%{transform: translateY(-50px);}
+    100%{transform: translateY(0);}
 }
 </style>
 </head>
 <body>
-<div class="fog"></div>
-<div class="lines"></div>
+<div id="background"></div>
+<div id="mist"></div>
+<div id="custom-cursor"></div>
 
-<h1 id="title">
-  <span class="anom">У</span>
-  <span class="anom">в</span>
-  <span class="anom">е</span>
-  <span class="anom">р</span>
-  <span class="anom">т</span>
-  <span class="anom">ю</span>
-  <span class="anom">р</span>
-  <span class="anom">а</span>
-  <span class="anom"> </span>
-  <span class="anom">И</span>
-  <span class="anom">о</span>
-  <span class="anom">р</span>
-  <span class="anom">д</span>
-  <span class="anom">а</span>
-  <span class="anom">н</span>
+<h1>
+    <span>У</span><span>в</span><span>е</span><span>р</span><span>т</span><span>ю</span><span>р</span><span>а</span>
+    &nbsp;
+    <span>И</span><span>о</span><span>р</span><span>д</span><span>а</span><span>н</span>
 </h1>
 
-<div class="album">
-  <img src="images/album1.jpg" alt="Album 1">
-  <button class="show-tracks">Показать треки</button>
-  <div class="tracklist">
-    <audio controls src="audio/track1.mp3"></audio>
-    <audio controls src="audio/track2.mp3"></audio>
-    <audio controls src="audio/track3.mp3"></audio>
-  </div>
-</div>
+<nav>
+    <a href="#album">Альбом</a>
+    <a href="#gallery">Галерея</a>
+</nav>
 
-<div class="gallery">
-  <img src="images/photo1.jpg" alt="Gallery Image" class="anom">
-</div>
+<section class="album" id="album">
+    <img src="images/album1.jpg" alt="Альбом 1">
+    <div class="show-tracks" onclick="toggleTracks()">Показать треки</div>
+    <div class="tracklist" id="tracklist">
+        <audio controls src="audio/track1.mp3"></audio>
+        <audio controls src="audio/track2.mp3"></audio>
+        <audio controls src="audio/track3.mp3"></audio>
+    </div>
+</section>
 
-<div class="cursor"></div>
+<section class="gallery" id="gallery">
+    <img src="images/photo1.jpg" alt="Фото 1">
+    <img src="images/album1.jpg" alt="Альбом 1">
+</section>
+
+<!-- Плавающие слова -->
+<div class="floating-text" style="top:100px; left:50px;">Психоделика</div>
+<div class="floating-text" style="top:200px; left:200px;">Регги</div>
+<div class="floating-text" style="top:300px; left:400px;">Рок</div>
 
 <script>
-// --- Курсор и следы ---
-const cursor=document.querySelector('.cursor');
+/* --- Курсор --- */
+const cursor = document.getElementById('custom-cursor');
 document.addEventListener('mousemove', e=>{
-  cursor.style.transform=`translate(${e.clientX}px,${e.clientY}px)`;
-  for(let i=0;i<3;i++){
-    const trail=document.createElement('div');
-    trail.classList.add('trail');
-    trail.style.left=e.clientX+Math.random()*30-15+'px';
-    trail.style.top=e.clientY+Math.random()*30-15+'px';
-    trail.style.width=10+Math.random()*10+'px';
-    trail.style.height=trail.style.width;
-    document.body.appendChild(trail);
-    setTimeout(()=>trail.remove(),1200);
-  }
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
 });
 
-// --- Треклист ---
-const btn=document.querySelector('.show-tracks');
-const tracklist=document.querySelector('.tracklist');
-btn.addEventListener('click',()=>{tracklist.style.display=tracklist.style.display==='block'?'none':'block';});
-
-// --- Аномалии текста ---
-const anomElems=document.querySelectorAll('.anom');
-setInterval(()=>{
-  anomElems.forEach(el=>{
-    el.style.transform=`translate(${Math.random()*30-15}px,${Math.random()*30-15}px) rotate(${Math.random()*15-7}deg)`;
-    el.style.filter=`hue-rotate(${Math.random()*360}deg) blur(${Math.random()*3}px)`;
-  });
-}, 300);
-
-// --- Линии ---
-const linesContainer=document.querySelector('.lines');
-for(let i=0;i<60;i++){
-  const line=document.createElement('div');
-  line.classList.add('line');
-  line.style.left=Math.random()*100+'vw';
-  line.style.animationDuration=(3+Math.random()*10)+'s';
-  linesContainer.appendChild(line);
+/* --- Показ треков --- */
+function toggleTracks(){
+    const list = document.getElementById('tracklist');
+    if(list.style.display==='block') list.style.display='none';
+    else list.style.display='block';
 }
 
-// --- Фон пульсирующий ---
-const body=document.body;
-setInterval(()=>{
-  body.style.background=`radial-gradient(circle at ${Math.random()*100}% ${Math.random()*100}%, hsl(${Math.random()*360},100%,10%), #0a001f)`;
-},2000);
+/* --- Случайные вспышки текста --- */
+function randomGlitch(){
+    const spans = document.querySelectorAll('h1 span');
+    spans.forEach(s=>{
+        if(Math.random()<0.05){
+            s.style.transform=`translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px)`;
+            s.style.color=`hsl(${Math.random()*360},100%,70%)`;
+        }
+    });
+    requestAnimationFrame(randomGlitch);
+}
+randomGlitch();
 
-// --- Эксплозивные аномалии ---
-setInterval(()=>{
-  const div=document.createElement('div');
-  div.style.position='fixed';
-  div.style.width='50px';
-  div.style.height='50px';
-  div.style.borderRadius='50%';
-  div.style.left=Math.random()*window.innerWidth+'px';
-  div.style.top=Math.random()*window.innerHeight+'px';
-  div.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
-  div.style.mixBlendMode='difference';
-  div.style.opacity='0.5';
-  document.body.appendChild(div);
-  setTimeout(()=>div.remove(),1000);
-},700);
-
+/* --- Плавающий текст случайно перемещается --- */
+function floatRandomText(){
+    const floats = document.querySelectorAll('.floating-text');
+    floats.forEach(f=>{
+        let top = parseInt(f.style.top);
+        let left = parseInt(f.style.left);
+        f.style.top = (top + (Math.random()-0.5)*2) + 'px';
+        f.style.left = (left + (Math.random()-0.5)*2) + 'px';
+    });
+    requestAnimationFrame(floatRandomText);
+}
+floatRandomText();
 </script>
 </body>
 </html>

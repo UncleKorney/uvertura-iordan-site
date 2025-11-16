@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Психоделический регги</title>
+<title>Увертюра Иордан — Альбом</title>
 <style>
-  /* === Базовые стили === */
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif;}
   body {
     background: linear-gradient(120deg, #ff00ff, #00ffff, #ffff00);
     background-size: 600% 600%;
@@ -19,72 +18,103 @@
     50% {background-position:100% 50%;}
     100% {background-position:0% 50%;}
   }
-
   h1 {
-    text-align: center;
-    font-size: 4em;
-    margin: 50px 0 20px;
-    color: #fff;
+    text-align:center;
+    font-size:4em;
+    margin:50px 0 20px;
     text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
   }
 
-  /* === Галерея === */
-  .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
+  /* === Альбом и трек-лист === */
+  .album-container {
+    max-width:600px;
+    margin: 0 auto 50px;
+    text-align:center;
   }
-  .album {
-    position: relative;
-    width: 250px;
-    height: 250px;
-    overflow: hidden;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: transform 0.5s ease;
+  .album-cover {
+    width:300px;
+    height:300px;
+    margin:0 auto;
+    border-radius:20px;
+    overflow:hidden;
+    cursor:pointer;
+    transition: transform 0.5s ease, filter 1s ease;
     filter: drop-shadow(0 0 20px #ff00ff);
   }
-  .album img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 3s ease, filter 3s ease;
+  .album-cover img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
   }
-  .album:hover img {
+  .album-cover:hover {
+    transform: scale(1.05) rotate(2deg);
+    filter: hue-rotate(45deg) blur(1px);
+  }
+  .tracklist {
+    display:none;
+    margin-top:20px;
+    list-style:none;
+    font-size:1.2em;
+  }
+  .tracklist li {
+    margin:5px 0;
+    cursor:pointer;
+    transition: all 0.3s ease;
+  }
+  .tracklist li:hover {
+    color:#ff0;
+    text-shadow:0 0 5px #0ff;
+  }
+
+  /* === Галерея психоделическая === */
+  .gallery {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    padding:20px;
+  }
+  .gallery img {
+    width:200px;
+    height:200px;
+    object-fit:cover;
+    border-radius:15px;
+    transition: transform 2s ease, filter 2s ease;
+    filter: drop-shadow(0 0 10px #0ff);
+  }
+  .gallery img:hover {
     transform: scale(1.2) rotate(5deg);
-    filter: hue-rotate(90deg) blur(1px);
+    filter: hue-rotate(120deg) blur(1px);
   }
 
   /* === Псевдопсиходелический курсор === */
   .cursor {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    z-index: 9999;
-    background: radial-gradient(circle, #ff00ff 0%, #00ffff 100%);
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    position:fixed;
+    pointer-events:none;
+    mix-blend-mode:difference;
+    z-index:9999;
+    background:radial-gradient(circle, #ff00ff 0%, #00ffff 100%);
     transform: translate(-50%, -50%);
     transition: width 0.2s ease, height 0.2s ease;
   }
 
   /* === Случайные вставки === */
   .floating {
-    position: absolute;
-    font-size: 20px;
-    font-weight: bold;
-    color: rgba(255,255,255,0.8);
-    user-select: none;
-    pointer-events: none;
+    position:absolute;
+    font-size:20px;
+    font-weight:bold;
+    color:rgba(255,255,255,0.8);
+    user-select:none;
+    pointer-events:none;
     animation: floatFade 5s forwards;
   }
   @keyframes floatFade {
-    0% {opacity: 0; transform: translateY(0px) scale(1);}
-    50% {opacity: 1; transform: translateY(-50px) scale(1.2) rotate(10deg);}
-    100% {opacity: 0; transform: translateY(-100px) scale(0.5) rotate(-30deg);}
+    0% {opacity:0; transform:translateY(0px) scale(1);}
+    50% {opacity:1; transform:translateY(-50px) scale(1.2) rotate(10deg);}
+    100% {opacity:0; transform:translateY(-100px) scale(0.5) rotate(-30deg);}
   }
 </style>
 </head>
@@ -92,44 +122,62 @@
 
 <h1>Увертюра Иордан</h1>
 
+<!-- Альбом -->
+<div class="album-container">
+  <div class="album-cover" id="albumCover">
+    <img src="https://via.placeholder.com/300x300.png?text=Альбом+1" alt="Альбом 1">
+  </div>
+  <ul class="tracklist" id="tracklist">
+    <li>Трек 1</li>
+    <li>Трек 2</li>
+    <li>Трек 3</li>
+    <li>Трек 4</li>
+  </ul>
+</div>
+
+<!-- Галерея -->
 <div class="gallery">
-  <div class="album">
-    <img src="https://via.placeholder.com/250x250.png?text=Альбом+1" alt="Альбом 1">
-  </div>
-  <div class="album">
-    <img src="https://via.placeholder.com/250x250.png?text=Альбом+2" alt="Альбом 2">
-  </div>
-  <div class="album">
-    <img src="https://via.placeholder.com/250x250.png?text=Альбом+3" alt="Альбом 3">
-  </div>
+  <img src="https://via.placeholder.com/200x200.png?text=Арт+1" alt="Арт 1">
+  <img src="https://via.placeholder.com/200x200.png?text=Арт+2" alt="Арт 2">
+  <img src="https://via.placeholder.com/200x200.png?text=Арт+3" alt="Арт 3">
 </div>
 
 <!-- Курсор -->
 <div class="cursor" id="cursor"></div>
 
 <script>
-  /* === Псевдопсиходелический курсор === */
+  // Курсор
   const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+  document.addEventListener('mousemove', e=>{
+    cursor.style.left = e.clientX+'px';
+    cursor.style.top = e.clientY+'px';
   });
 
-  /* === Случайные вставки на странице === */
-  const words = ["Звуки", "Сон", "Туман", "Свет", "Иллюзия", "Хаос", "Цвет", "Транс"];
-  function createFloating() {
+  // Случайные вставки текста
+  const words = ["Звуки","Сон","Туман","Свет","Иллюзия","Хаос","Цвет","Транс"];
+  function createFloating(){
     const span = document.createElement('span');
     span.className = 'floating';
     span.textContent = words[Math.floor(Math.random()*words.length)];
-    span.style.left = Math.random() * window.innerWidth + 'px';
-    span.style.top = Math.random() * window.innerHeight + 'px';
-    span.style.color = `hsla(${Math.random()*360}, 100%, 75%, 0.8)`;
-    span.style.fontSize = (15 + Math.random()*30) + 'px';
+    span.style.left = Math.random()*window.innerWidth+'px';
+    span.style.top = Math.random()*window.innerHeight+'px';
+    span.style.color = `hsla(${Math.random()*360},100%,75%,0.8)`;
+    span.style.fontSize = (15+Math.random()*30)+'px';
     document.body.appendChild(span);
-    setTimeout(() => span.remove(), 5000);
+    setTimeout(()=>span.remove(),5000);
   }
-  setInterval(createFloating, 800);
+  setInterval(createFloating,800);
 
+  // Разворачивание трек-листа
+  const albumCover = document.getElementById('albumCover');
+  const tracklist = document.getElementById('tracklist');
+  albumCover.addEventListener('click', ()=>{
+    if(tracklist.style.display === 'block'){
+      tracklist.style.display = 'none';
+    } else {
+      tracklist.style.display = 'block';
+    }
+  });
 </script>
 
 </body>

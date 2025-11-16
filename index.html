@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Увертюра Иордан — Как будто ты в фонтан упал</title>
+
+<style>
+/* ---------------------- ГЛАВНЫЙ СТИЛЬ ---------------------- */
+body{
+    margin:0;
+    padding:0;
+    background:#050509;
+    color:#c5c5c5;
+    font-family:"Arial",sans-serif;
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* --- МРЯКОТНАЯ ФОНА ТУМАНА --- */
+.fog{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:radial-gradient(circle at 30% 60%, rgba(30,30,40,0.4), transparent 70%),
+                radial-gradient(circle at 80% 30%, rgba(20,20,30,0.4), transparent 60%);
+    filter:blur(40px);
+    animation:fogMove 20s ease-in-out infinite alternate;
+    z-index:1;
+}
+@keyframes fogMove{
+    0%{transform:translate(-20px,-20px);}
+    100%{transform:translate(20px,20px);}
+}
+
+/* ---------------------- ЗАГОЛОВОК ---------------------- */
+h1{
+    text-align:center;
+    font-size:3.5em;
+    margin-top:40px;
+    position:relative;
+    z-index:10;
+    letter-spacing:4px;
+    color:#e8e8e8;
+    text-shadow:0 0 20px rgba(0,255,180,0.3);
+}
+
+/* ---------------------- ОПИСАНИЕ ---------------------- */
+.description{
+    text-align:center;
+    margin-top:10px;
+    position:relative;
+    z-index:10;
+    opacity:0.8;
+    font-size:1.1em;
+}
+
+/* ---------------------- АЛЬБОМ ---------------------- */
+.album-container{
+    width:340px;
+    margin:60px auto;
+    position:relative;
+    z-index:5;
+}
+
+.album-cover{
+    width:100%;
+    border:4px solid #333;
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
+    cursor:pointer;
+    transition:transform 0.3s, filter 0.3s;
+}
+.album-cover:hover{
+    transform:scale(1.05);
+    filter:brightness(1.2);
+}
+
+.tracklist{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.5s ease;
+    margin-top:15px;
+    background:#0c0c0f;
+    border:1px solid #222;
+    padding:0 15px;
+}
+
+.track{
+    padding:10px 0;
+    border-bottom:1px solid #1a1a1e;
+}
+.track:last-child{border-bottom:none;}
+.track-name{
+    margin-bottom:5px;
+    color:#9dd;
+}
+audio{
+    width:100%;
+    margin-bottom:10px;
+}
+
+/* ---------------------- КРЫСЫ ---------------------- */
+.rat{
+    position:fixed;
+    bottom:0;
+    width:80px;
+    height:40px;
+    background:url('images/rat-silhouette.png') center/contain no-repeat;
+    opacity:0.7;
+    pointer-events:none;
+    animation:ratRun 3s linear forwards;
+    z-index:50;
+}
+@keyframes ratRun{
+    0%{ transform:translateX(-150px); }
+    100%{ transform:translateX(120vw); }
+}
+
+/* ---------------------- ТЕНИ СУЩЕСТ ---------------------- */
+.shadow-creature{
+    position:fixed;
+    width:180px;
+    height:330px;
+    background:rgba(0,0,0,0.3);
+    filter:blur(25px);
+    pointer-events:none;
+    animation:creep 4s linear forwards;
+    z-index:4;
+}
+@keyframes creep{
+    0%{ transform:translateX(-200px); opacity:0; }
+    20%{ opacity:0.4; }
+    80%{ opacity:0.4; }
+    100%{ transform:translateX(130vw); opacity:0; }
+}
+
+/* ---------------------- ГАЛЕРЕЯ ---------------------- */
+.gallery{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    margin:60px 0 150px;
+    position:relative;
+    z-index:10;
+    overflow-x:auto;
+    padding-bottom:30px;
+}
+.gallery img{
+    width:220px;
+    height:220px;
+    object-fit:cover;
+    border:3px solid #222;
+    filter:brightness(0.8);
+    transition:0.3s;
+}
+.gallery img:hover{
+    filter:brightness(1);
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="fog"></div>
+
+<h1>Увертюра Иордан</h1>
+<div class="description">Альбом: <b>Как будто ты в фонтан упал</b><br>Жанр: Психоделический рок / регги</div>
+
+<!-- ------------------- АЛЬБОМ ------------------- -->
+<div class="album-container">
+    <img class="album-cover" id="album" src="images/album1.jpg" alt="Album cover">
+
+    <div class="tracklist" id="tracklist">
+
+        <div class="track">
+            <div class="track-name">Трек 1 — (название позже)</div>
+            <audio controls src="audio/track1.mp3"></audio>
+        </div>
+
+        <div class="track">
+            <div class="track-name">Трек 2 — (название позже)</div>
+            <audio controls src="audio/track2.mp3"></audio>
+        </div>
+
+        <div class="track">
+            <div class="track-name">Трек 3 — (название позже)</div>
+            <audio controls src="audio/track3.mp3"></audio>
+        </div>
+
+    </div>
+</div>
+
+<!-- ------------------- ГАЛЕРЕЯ ------------------- -->
+<div class="gallery">
+    <img src="images/photo1.jpg" alt="Gallery image">
+    <img src="images/photo1.jpg" alt="Gallery image">
+    <img src="images/photo1.jpg" alt="Gallery image">
+    <img src="images/photo1.jpg" alt="Gallery image">
+    <img src="images/photo1.jpg" alt="Gallery image">
+</div>
+
+<!-- ------------------- ЗВУК РАСКРЫТИЯ ------------------- -->
+<audio id="open-sound" src="audio/open.mp3" preload="auto"></audio>
+
+<script>
+/* ---------------------- ТРЕКЛИСТ ---------------------- */
+const album = document.getElementById("album");
+const tracklist = document.getElementById("tracklist");
+const openSound = document.getElementById("open-sound");
+
+let open = false;
+
+album.addEventListener("click",()=>{
+    open = !open;
+    tracklist.style.maxHeight = open ? "500px" : "0";
+
+    if(open){
+        openSound.currentTime = 0;
+        openSound.play();
+    }
+});
+
+/* ---------------------- КРЫСЫ ---------------------- */
+function spawnRat(){
+    const r=document.createElement("div");
+    r.classList.add("rat");
+    r.style.bottom = (Math.random()*50)+"px";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),3000);
+}
+setInterval(()=>{
+    if(Math.random()<0.7) spawnRat();
+},4000);
+
+/* ---------------------- ТЕНИ ---------------------- */
+function spawnShadow(){
+    const s=document.createElement("div");
+    s.classList.add("shadow-creature");
+    s.style.top = (Math.random()*50)+"vh";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),4000);
+}
+setInterval(()=>{
+    if(Math.random()<0.25) spawnShadow();
+},8000);
+
+</script>
+
+</body>
+</html>
+
 

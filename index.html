@@ -203,35 +203,34 @@ h1 span{
   50%{transform:translate(50px,30px);}
   100%{transform:translate(0,0);}
 }
+
+/* --- Аудиоплеер скрыт --- */
+audio { display:none; }
 </style>
 </head>
 <body>
 
-<!-- --- Заголовок --- -->
 <h1 id="title">
   <span>У</span><span>в</span><span>е</span><span>р</span><span>т</span><span>ю</span><span>р</span><span>а</span>
   <span> </span>
   <span>И</span><span>о</span><span>р</span><span>д</span><span>а</span><span>н</span>
 </h1>
 
-<!-- --- Лизергиновый курсор --- -->
 <div class="cursor"></div>
 <div class="noise"></div>
 <div class="screen-flicker"></div>
 
-<!-- --- Альбом --- -->
 <div class="album">
   <img src="images/album1.jpg" alt="Как будто ты в фонтан упал">
   <h2>Как будто ты в фонтан упал</h2>
   <p>Жанр: психоделический рок / регги</p>
   <ul class="tracklist">
-    <li>Трек 1</li>
-    <li>Трек 2</li>
-    <li>Трек 3</li>
+    <li data-src="audio/track1.mp3">Трек 1</li>
+    <li data-src="audio/track2.mp3">Трек 2</li>
+    <li data-src="audio/track3.mp3">Трек 3</li>
   </ul>
 </div>
 
-<!-- --- Галерея --- -->
 <div class="gallery">
   <img src="images/photo1.jpg" alt="">
   <img src="images/album1.jpg" alt="">
@@ -239,7 +238,8 @@ h1 span{
   <img src="images/photo1.jpg" alt="">
 </div>
 
-<!-- --- SVG фильтр для психоделической волны --- -->
+<audio id="player" controls></audio>
+
 <svg style="position:absolute;width:0;height:0;">
   <filter id="wave">
     <feTurbulence id="turb" baseFrequency="0.02" numOctaves="3" result="turb"/>
@@ -323,8 +323,7 @@ document.addEventListener('mousemove', e=>{
 });
 
 // --- Странные и хаотичные объекты ---
-function spawnStrange(){
-  const s=document.createElement('div'); s.classList.add('strange');
+function spawnStrange(){ const s=document.createElement('div'); s.classList.add('strange');
   const texts=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴'];
   s.textContent=texts[Math.floor(Math.random()*texts.length)];
   s.style.left=Math.random()*100+'vw'; s.style.top=Math.random()*100+'vh';
@@ -334,8 +333,8 @@ function spawnStrange(){
   setTimeout(()=>{s.style.opacity=0; setTimeout(()=>s.remove(),500);},Math.random()*6000+2000);
 }
 setInterval(spawnStrange,150);
-function spawnChaos(){
-  const c=document.createElement('div'); c.classList.add('chaos');
+
+function spawnChaos(){ const c=document.createElement('div'); c.classList.add('chaos');
   c.textContent=['⚡','🔥','☣️','💀','👹','💉','☠️','👁️','🕷️'][Math.floor(Math.random()*9)];
   c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*100+'vh';
   c.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*5})`;
@@ -345,36 +344,48 @@ function spawnChaos(){
 }
 setInterval(spawnChaos,50);
 
-// --- Вспышки на клик ---
-document.addEventListener('click', e=>{
-  const flash=document.createElement('div'); flash.classList.add('flash');
-  document.body.appendChild(flash);
-  setTimeout(()=>flash.remove(),300);
-});
-
-// --- Дрожание страницы ---
+// --- Дрожание и мерцание ---
 document.addEventListener('mousemove', e=>{
   const shakeX = (Math.random()-0.5)*15;
   const shakeY = (Math.random()-0.5)*15;
   document.body.style.transform = `translate(${shakeX}px,${shakeY}px)`;
 });
-
-// --- Постоянные мерцания ---
 const flicker = document.querySelector('.screen-flicker');
 setInterval(()=>{ flicker.style.opacity=Math.random()*0.5; },100);
 
 // --- Психоделическая волна ---
 const turb = document.getElementById('turb'); let t=0;
-function animateWave(){
-  const freq = 0.02 + Math.sin(t*0.05)*0.01;
-  turb.setAttribute('baseFrequency', freq);
-  t+=1;
-  requestAnimationFrame(animateWave);
+function animateWave(){ const freq = 0.02 + Math.sin(t*0.05)*0.01;
+  turb.setAttribute('baseFrequency', freq); t+=1; requestAnimationFrame(animateWave);
 }
 animateWave();
 document.addEventListener('click', e=>{
   turb.setAttribute('baseFrequency',0.08);
   setTimeout(()=>turb.setAttribute('baseFrequency',0.02),300);
+});
+
+// --- Аудио по клику на трек ---
+const player = document.getElementById('player');
+document.querySelectorAll('.tracklist li').forEach(li=>{
+  li.addEventListener('click', ()=>{
+    const src = li.dataset.src;
+    player.src = src;
+    player.play();
+    li.style.color = 'hsl('+(Math.random()*360)+',100%,50%)';
+    li.style.transform = 'scale(1.3)';
+    setTimeout(()=>li.style.transform='scale(1)',200);
+    // Визуальная вспышка при проигрывании
+    const flash = document.createElement('div');
+    flash.style.position='fixed';
+    flash.style.top=0; flash.style.left=0;
+    flash.style.width='100vw'; flash.style.height='100vh';
+    flash.style.background='white';
+    flash.style.opacity='0.1';
+    flash.style.mixBlendMode='screen';
+    flash.style.pointerEvents='none';
+    document.body.appendChild(flash);
+    setTimeout(()=>flash.remove(),150);
+  });
 });
 </script>
 </body>

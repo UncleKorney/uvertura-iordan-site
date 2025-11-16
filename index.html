@@ -3,173 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан</title>
+<title>Увертюра Иордан — Acid Trip</title>
 <style>
-  /* --- Общий стиль --- */
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    overflow-x: hidden;
-    background: linear-gradient(135deg, #1a0f1c, #360b3d, #4e027f);
-    height: 100vh;
-    color: #fff;
-  }
-  h1 {
-    font-size: 4em;
-    text-align: center;
-    margin: 40px 0;
-    position: relative;
-    z-index: 2;
-  }
-  h1 span {
-    display: inline-block;
-    transition: transform 0.3s, color 0.3s;
-  }
-  h1 span.glitch {
-    animation: glitch 3s infinite;
-  }
+/* --- Общий стиль --- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
+  background: #0a001f;
+  color: #fff;
+}
 
-  @keyframes glitch {
-    0% { transform: translate(0); color: #ff0; }
-    20% { transform: translate(-3px, 2px); color: #0ff; }
-    40% { transform: translate(2px, -2px); color: #f0f; }
-    60% { transform: translate(-1px, 1px); color: #0f0; }
-    80% { transform: translate(2px, -1px); color: #f00; }
-    100% { transform: translate(0); color: #fff; }
-  }
+/* --- Заголовок с глитчем --- */
+h1 {
+  font-size: 4em;
+  text-align: center;
+  margin: 40px 0;
+  position: relative;
+  z-index: 5;
+}
+h1 span {
+  display: inline-block;
+  transition: transform 0.3s, color 0.3s;
+}
+h1 span.glitch {
+  animation: glitch 3s infinite;
+}
 
-  /* --- Курсор и частицы --- */
-  body {
-    cursor: none;
-  }
-  .cursor {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    position: fixed;
-    pointer-events: none;
-    mix-blend-mode: difference;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s linear;
-  }
-  .trail {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    pointer-events: none;
-    mix-blend-mode: difference;
-  }
+@keyframes glitch {
+  0% { transform: translate(0); color: #ff0; }
+  20% { transform: translate(-3px, 2px); color: #0ff; }
+  40% { transform: translate(2px, -2px); color: #f0f; }
+  60% { transform: translate(-1px, 1px); color: #0f0; }
+  80% { transform: translate(2px, -1px); color: #f00; }
+  100% { transform: translate(0); color: #fff; }
+}
 
-  /* --- Галерея --- */
-  .gallery {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
-    margin: 60px 0;
-    position: relative;
-    z-index: 2;
-  }
-  .gallery img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.5s, filter 0.5s;
-    border: 3px solid #fff;
-  }
-  .gallery img:hover {
-    transform: scale(1.2) rotate(5deg);
-    filter: hue-rotate(90deg) blur(1px);
-  }
+/* --- Галерея --- */
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin: 60px 0;
+  position: relative;
+  z-index: 5;
+}
+.gallery img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 3px solid #fff;
+  transition: transform 0.5s, filter 0.5s;
+}
+.gallery img:hover {
+  transform: scale(1.2) rotate(5deg);
+  filter: hue-rotate(90deg) blur(1px);
+}
 
-  /* --- Туман --- */
-  .fog {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: url('https://i.ibb.co/YdKvGvV/fog.png') repeat;
-    opacity: 0.2;
-    pointer-events: none;
-    animation: fogmove 60s linear infinite;
-    z-index: 1;
-  }
-  @keyframes fogmove {
-    0% { background-position: 0 0; }
-    100% { background-position: 1000px 1000px; }
-  }
+/* --- Альбом --- */
+.album {
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+  z-index: 5;
+}
+.album img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border: 4px solid #fff;
+  transition: transform 0.5s, filter 0.5s;
+}
+.album img:hover {
+  transform: scale(1.05) rotate(2deg);
+  filter: hue-rotate(120deg);
+}
+.tracklist {
+  margin-top: 20px;
+  display: none;
+  text-align: left;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tracklist audio {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.show-tracks {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background 0.3s, color 0.3s;
+}
+.show-tracks:hover {
+  background: #000;
+  color: #fff;
+}
 
-  /* --- Аномалии текста --- */
-  .anom {
-    display: inline-block;
-    position: relative;
-    animation: shake 4s infinite;
-  }
-  @keyframes shake {
-    0%, 100% { transform: translate(0,0) rotate(0deg); }
-    10% { transform: translate(-2px,1px) rotate(-1deg); }
-    20% { transform: translate(1px,-1px) rotate(1deg); }
-    30% { transform: translate(-1px,2px) rotate(0deg); }
-    40% { transform: translate(1px,-2px) rotate(-1deg); }
-    50% { transform: translate(-1px,1px) rotate(1deg); }
-    60% { transform: translate(2px,-1px) rotate(0deg); }
-    70% { transform: translate(-2px,1px) rotate(1deg); }
-    80% { transform: translate(1px,-1px) rotate(-1deg); }
-    90% { transform: translate(0,2px) rotate(0deg); }
-  }
+/* --- Дымка/туман --- */
+.fog {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('https://i.ibb.co/YdKvGvV/fog.png') repeat;
+  opacity: 0.15;
+  pointer-events: none;
+  animation: fogmove 60s linear infinite;
+  z-index: 2;
+}
+@keyframes fogmove {
+  0% { background-position: 0 0; }
+  100% { background-position: 1000px 1000px; }
+}
 
-  /* --- Альбом --- */
-  .album {
-    text-align: center;
-    margin-bottom: 80px;
-    position: relative;
-    z-index: 2;
-  }
-  .album img {
-    width: 400px;
-    height: 400px;
-    object-fit: cover;
-    border: 4px solid #fff;
-    transition: transform 0.5s, filter 0.5s;
-  }
-  .album img:hover {
-    transform: scale(1.05) rotate(2deg);
-    filter: hue-rotate(120deg);
-  }
-  .tracklist {
-    margin-top: 20px;
-    display: none;
-    text-align: left;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .tracklist audio {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .show-tracks {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #fff;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background 0.3s, color 0.3s;
-  }
-  .show-tracks:hover {
-    background: #000;
-    color: #fff;
-  }
+/* --- Курсор и частицы --- */
+body {
+  cursor: none;
+}
+.cursor {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff0, #f0f, #0ff);
+  position: fixed;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s linear;
+}
+.trail {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f0f, #0ff, #ff0);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  animation: fadeOut 1s forwards;
+}
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+/* --- Аномалии текста --- */
+.anom {
+  display: inline-block;
+  position: relative;
+  animation: shake 4s infinite;
+}
+@keyframes shake {
+  0%, 100% { transform: translate(0,0) rotate(0deg); }
+  10% { transform: translate(-2px,1px) rotate(-1deg); }
+  20% { transform: translate(1px,-1px) rotate(1deg); }
+  30% { transform: translate(-1px,2px) rotate(0deg); }
+  40% { transform: translate(1px,-2px) rotate(-1deg); }
+  50% { transform: translate(-1px,1px) rotate(1deg); }
+  60% { transform: translate(2px,-1px) rotate(0deg); }
+  70% { transform: translate(-2px,1px) rotate(1deg); }
+  80% { transform: translate(1px,-1px) rotate(-1deg); }
+  90% { transform: translate(0,2px) rotate(0deg); }
+}
+
+/* --- Движущиеся кислотные линии --- */
+.lines {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.line {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, #f0f, #0ff, #ff0);
+  opacity: 0.2;
+  animation: lineMove 10s linear infinite;
+}
+@keyframes lineMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100vw); }
+}
 </style>
 </head>
 <body>
 <div class="fog"></div>
+<div class="lines"></div>
 
 <h1 id="title">
   <span class="glitch">У</span>
@@ -206,34 +235,47 @@
 <div class="cursor"></div>
 
 <script>
-  // --- Курсор ---
-  const cursor = document.querySelector('.cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    // Частицы
+// --- Курсор с кислотным следом ---
+const cursor = document.querySelector('.cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  
+  // Частицы
+  for(let i=0; i<2; i++) {
     const trail = document.createElement('div');
     trail.classList.add('trail');
-    trail.style.left = e.clientX + 'px';
-    trail.style.top = e.clientY + 'px';
+    trail.style.left = e.clientX + Math.random()*20-10 + 'px';
+    trail.style.top = e.clientY + Math.random()*20-10 + 'px';
     document.body.appendChild(trail);
-    setTimeout(() => trail.remove(), 500);
-  });
+    setTimeout(() => trail.remove(), 1000);
+  }
+});
 
-  // --- Раскрытие треков ---
-  const btn = document.querySelector('.show-tracks');
-  const tracklist = document.querySelector('.tracklist');
-  btn.addEventListener('click', () => {
-    tracklist.style.display = tracklist.style.display === 'block' ? 'none' : 'block';
-  });
+// --- Раскрытие треков ---
+const btn = document.querySelector('.show-tracks');
+const tracklist = document.querySelector('.tracklist');
+btn.addEventListener('click', () => {
+  tracklist.style.display = tracklist.style.display === 'block' ? 'none' : 'block';
+});
 
-  // --- Случайные аномалии текста ---
-  const anomElems = document.querySelectorAll('.anom');
-  setInterval(() => {
-    anomElems.forEach(el => {
-      el.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px) rotate(${Math.random()*6-3}deg)`;
-      el.style.filter = `hue-rotate(${Math.random()*360}deg)`;
-    });
-  }, 1000);
+// --- Случайные аномалии текста ---
+const anomElems = document.querySelectorAll('.anom');
+setInterval(() => {
+  anomElems.forEach(el => {
+    el.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px) rotate(${Math.random()*6-3}deg)`;
+    el.style.filter = `hue-rotate(${Math.random()*360}deg)`;
+  });
+}, 500);
+
+// --- Движущиеся кислотные линии ---
+const linesContainer = document.querySelector('.lines');
+for(let i=0; i<30; i++) {
+  const line = document.createElement('div');
+  line.classList.add('line');
+  line.style.left = Math.random()*100 + 'vw';
+  line.style.animationDuration = (5+Math.random()*10)+'s';
+  linesContainer.appendChild(line);
+}
 </script>
 </body>
 </html>

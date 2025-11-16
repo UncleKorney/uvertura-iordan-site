@@ -7,10 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- Фон фрактальных волн -->
+<!-- Фон с фрактальными волнами -->
 <canvas id="waves"></canvas>
+
+<!-- Психоделический дым -->
+<canvas id="smoke"></canvas>
 
 <!-- Психоделические кольца -->
 <div class="psy-ring ring1"></div>
@@ -26,7 +30,6 @@
     </ul>
 </nav>
 
-<!-- Главная -->
 <section id="home" class="section home-section">
     <h1 class="band-title glitch">Увертюра Иордан</h1>
     <p class="band-tagline">Психоделический рок / регги</p>
@@ -35,12 +38,11 @@
     </button>
 </section>
 
-<!-- Альбомы -->
 <section id="albums" class="section">
     <h2 class="color-shift">Альбомы</h2>
 
     <div class="albums-container">
-        <div class="album-card floaty">
+        <div class="album-card">
             <img src="albums/album1.jpg" alt="ПсихоСфера">
             <h3>ПсихоСфера</h3>
             <audio controls>
@@ -48,7 +50,7 @@
             </audio>
         </div>
 
-        <div class="album-card floaty delay2">
+        <div class="album-card">
             <img src="albums/album2.jpg" alt="РеггиГалактика">
             <h3>РеггиГалактика</h3>
             <audio controls>
@@ -58,44 +60,85 @@
     </div>
 </section>
 
-<!-- Галерея -->
 <section id="gallery" class="section">
     <h2 class="color-shift">Галерея</h2>
     <div class="gallery-container">
-        <img class="gallery-img glitch-small" src="gallery/img1.jpg">
-        <img class="gallery-img glitch-small delay2" src="gallery/img2.jpg">
-        <img class="gallery-img glitch-small delay3" src="gallery/img3.jpg">
+        <img class="gallery-img" src="gallery/img1.jpg">
+        <img class="gallery-img" src="gallery/img2.jpg">
+        <img class="gallery-img" src="gallery/img3.jpg">
     </div>
 </section>
 
-<!-- Скрипт встроенный -->
+<!-- Встроенный скрипт -->
 <script>
-const canvas = document.getElementById("waves");
-const ctx = canvas.getContext("2d");
+/* --- Фрактальные волны ---- */
+const waves = document.getElementById("waves");
+const wctx = waves.getContext("2d");
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function resizeWaves() {
+    waves.width = window.innerWidth;
+    waves.height = window.innerHeight;
 }
-resize();
-window.addEventListener("resize", resize);
+resizeWaves();
+window.addEventListener("resize", resizeWaves);
 
 let t = 0;
-function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+function drawWaves() {
+    wctx.clearRect(0,0,waves.width,waves.height);
 
-    for(let y = 0; y < canvas.height; y += 25){
-        for(let x = 0; x < canvas.width; x += 25){
+    for(let y = 0; y < waves.height; y += 25){
+        for(let x = 0; x < waves.width; x += 25){
             let dx = Math.sin((x + t)*0.01) * 15;
             let dy = Math.cos((y + t)*0.01) * 15;
-            ctx.fillStyle = `hsl(${(x+y+t)/7 % 360}, 80%, 50%)`;
-            ctx.fillRect(x + dx, y + dy, 8, 8);
+            wctx.fillStyle = `hsl(${(x+y+t)/7 % 360}, 80%, 50%)`;
+            wctx.fillRect(x + dx, y + dy, 8, 8);
         }
     }
     t += 0.5;
-    requestAnimationFrame(draw);
+    requestAnimationFrame(drawWaves);
 }
-draw();
+drawWaves();
+
+/* ---- Психоделический дым ---- */
+const smoke = document.getElementById("smoke");
+const sctx = smoke.getContext("2d");
+smoke.width = window.innerWidth;
+smoke.height = window.innerHeight;
+
+let particles = [];
+for(let i=0;i<50;i++){
+    particles.push({
+        x: Math.random()*smoke.width,
+        y: Math.random()*smoke.height,
+        r: 150 + Math.random()*150,
+        a: Math.random()*360,
+        speed: 0.2 + Math.random()*0.3,
+        color: `hsla(${Math.random()*360},70%,60%,0.07)`
+    });
+}
+
+function drawSmoke() {
+    sctx.clearRect(0,0,smoke.width,smoke.height);
+    particles.forEach(p=>{
+        p.a += p.speed;
+        let dx = Math.cos(p.a*0.02)*p.r*0.1;
+        let dy = Math.sin(p.a*0.02)*p.r*0.1;
+        sctx.beginPath();
+        sctx.arc(p.x+dx, p.y+dy, p.r, 0, Math.PI*2);
+        sctx.fillStyle = p.color;
+        sctx.fill();
+    });
+    requestAnimationFrame(drawSmoke);
+}
+drawSmoke();
+
+/* --- Искажение при скролле --- */
+let lastScroll = 0;
+window.addEventListener("scroll", () => {
+    const sc = window.scrollY;
+    document.body.style.transform = `skewY(${(sc - lastScroll)*0.05}deg)`;
+    lastScroll = sc;
+});
 </script>
 
 </body>

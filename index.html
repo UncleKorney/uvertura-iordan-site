@@ -3,181 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Альбом</title>
+<title>Увертюра Иордан</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif;}
+  /* Общие стили */
   body {
-    background: linear-gradient(120deg, #ff00ff, #00ffff, #ffff00);
-    background-size: 600% 600%;
-    animation: gradientShift 20s ease infinite;
-    overflow-x: hidden;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #1a1a1a, #0f0f0f);
     color: #fff;
+    overflow-x: hidden;
   }
-  @keyframes gradientShift {
-    0% {background-position:0% 50%;}
-    50% {background-position:100% 50%;}
-    100% {background-position:0% 50%;}
-  }
+
   h1 {
-    text-align:center;
-    font-size:4em;
-    margin:50px 0 20px;
+    text-align: center;
+    font-size: 4rem;
+    margin-top: 2rem;
     text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+    animation: glitchText 3s infinite;
   }
 
-  /* === Альбом и трек-лист === */
-  .album-container {
-    max-width:600px;
-    margin: 0 auto 50px;
-    text-align:center;
+  @keyframes glitchText {
+    0%, 100% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+    25% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+    50% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+    75% { text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff; }
   }
-  .album-cover {
-    width:300px;
-    height:300px;
-    margin:0 auto;
-    border-radius:20px;
-    overflow:hidden;
-    cursor:pointer;
-    transition: transform 0.5s ease, filter 1s ease;
-    filter: drop-shadow(0 0 20px #ff00ff);
+
+  /* Альбом */
+  .album {
+    width: 90%;
+    max-width: 800px;
+    margin: 3rem auto;
+    text-align: center;
+    position: relative;
   }
-  .album-cover img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
+
+  .album img {
+    width: 100%;
+    border: 5px solid #ff00ff;
+    box-shadow: 0 0 30px #00ffff;
   }
-  .album-cover:hover {
-    transform: scale(1.05) rotate(2deg);
-    filter: hue-rotate(45deg) blur(1px);
-  }
+
   .tracklist {
-    display:none;
-    margin-top:20px;
-    list-style:none;
-    font-size:1.2em;
-  }
-  .tracklist li {
-    margin:5px 0;
-    cursor:pointer;
-    transition: all 0.3s ease;
-  }
-  .tracklist li:hover {
-    color:#ff0;
-    text-shadow:0 0 5px #0ff;
+    margin-top: 1rem;
+    display: none;
+    text-align: left;
+    background: rgba(0,0,0,0.6);
+    padding: 1rem;
+    border-radius: 10px;
   }
 
-  /* === Галерея психоделическая === */
+  .tracklist audio {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .showTracks {
+    cursor: pointer;
+    color: #ff00ff;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    display: inline-block;
+  }
+
+  /* Галерея */
   .gallery {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-    padding:20px;
+    width: 90%;
+    max-width: 900px;
+    margin: 3rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
   }
+
   .gallery img {
-    width:200px;
-    height:200px;
-    object-fit:cover;
-    border-radius:15px;
-    transition: transform 2s ease, filter 2s ease;
-    filter: drop-shadow(0 0 10px #0ff);
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid #00ffff;
+    transition: transform 0.5s, filter 0.5s;
   }
+
   .gallery img:hover {
     transform: scale(1.2) rotate(5deg);
-    filter: hue-rotate(120deg) blur(1px);
+    filter: hue-rotate(90deg) blur(1px);
   }
 
-  /* === Псевдопсиходелический курсор === */
-  .cursor {
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    position:fixed;
-    pointer-events:none;
-    mix-blend-mode:difference;
-    z-index:9999;
-    background:radial-gradient(circle, #ff00ff 0%, #00ffff 100%);
-    transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease;
+  /* Психоделический туман */
+  .mist {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), rgba(0,0,0,0.1));
+    backdrop-filter: blur(10px) hue-rotate(45deg);
+    animation: mistShift 15s infinite alternate;
+    z-index: 5;
   }
 
-  /* === Случайные вставки === */
-  .floating {
-    position:absolute;
-    font-size:20px;
-    font-weight:bold;
-    color:rgba(255,255,255,0.8);
-    user-select:none;
-    pointer-events:none;
-    animation: floatFade 5s forwards;
+  @keyframes mistShift {
+    0% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(50px,-30px) scale(1.05); }
+    100% { transform: translate(-30px,20px) scale(1); }
   }
-  @keyframes floatFade {
-    0% {opacity:0; transform:translateY(0px) scale(1);}
-    50% {opacity:1; transform:translateY(-50px) scale(1.2) rotate(10deg);}
-    100% {opacity:0; transform:translateY(-100px) scale(0.5) rotate(-30deg);}
+
+  /* Курсор */
+  body {
+    cursor: crosshair;
   }
 </style>
 </head>
 <body>
 
+<div class="mist"></div>
+
 <h1>Увертюра Иордан</h1>
 
-<!-- Альбом -->
-<div class="album-container">
-  <div class="album-cover" id="albumCover">
-    <img src="https://via.placeholder.com/300x300.png?text=Альбом+1" alt="Альбом 1">
+<div class="album">
+  <img src="images/album1.jpg" alt="Альбом 1">
+  <div class="showTracks" onclick="toggleTracks()">Показать трек-лист</div>
+  <div class="tracklist" id="tracklist">
+    <p>1. Трек первый</p>
+    <audio src="audio/track1.mp3" controls></audio>
+    <p>2. Трек второй</p>
+    <audio src="audio/track2.mp3" controls></audio>
+    <p>3. Трек третий</p>
+    <audio src="audio/track3.mp3" controls></audio>
   </div>
-  <ul class="tracklist" id="tracklist">
-    <li>Трек 1</li>
-    <li>Трек 2</li>
-    <li>Трек 3</li>
-    <li>Трек 4</li>
-  </ul>
 </div>
 
-<!-- Галерея -->
 <div class="gallery">
-  <img src="https://via.placeholder.com/200x200.png?text=Арт+1" alt="Арт 1">
-  <img src="https://via.placeholder.com/200x200.png?text=Арт+2" alt="Арт 2">
-  <img src="https://via.placeholder.com/200x200.png?text=Арт+3" alt="Арт 3">
+  <img src="images/photo1.jpg" alt="Фото 1">
 </div>
-
-<!-- Курсор -->
-<div class="cursor" id="cursor"></div>
 
 <script>
-  // Курсор
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e=>{
-    cursor.style.left = e.clientX+'px';
-    cursor.style.top = e.clientY+'px';
-  });
-
-  // Случайные вставки текста
-  const words = ["Звуки","Сон","Туман","Свет","Иллюзия","Хаос","Цвет","Транс"];
-  function createFloating(){
-    const span = document.createElement('span');
-    span.className = 'floating';
-    span.textContent = words[Math.floor(Math.random()*words.length)];
-    span.style.left = Math.random()*window.innerWidth+'px';
-    span.style.top = Math.random()*window.innerHeight+'px';
-    span.style.color = `hsla(${Math.random()*360},100%,75%,0.8)`;
-    span.style.fontSize = (15+Math.random()*30)+'px';
-    document.body.appendChild(span);
-    setTimeout(()=>span.remove(),5000);
+  function toggleTracks() {
+    const list = document.getElementById('tracklist');
+    list.style.display = list.style.display === 'block' ? 'none' : 'block';
   }
-  setInterval(createFloating,800);
-
-  // Разворачивание трек-листа
-  const albumCover = document.getElementById('albumCover');
-  const tracklist = document.getElementById('tracklist');
-  albumCover.addEventListener('click', ()=>{
-    if(tracklist.style.display === 'block'){
-      tracklist.style.display = 'none';
-    } else {
-      tracklist.style.display = 'block';
-    }
-  });
 </script>
 
 </body>

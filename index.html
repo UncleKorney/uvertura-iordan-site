@@ -5,145 +5,159 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Увертюра Иордан</title>
 <style>
-  /* Общие стили */
-  body {
+body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(120deg, #1a1a1a, #0f0f0f);
+    background: #111;
     color: #fff;
     overflow-x: hidden;
-  }
+}
 
-  h1 {
+header {
     text-align: center;
-    font-size: 4rem;
-    margin-top: 2rem;
-    text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
-    animation: glitchText 3s infinite;
-  }
+    padding: 50px 20px 20px;
+}
 
-  @keyframes glitchText {
-    0%, 100% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
-    25% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
-    50% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
-    75% { text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff; }
-  }
+header h1 {
+    font-size: 4em;
+    color: #ff66cc;
+    text-shadow: 0 0 10px #ff66cc, 0 0 20px #ff66cc;
+}
 
-  /* Альбом */
-  .album {
-    width: 90%;
-    max-width: 800px;
-    margin: 3rem auto;
-    text-align: center;
+nav {
+    margin-top: 20px;
+}
+
+nav a {
+    color: #66ffff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.5em;
+    transition: 0.3s;
     position: relative;
-  }
+}
 
-  .album img {
-    width: 100%;
-    border: 5px solid #ff00ff;
-    box-shadow: 0 0 30px #00ffff;
-  }
+nav a:hover {
+    color: #ffcc00;
+    text-shadow: 0 0 5px #ffcc00, 0 0 15px #ffcc00;
+    animation: glitch 0.3s infinite;
+}
 
-  .tracklist {
-    margin-top: 1rem;
-    display: none;
-    text-align: left;
-    background: rgba(0,0,0,0.6);
-    padding: 1rem;
-    border-radius: 10px;
-  }
+/* glitch animation */
+@keyframes glitch {
+    0% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+    20% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+    40% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+    60% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+    80% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+    100% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+}
 
-  .tracklist audio {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .showTracks {
-    cursor: pointer;
-    color: #ff00ff;
-    text-decoration: underline;
-    font-weight: bold;
-    margin-top: 0.5rem;
-    display: inline-block;
-  }
-
-  /* Галерея */
-  .gallery {
-    width: 90%;
+section.album {
     max-width: 900px;
-    margin: 3rem auto;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.album img {
+    width: 300px;
+    max-width: 90%;
+    border: 5px solid #ff66cc;
+    box-shadow: 0 0 20px #ff66cc;
+}
+
+.album h2 {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.tracklist {
+    margin-top: 20px;
+    text-align: left;
+    display: none;
+    background: rgba(0,0,0,0.5);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.tracklist audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.tracklist.open {
+    display: block;
+}
+
+.gallery {
+    max-width: 900px;
+    margin: 50px auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
     justify-content: center;
-  }
+}
 
-  .gallery img {
+.gallery img {
     width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border: 2px solid #00ffff;
-    transition: transform 0.5s, filter 0.5s;
-  }
+    border: 3px solid #66ffff;
+    box-shadow: 0 0 10px #66ffff;
+    transition: 0.3s;
+}
 
-  .gallery img:hover {
+.gallery img:hover {
     transform: scale(1.2) rotate(5deg);
-    filter: hue-rotate(90deg) blur(1px);
-  }
+    box-shadow: 0 0 20px #ff66cc, 0 0 40px #66ffff;
+}
 
-  /* Психоделический туман */
-  .mist {
+/* психоделический туман */
+.mist {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
     background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), rgba(0,0,0,0.1));
-    backdrop-filter: blur(10px) hue-rotate(45deg);
+    backdrop-filter: none; /* убран блюр, чтобы сайт не размывался */
     animation: mistShift 15s infinite alternate;
     z-index: 5;
-  }
+}
 
-  @keyframes mistShift {
-    0% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(50px,-30px) scale(1.05); }
-    100% { transform: translate(-30px,20px) scale(1); }
-  }
-
-  /* Курсор */
-  body {
-    cursor: crosshair;
-  }
+@keyframes mistShift {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
 </style>
 </head>
 <body>
 
 <div class="mist"></div>
 
-<h1>Увертюра Иордан</h1>
+<header>
+    <h1>Увертюра Иордан</h1>
+    <nav>
+        <a href="#album">Альбом</a>
+        <a href="#gallery">Галерея</a>
+    </nav>
+</header>
 
-<div class="album">
-  <img src="images/album1.jpg" alt="Альбом 1">
-  <div class="showTracks" onclick="toggleTracks()">Показать трек-лист</div>
-  <div class="tracklist" id="tracklist">
-    <p>1. Трек первый</p>
-    <audio src="audio/track1.mp3" controls></audio>
-    <p>2. Трек второй</p>
-    <audio src="audio/track2.mp3" controls></audio>
-    <p>3. Трек третий</p>
-    <audio src="audio/track3.mp3" controls></audio>
-  </div>
-</div>
+<section class="album" id="album">
+    <img src="images/album1.jpg" alt="Обложка альбома">
+    <h2>Психоделический Альбом</h2>
+    <button onclick="document.querySelector('.tracklist').classList.toggle('open')">Показать треки</button>
+    <div class="tracklist">
+        <p>Трек 1</p>
+        <audio controls src="audio/track1.mp3"></audio>
+        <p>Трек 2</p>
+        <audio controls src="audio/track2.mp3"></audio>
+        <p>Трек 3</p>
+        <audio controls src="audio/track3.mp3"></audio>
+    </div>
+</section>
 
-<div class="gallery">
-  <img src="images/photo1.jpg" alt="Фото 1">
-</div>
-
-<script>
-  function toggleTracks() {
-    const list = document.getElementById('tracklist');
-    list.style.display = list.style.display === 'block' ? 'none' : 'block';
-  }
-</script>
+<section class="gallery" id="gallery">
+    <img src="images/photo1.jpg" alt="Галерея 1">
+</section>
 
 </body>
 </html>

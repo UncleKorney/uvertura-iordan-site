@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Увертюра Иордан — Психоделическая Вселенная</title>
-    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Пульсирующие психоделические кольца -->
+<!-- Фон фрактальных волн -->
+<canvas id="waves"></canvas>
+
+<!-- Психоделические кольца -->
 <div class="psy-ring ring1"></div>
 <div class="psy-ring ring2"></div>
 <div class="psy-ring ring3"></div>
-
-<!-- Фоновые фрактальные волны -->
-<canvas id="waves"></canvas>
-
 
 <!-- Навигация -->
 <nav id="main-nav">
@@ -27,18 +26,19 @@
     </ul>
 </nav>
 
-
-<!-- Главная секция -->
+<!-- Главная -->
 <section id="home" class="section home-section">
     <h1 class="band-title glitch">Увертюра Иордан</h1>
     <p class="band-tagline">Психоделический рок / регги</p>
-    <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">Вход в вселенную</button>
+    <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior:'smooth'})">
+        Вход в вселенную
+    </button>
 </section>
-
 
 <!-- Альбомы -->
 <section id="albums" class="section">
     <h2 class="color-shift">Альбомы</h2>
+
     <div class="albums-container">
         <div class="album-card floaty">
             <img src="albums/album1.jpg" alt="ПсихоСфера">
@@ -58,7 +58,6 @@
     </div>
 </section>
 
-
 <!-- Галерея -->
 <section id="gallery" class="section">
     <h2 class="color-shift">Галерея</h2>
@@ -69,40 +68,34 @@
     </div>
 </section>
 
-
-<!-- JS встроенный -->
+<!-- Скрипт встроенный -->
 <script>
 const canvas = document.getElementById("waves");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
 
 let t = 0;
-
 function draw() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    for(let y = 0; y < canvas.height; y += 20){
-        ctx.beginPath();
-        for(let x = 0; x < canvas.width; x += 20){
-            let dx = Math.sin((x+t) * 0.01) * 20;
-            let dy = Math.cos((y+t) * 0.01) * 20;
-
-            ctx.fillStyle = `hsl(${(x+y+t)/5 % 360}, 80%, 50%)`;
-            ctx.fillRect(x + dx, y + dy, 6, 6);
+    for(let y = 0; y < canvas.height; y += 25){
+        for(let x = 0; x < canvas.width; x += 25){
+            let dx = Math.sin((x + t)*0.01) * 15;
+            let dy = Math.cos((y + t)*0.01) * 15;
+            ctx.fillStyle = `hsl(${(x+y+t)/7 % 360}, 80%, 50%)`;
+            ctx.fillRect(x + dx, y + dy, 8, 8);
         }
     }
-    t += 0.7;
+    t += 0.5;
     requestAnimationFrame(draw);
 }
-
 draw();
-
-window.addEventListener("resize", ()=>{
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-});
 </script>
 
 </body>

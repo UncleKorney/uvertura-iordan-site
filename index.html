@@ -3,206 +3,237 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Психоделика</title>
+<title>Увертюра Иордан</title>
 <style>
-body {
-    margin:0;
-    padding:0;
-    overflow-x:hidden;
+  /* --- Общий стиль --- */
+  body {
+    margin: 0;
+    padding: 0;
     font-family: 'Arial', sans-serif;
-    color:#fff;
-    background:#111;
-    position:relative;
-}
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #1a0f1c, #360b3d, #4e027f);
+    height: 100vh;
+    color: #fff;
+  }
+  h1 {
+    font-size: 4em;
+    text-align: center;
+    margin: 40px 0;
+    position: relative;
+    z-index: 2;
+  }
+  h1 span {
+    display: inline-block;
+    transition: transform 0.3s, color 0.3s;
+  }
+  h1 span.glitch {
+    animation: glitch 3s infinite;
+  }
 
-/* Canvas для фона */
-#background {
+  @keyframes glitch {
+    0% { transform: translate(0); color: #ff0; }
+    20% { transform: translate(-3px, 2px); color: #0ff; }
+    40% { transform: translate(2px, -2px); color: #f0f; }
+    60% { transform: translate(-1px, 1px); color: #0f0; }
+    80% { transform: translate(2px, -1px); color: #f00; }
+    100% { transform: translate(0); color: #fff; }
+  }
+
+  /* --- Курсор и частицы --- */
+  body {
+    cursor: none;
+  }
+  .cursor {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
     position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    z-index:-1;
-}
+    pointer-events: none;
+    mix-blend-mode: difference;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s linear;
+  }
+  .trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
 
-/* Заголовок с глитч-эффектом */
-h1 {
-    font-size:4em;
-    text-align:center;
-    margin-top:50px;
-    cursor:pointer;
-    position:relative;
-}
-h1 span {
-    display:inline-block;
-    transition: transform 0.1s, color 0.1s;
-}
+  /* --- Галерея --- */
+  .gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin: 60px 0;
+    position: relative;
+    z-index: 2;
+  }
+  .gallery img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s, filter 0.5s;
+    border: 3px solid #fff;
+  }
+  .gallery img:hover {
+    transform: scale(1.2) rotate(5deg);
+    filter: hue-rotate(90deg) blur(1px);
+  }
 
-/* Альбом и трек-лист */
-.album {
-    text-align:center;
-    margin-top:100px;
-}
-.album img {
-    width:300px;
-    border:2px solid #fff;
-    transition: transform 0.3s;
-}
-.album img:hover {
-    transform: scale(1.05) rotate(-2deg);
-}
-.tracks {
-    margin-top:20px;
-    display:none;
-    flex-direction: column;
-    gap:10px;
-}
-.tracks audio {
-    width:300px;
-}
+  /* --- Туман --- */
+  .fog {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('https://i.ibb.co/YdKvGvV/fog.png') repeat;
+    opacity: 0.2;
+    pointer-events: none;
+    animation: fogmove 60s linear infinite;
+    z-index: 1;
+  }
+  @keyframes fogmove {
+    0% { background-position: 0 0; }
+    100% { background-position: 1000px 1000px; }
+  }
 
-/* Кнопка раскрытия треков */
-.show-tracks {
-    margin-top:15px;
-    padding:10px 20px;
-    background: #222;
-    border:1px solid #fff;
-    cursor:pointer;
-    color:#fff;
-    font-size:1em;
-}
-.show-tracks:hover {
-    background:#444;
-}
+  /* --- Аномалии текста --- */
+  .anom {
+    display: inline-block;
+    position: relative;
+    animation: shake 4s infinite;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translate(0,0) rotate(0deg); }
+    10% { transform: translate(-2px,1px) rotate(-1deg); }
+    20% { transform: translate(1px,-1px) rotate(1deg); }
+    30% { transform: translate(-1px,2px) rotate(0deg); }
+    40% { transform: translate(1px,-2px) rotate(-1deg); }
+    50% { transform: translate(-1px,1px) rotate(1deg); }
+    60% { transform: translate(2px,-1px) rotate(0deg); }
+    70% { transform: translate(-2px,1px) rotate(1deg); }
+    80% { transform: translate(1px,-1px) rotate(-1deg); }
+    90% { transform: translate(0,2px) rotate(0deg); }
+  }
 
-/* Галерея */
-.gallery {
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-    margin-top:100px;
-}
-.gallery img {
-    width:200px;
-    transition: transform 0.3s, filter 0.3s;
-    cursor:pointer;
-    position:relative;
-}
+  /* --- Альбом --- */
+  .album {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .album img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border: 4px solid #fff;
+    transition: transform 0.5s, filter 0.5s;
+  }
+  .album img:hover {
+    transform: scale(1.05) rotate(2deg);
+    filter: hue-rotate(120deg);
+  }
+  .tracklist {
+    margin-top: 20px;
+    display: none;
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .tracklist audio {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .show-tracks {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #fff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background 0.3s, color 0.3s;
+  }
+  .show-tracks:hover {
+    background: #000;
+    color: #fff;
+  }
 </style>
 </head>
 <body>
+<div class="fog"></div>
 
-<canvas id="background"></canvas>
-
-<h1 id="glitch-title">
-    <span>У</span><span>в</span><span>е</span><span>р</span><span>т</span><span>ю</span><span>р</span><span>а</span>
-    <span> </span>
-    <span>И</span><span>о</span><span>р</span><span>д</span><span>а</span><span>н</span>
+<h1 id="title">
+  <span class="glitch">У</span>
+  <span class="glitch">в</span>
+  <span class="glitch">е</span>
+  <span class="glitch">р</span>
+  <span class="glitch">т</span>
+  <span class="glitch">ю</span>
+  <span class="glitch">р</span>
+  <span class="glitch">а</span>
+  <span class="glitch"> </span>
+  <span class="glitch">И</span>
+  <span class="glitch">о</span>
+  <span class="glitch">р</span>
+  <span class="glitch">д</span>
+  <span class="glitch">а</span>
+  <span class="glitch">н</span>
 </h1>
 
 <div class="album">
-    <img src="images/album1.jpg" alt="Обложка альбома">
-    <div><button class="show-tracks">Показать треки</button></div>
-    <div class="tracks">
-        <audio controls src="audio/track1.mp3"></audio>
-        <audio controls src="audio/track2.mp3"></audio>
-        <audio controls src="audio/track3.mp3"></audio>
-    </div>
+  <img src="images/album1.jpg" alt="Album 1">
+  <button class="show-tracks">Показать треки</button>
+  <div class="tracklist">
+    <audio controls src="audio/track1.mp3"></audio>
+    <audio controls src="audio/track2.mp3"></audio>
+    <audio controls src="audio/track3.mp3"></audio>
+  </div>
 </div>
 
 <div class="gallery">
-    <img src="images/photo1.jpg" alt="Фото 1">
+  <img src="images/photo1.jpg" alt="Gallery Image" class="anom">
 </div>
 
+<div class="cursor"></div>
+
 <script>
-// --- Глитч-эффект заголовка ---
-const letters = document.querySelectorAll('#glitch-title span');
+  // --- Курсор ---
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    // Частицы
+    const trail = document.createElement('div');
+    trail.classList.add('trail');
+    trail.style.left = e.clientX + 'px';
+    trail.style.top = e.clientY + 'px';
+    document.body.appendChild(trail);
+    setTimeout(() => trail.remove(), 500);
+  });
 
-document.addEventListener('mousemove', e => {
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
+  // --- Раскрытие треков ---
+  const btn = document.querySelector('.show-tracks');
+  const tracklist = document.querySelector('.tracklist');
+  btn.addEventListener('click', () => {
+    tracklist.style.display = tracklist.style.display === 'block' ? 'none' : 'block';
+  });
 
-    letters.forEach(letter => {
-        const offsetX = (Math.random() - 0.5) * 20 * x;
-        const offsetY = (Math.random() - 0.5) * 20 * y;
-        const rotate = (Math.random() - 0.5) * 40 * x;
-        const hueShift = (Math.random() * 360);
-
-        letter.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`;
-        letter.style.color = `hsl(${hueShift}, 80%, 60%)`;
+  // --- Случайные аномалии текста ---
+  const anomElems = document.querySelectorAll('.anom');
+  setInterval(() => {
+    anomElems.forEach(el => {
+      el.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px) rotate(${Math.random()*6-3}deg)`;
+      el.style.filter = `hue-rotate(${Math.random()*360}deg)`;
     });
-});
-
-// --- Кнопка раскрытия треков ---
-const btn = document.querySelector('.show-tracks');
-const tracks = document.querySelector('.tracks');
-btn.addEventListener('click', () => {
-    if(tracks.style.display === 'flex'){
-        tracks.style.display = 'none';
-    } else {
-        tracks.style.display = 'flex';
-        tracks.style.flexDirection = 'column';
-    }
-});
-
-// --- Фон: градиент + туман + шум ---
-const canvas = document.getElementById('background');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-function drawBackground() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    // Градиент
-    const grad = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
-    grad.addColorStop(0,'#440044');
-    grad.addColorStop(1,'#002244');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    // Туман
-    for(let i=0;i<100;i++){
-        const x = Math.random()*canvas.width;
-        const y = Math.random()*canvas.height;
-        const r = Math.random()*150 + 50;
-        const a = Math.random()*0.05 + 0.02;
-        ctx.beginPath();
-        ctx.arc(x,y,r,0,Math.PI*2);
-        ctx.fillStyle = `rgba(200,200,255,${a})`;
-        ctx.fill();
-    }
-
-    // Визуальный шум
-    for(let i=0;i<500;i++){
-        const x = Math.random()*canvas.width;
-        const y = Math.random()*canvas.height;
-        ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.02})`;
-        ctx.fillRect(x,y,1,1);
-    }
-
-    requestAnimationFrame(drawBackground);
-}
-drawBackground();
-window.addEventListener('resize', ()=>{
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
-
-// --- Галерея: хаотические аномалии ---
-const galleryImages = document.querySelectorAll('.gallery img');
-function randomGlitch(){
-    galleryImages.forEach(img=>{
-        const offsetX = (Math.random()-0.5)*30;
-        const offsetY = (Math.random()-0.5)*30;
-        const rotate = (Math.random()-0.5)*20;
-        const hue = Math.random()*360;
-        img.style.transform = `translate(${offsetX}px,${offsetY}px) rotate(${rotate}deg)`;
-        img.style.filter = `hue-rotate(${hue}deg) blur(${Math.random()*1.5}px)`;
-    });
-}
-setInterval(randomGlitch, 500); // каждые 0.5 секунды новые аномалии
-
+  }, 1000);
 </script>
-
 </body>
 </html>

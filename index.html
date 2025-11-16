@@ -4,389 +4,126 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Увертюра Иордан — Как будто ты в фонтан упал</title>
+
 <style>
-/* --- Общие стили --- */
-body {
-  margin:0;
-  padding:0;
-  overflow:hidden;
-  background:#0a001f;
-  cursor:none;
-  font-family:sans-serif;
-  color:white;
-  position:relative;
-  transform-origin:center center;
-  filter: url(#wave);
-}
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d url('images/sewer-texture.jpg') center/cover no-repeat;
+        font-family: "Trebuchet MS", sans-serif;
+        color: #d9d9d9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 60px;
+        backdrop-filter: blur(3px);
+    }
 
-/* --- Заголовок --- */
-h1{
-  position:relative;
-  font-size:4em;
-  text-align:center;
-  margin:50px 0;
-  z-index:5;
-}
-h1 span{
-  display:inline-block;
-  transition: transform 0.1s,color 0.1s;
-}
+    /* — Заголовок — */
+    h1 {
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-size: 2.4em;
+        color: #c4cfb9;
+        text-shadow: 0 0 15px rgba(0,255,68,0.1);
+    }
 
-/* --- Лизергиновый курсор --- */
-.cursor{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
-  background:conic-gradient(
-    hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%),
-    hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%)
-  );
-  mix-blend-mode:difference;
-  animation:pulse 1s infinite linear;
-}
-@keyframes pulse{
-  0%,100%{ transform:translate(-50%,-50%) scale(1); }
-  50%{ transform:translate(-50%,-50%) scale(1.5); }
-}
+    h2 {
+        margin-top: 10px;
+        font-weight: 300;
+        color: #7c8a75;
+    }
 
-/* --- Частицы и облака --- */
-.trail{
-  position:fixed;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:1000;
-  mix-blend-mode:difference;
-  opacity:0.7;
-}
-.psy-cloud{
-  position:fixed;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:998;
-  background:conic-gradient(
-    hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%),
-    hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%)
-  );
-  mix-blend-mode:difference;
-  opacity:0.6;
-  transform:translate(-50%,-50%);
-}
+    /* — Контейнер альбома — */
+    .album-container {
+        margin-top: 40px;
+        text-align: center;
+        cursor: pointer;
+        width: 300px;
+    }
 
-/* --- Экранный шум и мерцание --- */
-.noise{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  pointer-events:none;
-  opacity:0.05;
-  background:repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,0.05),
-    rgba(255,255,255,0.05) 1px,
-    rgba(0,0,0,0.05) 2px
-  );
-  mix-blend-mode:difference;
-  animation:noiseAnim 0.05s infinite;
-}
-@keyframes noiseAnim{
-  0%,100%{opacity:0.05;}
-  50%{opacity:0.3;}
-}
-.screen-flicker{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  pointer-events:none;
-  background:linear-gradient(45deg,rgba(255,0,255,0.1),rgba(0,255,255,0.1));
-  mix-blend-mode:difference;
-  opacity:0;
-  animation:flickerAnim 0.2s infinite;
-}
-@keyframes flickerAnim{
-  0%,100%{opacity:0;}
-  50%{opacity:0.3;}
-}
+    .album-container img {
+        width: 100%;
+        border-radius: 6px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.7);
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+        border: 2px solid rgba(60, 60, 60, 0.8);
+    }
 
-/* --- Странные объекты --- */
-.strange{
-  position:fixed;
-  pointer-events:none;
-  z-index:900;
-  font-size:2em;
-  font-weight:bold;
-  color:red;
-  mix-blend-mode:difference;
-  opacity:0.8;
-  transition: transform 0.5s, opacity 0.5s;
-}
+    .album-container:hover img {
+        transform: scale(1.02);
+        box-shadow: 0 0 30px rgba(0,255,68,0.1);
+    }
 
-/* --- Хаотичные объекты --- */
-.chaos{
-  position:fixed;
-  pointer-events:none;
-  z-index:800;
-  mix-blend-mode:difference;
-  font-size:3em;
-  opacity:0.5;
-  transition: transform 0.5s;
-}
+    /* — Треклист — */
+    #tracklist {
+        margin-top: 20px;
+        width: 300px;
+        background: rgba(20,20,20,0.85);
+        border: 1px solid rgba(80,80,80,0.6);
+        border-radius: 6px;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.5s ease;
+    }
 
-/* --- Альбом и трек-лист --- */
-.album {
-  position:relative;
-  width:300px;
-  margin:20px auto;
-  text-align:center;
-  z-index:5;
-}
-.album img{
-  width:100%;
-  border-radius:15px;
-  mix-blend-mode:difference;
-  transition: transform 0.5s;
-}
-.album h2{
-  margin:10px 0 5px 0;
-}
-.tracklist{
-  list-style:none;
-  padding:0;
-}
-.tracklist li{
-  cursor:pointer;
-  margin:5px 0;
-  transition: color 0.2s, transform 0.2s;
-}
-.tracklist li:hover{
-  color:hsl(200,100%,50%);
-  transform:translateX(10px);
-}
+    #tracklist ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-/* --- Галерея --- */
-.gallery{
-  display:flex;
-  overflow-x:auto;
-  padding:20px;
-  gap:10px;
-}
-.gallery img{
-  width:200px;
-  border-radius:10px;
-  transition: transform 0.3s;
-  cursor:pointer;
-}
-.gallery img:hover{
-  transform:scale(1.1);
-}
+    #tracklist li {
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(80,80,80,0.4);
+        text-align: left;
+        color: #c0c0c0;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
 
-/* --- Плейсхолдеры для будущих “хаосов” --- */
-.placeholder{
-  position:fixed;
-  width:50px; height:50px;
-  background:radial-gradient(circle,rgba(255,255,255,0.2),transparent);
-  border-radius:50%;
-  pointer-events:none;
-  mix-blend-mode:difference;
-  z-index:700;
-  animation:float 5s infinite;
-}
-@keyframes float{
-  0%{transform:translate(0,0);}
-  50%{transform:translate(50px,30px);}
-  100%{transform:translate(0,0);}
-}
+    #tracklist li:last-child {
+        border-bottom: none;
+    }
 
-/* --- Аудиоплеер скрыт --- */
-audio { display:none; }
+    #tracklist li:hover {
+        background: rgba(0,255,68,0.08);
+        color: #e6ffe6;
+    }
 </style>
+
 </head>
 <body>
 
-<h1 id="title">
-  <span>У</span><span>в</span><span>е</span><span>р</span><span>т</span><span>ю</span><span>р</span><span>а</span>
-  <span> </span>
-  <span>И</span><span>о</span><span>р</span><span>д</span><span>а</span><span>н</span>
-</h1>
+<h1>Увертюра Иордан</h1>
+<h2>Как будто ты в фонтан упал</h2>
 
-<div class="cursor"></div>
-<div class="noise"></div>
-<div class="screen-flicker"></div>
-
-<div class="album">
-  <img src="images/album1.jpg" alt="Как будто ты в фонтан упал">
-  <h2>Как будто ты в фонтан упал</h2>
-  <p>Жанр: психоделический рок / регги</p>
-  <ul class="tracklist">
-    <li data-src="audio/track1.mp3">Трек 1</li>
-    <li data-src="audio/track2.mp3">Трек 2</li>
-    <li data-src="audio/track3.mp3">Трек 3</li>
-  </ul>
+<div class="album-container" id="album">
+    <img src="images/album1.jpg" alt="Обложка альбома">
 </div>
 
-<div class="gallery">
-  <img src="images/photo1.jpg" alt="">
-  <img src="images/album1.jpg" alt="">
-  <img src="images/photo1.jpg" alt="">
-  <img src="images/photo1.jpg" alt="">
+<div id="tracklist">
+    <ul>
+        <li>Трек 1 — *название позже*</li>
+        <li>Трек 2 — *название позже*</li>
+        <li>Трек 3 — *название позже*</li>
+        <li>Трек 4 — *название позже*</li>
+        <li>Трек 5 — *название позже*</li>
+    </ul>
 </div>
-
-<audio id="player" controls></audio>
-
-<svg style="position:absolute;width:0;height:0;">
-  <filter id="wave">
-    <feTurbulence id="turb" baseFrequency="0.02" numOctaves="3" result="turb"/>
-    <feDisplacementMap in2="turb" in="SourceGraphic" scale="20" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
 
 <script>
-// --- Курсор ---
-const cursor = document.querySelector('.cursor');
-let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-document.addEventListener('mousemove', e=>{
-  mouseX = e.clientX; mouseY = e.clientY;
-  cursor.style.left = mouseX+'px';
-  cursor.style.top = mouseY+'px';
-});
+    const album = document.getElementById('album');
+    const tracklist = document.getElementById('tracklist');
 
-// --- Шлейф частиц ---
-let trail = [];
-function spawnTrail(){
-  for(let i=0;i<10;i++){
-    const t=document.createElement('div');
-    t.classList.add('trail');
-    t.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    t.x=mouseX; t.y=mouseY;
-    t.vx=(Math.random()-0.5)*15;
-    t.vy=(Math.random()-0.5)*15;
-    document.body.appendChild(t);
-    trail.push(t);
-    setTimeout(()=>{t.remove(); trail.splice(trail.indexOf(t),1);},4000);
-  }
-}
-document.addEventListener('mousemove',spawnTrail);
-function updateTrail(){
-  trail.forEach(t=>{ t.x+=t.vx; t.y+=t.vy; t.style.left=t.x+'px'; t.style.top=t.y+'px'; });
-  requestAnimationFrame(updateTrail);
-}
-updateTrail();
+    let opened = false;
 
-// --- Лизергиновое облако ---
-let cloud=[];
-for(let i=0;i<200;i++){
-  const c=document.createElement('div');
-  c.classList.add('psy-cloud');
-  c.style.width=c.style.height=(Math.random()*60+20)+'px';
-  c.style.opacity=Math.random()*0.6+0.2;
-  document.body.appendChild(c);
-  cloud.push({el:c,x:mouseX,y:mouseY,vx:(Math.random()-0.5)*8,vy:(Math.random()-0.5)*8});
-}
-function updateCloud(){
-  cloud.forEach(p=>{
-    let dx=mouseX-p.x+(Math.random()*300-150);
-    let dy=mouseY-p.y+(Math.random()*300-150);
-    p.vx+=(dx*0.03); p.vy+=(dy*0.03);
-    p.vx*=0.7; p.vy*=0.7;
-    p.x+=p.vx; p.y+=p.vy;
-    p.el.style.left=p.x+'px'; p.el.style.top=p.y+'px';
-    p.el.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
-  });
-  requestAnimationFrame(updateCloud);
-}
-updateCloud();
-
-// --- Текст убегает от курсора ---
-const titleSpans = document.querySelectorAll('h1 span');
-document.addEventListener('mousemove', e=>{
-  titleSpans.forEach(span=>{
-    const rect = span.getBoundingClientRect();
-    const dx = rect.left+rect.width/2 - e.clientX;
-    const dy = rect.top+rect.height/2 - e.clientY;
-    const dist = Math.sqrt(dx*dx+dy*dy);
-    if(dist < 350){
-      const moveX = dx/dist * 120;
-      const moveY = dy/dist * 120;
-      span.style.transform = `translate(${moveX}px,${moveY}px) rotate(${Math.random()*120-60}deg) scale(${Math.random()*2})`;
-      span.style.color = `hsl(${Math.random()*360},100%,50%)`;
-    } else {
-      span.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
-    }
-  });
-});
-
-// --- Странные и хаотичные объекты ---
-function spawnStrange(){ const s=document.createElement('div'); s.classList.add('strange');
-  const texts=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴'];
-  s.textContent=texts[Math.floor(Math.random()*texts.length)];
-  s.style.left=Math.random()*100+'vw'; s.style.top=Math.random()*100+'vh';
-  s.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*4})`;
-  s.style.color=`hsl(${Math.random()*360},100%,50%)`;
-  document.body.appendChild(s);
-  setTimeout(()=>{s.style.opacity=0; setTimeout(()=>s.remove(),500);},Math.random()*6000+2000);
-}
-setInterval(spawnStrange,150);
-
-function spawnChaos(){ const c=document.createElement('div'); c.classList.add('chaos');
-  c.textContent=['⚡','🔥','☣️','💀','👹','💉','☠️','👁️','🕷️'][Math.floor(Math.random()*9)];
-  c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*100+'vh';
-  c.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*5})`;
-  c.style.color=`hsl(${Math.random()*360},100%,50%)`;
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),Math.random()*5000+2000);
-}
-setInterval(spawnChaos,50);
-
-// --- Дрожание и мерцание ---
-document.addEventListener('mousemove', e=>{
-  const shakeX = (Math.random()-0.5)*15;
-  const shakeY = (Math.random()-0.5)*15;
-  document.body.style.transform = `translate(${shakeX}px,${shakeY}px)`;
-});
-const flicker = document.querySelector('.screen-flicker');
-setInterval(()=>{ flicker.style.opacity=Math.random()*0.5; },100);
-
-// --- Психоделическая волна ---
-const turb = document.getElementById('turb'); let t=0;
-function animateWave(){ const freq = 0.02 + Math.sin(t*0.05)*0.01;
-  turb.setAttribute('baseFrequency', freq); t+=1; requestAnimationFrame(animateWave);
-}
-animateWave();
-document.addEventListener('click', e=>{
-  turb.setAttribute('baseFrequency',0.08);
-  setTimeout(()=>turb.setAttribute('baseFrequency',0.02),300);
-});
-
-// --- Аудио по клику на трек ---
-const player = document.getElementById('player');
-document.querySelectorAll('.tracklist li').forEach(li=>{
-  li.addEventListener('click', ()=>{
-    const src = li.dataset.src;
-    player.src = src;
-    player.play();
-    li.style.color = 'hsl('+(Math.random()*360)+',100%,50%)';
-    li.style.transform = 'scale(1.3)';
-    setTimeout(()=>li.style.transform='scale(1)',200);
-    // Визуальная вспышка при проигрывании
-    const flash = document.createElement('div');
-    flash.style.position='fixed';
-    flash.style.top=0; flash.style.left=0;
-    flash.style.width='100vw'; flash.style.height='100vh';
-    flash.style.background='white';
-    flash.style.opacity='0.1';
-    flash.style.mixBlendMode='screen';
-    flash.style.pointerEvents='none';
-    document.body.appendChild(flash);
-    setTimeout(()=>flash.remove(),150);
-  });
-});
+    album.addEventListener('click', () => {
+        opened = !opened;
+        // Аккуратно раскрываем и скрываем
+        tracklist.style.maxHeight = opened ? "300px" : "0";
+    });
 </script>
+
 </body>
 </html>

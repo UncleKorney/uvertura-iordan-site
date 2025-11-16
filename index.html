@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Acid Trip</title>
+<title>Увертюра Иордан — Лизергиновый трип</title>
 <style>
 /* --- Общий стиль --- */
 body {
@@ -15,29 +15,32 @@ body {
   color: #fff;
 }
 
-/* --- Заголовок с глитчем --- */
+/* --- Заголовок с глитчем и самопроизвольным дрожанием --- */
 h1 {
   font-size: 4em;
   text-align: center;
   margin: 40px 0;
   position: relative;
   z-index: 5;
+  display: flex;
+  justify-content: center;
 }
 h1 span {
   display: inline-block;
   transition: transform 0.3s, color 0.3s;
+  animation: glitchShake 5s infinite;
 }
-h1 span.glitch {
-  animation: glitch 3s infinite;
-}
-
-@keyframes glitch {
-  0% { transform: translate(0); color: #ff0; }
-  20% { transform: translate(-3px, 2px); color: #0ff; }
-  40% { transform: translate(2px, -2px); color: #f0f; }
-  60% { transform: translate(-1px, 1px); color: #0f0; }
-  80% { transform: translate(2px, -1px); color: #f00; }
-  100% { transform: translate(0); color: #fff; }
+@keyframes glitchShake {
+  0%,100%{transform:translate(0,0) rotate(0deg);}
+  10%{transform:translate(-2px,1px) rotate(-1deg);}
+  20%{transform:translate(2px,-1px) rotate(1deg);}
+  30%{transform:translate(-1px,2px) rotate(0deg);}
+  40%{transform:translate(1px,-2px) rotate(-1deg);}
+  50%{transform:translate(-1px,1px) rotate(1deg);}
+  60%{transform:translate(2px,-1px) rotate(0deg);}
+  70%{transform:translate(-2px,1px) rotate(1deg);}
+  80%{transform:translate(1px,-1px) rotate(-1deg);}
+  90%{transform:translate(0,2px) rotate(0deg);}
 }
 
 /* --- Галерея --- */
@@ -107,7 +110,7 @@ h1 span.glitch {
   color: #fff;
 }
 
-/* --- Дымка/туман --- */
+/* --- Фон с туманом и кислотными линиями --- */
 .fog {
   position: fixed;
   top: 0; left: 0;
@@ -115,65 +118,13 @@ h1 span.glitch {
   background: url('https://i.ibb.co/YdKvGvV/fog.png') repeat;
   opacity: 0.15;
   pointer-events: none;
-  animation: fogmove 60s linear infinite;
+  animation: fogmove 80s linear infinite;
   z-index: 2;
 }
 @keyframes fogmove {
   0% { background-position: 0 0; }
   100% { background-position: 1000px 1000px; }
 }
-
-/* --- Курсор и частицы --- */
-body {
-  cursor: none;
-}
-.cursor {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ff0, #f0f, #0ff);
-  position: fixed;
-  pointer-events: none;
-  mix-blend-mode: difference;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.05s linear;
-}
-.trail {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #f0f, #0ff, #ff0);
-  pointer-events: none;
-  mix-blend-mode: difference;
-  animation: fadeOut 1s forwards;
-}
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; transform: scale(0); }
-}
-
-/* --- Аномалии текста --- */
-.anom {
-  display: inline-block;
-  position: relative;
-  animation: shake 4s infinite;
-}
-@keyframes shake {
-  0%, 100% { transform: translate(0,0) rotate(0deg); }
-  10% { transform: translate(-2px,1px) rotate(-1deg); }
-  20% { transform: translate(1px,-1px) rotate(1deg); }
-  30% { transform: translate(-1px,2px) rotate(0deg); }
-  40% { transform: translate(1px,-2px) rotate(-1deg); }
-  50% { transform: translate(-1px,1px) rotate(1deg); }
-  60% { transform: translate(2px,-1px) rotate(0deg); }
-  70% { transform: translate(-2px,1px) rotate(1deg); }
-  80% { transform: translate(1px,-1px) rotate(-1deg); }
-  90% { transform: translate(0,2px) rotate(0deg); }
-}
-
-/* --- Движущиеся кислотные линии --- */
 .lines {
   position: fixed;
   top: 0; left: 0;
@@ -193,6 +144,57 @@ body {
 @keyframes lineMove {
   0% { transform: translateX(0); }
   100% { transform: translateX(100vw); }
+}
+
+/* --- Психоделический курсор --- */
+body { cursor: none; }
+.cursor {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s infinite;
+  background: conic-gradient(#ff0, #f0f, #0ff, #f0f, #ff0);
+  mix-blend-mode: difference;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1) translate(-50%, -50%); }
+  50% { transform: scale(1.5) translate(-50%, -50%); }
+}
+.trail {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: conic-gradient(#ff0,#f0f,#0ff,#f0f,#ff0);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  animation: fadeOut 1s forwards;
+}
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+/* --- Аномалии текста --- */
+.anom {
+  display: inline-block;
+  position: relative;
+  animation: shake 3s infinite;
+}
+@keyframes shake {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  10% { transform: translate(-2px,1px) rotate(-1deg); }
+  20% { transform: translate(1px,-1px) rotate(1deg); }
+  30% { transform: translate(-1px,2px) rotate(0deg); }
+  40% { transform: translate(1px,-2px) rotate(-1deg); }
+  50% { transform: translate(-1px,1px) rotate(1deg); }
+  60% { transform: translate(2px,-1px) rotate(0deg); }
+  70% { transform: translate(-2px,1px) rotate(1deg); }
+  80% { transform: translate(1px,-1px) rotate(-1deg); }
+  90% { transform: translate(0,2px) rotate(0deg); }
 }
 </style>
 </head>
@@ -239,15 +241,16 @@ body {
 const cursor = document.querySelector('.cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  
   // Частицы
-  for(let i=0; i<2; i++) {
+  for(let i=0; i<3; i++){
     const trail = document.createElement('div');
     trail.classList.add('trail');
-    trail.style.left = e.clientX + Math.random()*20-10 + 'px';
-    trail.style.top = e.clientY + Math.random()*20-10 + 'px';
+    trail.style.left = e.clientX + Math.random()*30-15 + 'px';
+    trail.style.top = e.clientY + Math.random()*30-15 + 'px';
+    trail.style.width = 10+Math.random()*10+'px';
+    trail.style.height = trail.style.width;
     document.body.appendChild(trail);
-    setTimeout(() => trail.remove(), 1000);
+    setTimeout(()=>trail.remove(), 1200);
   }
 });
 
@@ -262,20 +265,26 @@ btn.addEventListener('click', () => {
 const anomElems = document.querySelectorAll('.anom');
 setInterval(() => {
   anomElems.forEach(el => {
-    el.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px) rotate(${Math.random()*6-3}deg)`;
-    el.style.filter = `hue-rotate(${Math.random()*360}deg)`;
+    el.style.transform = `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px) rotate(${Math.random()*10-5}deg)`;
+    el.style.filter = `hue-rotate(${Math.random()*360}deg) blur(${Math.random()*2}px)`;
   });
-}, 500);
+}, 400);
 
 // --- Движущиеся кислотные линии ---
 const linesContainer = document.querySelector('.lines');
-for(let i=0; i<30; i++) {
-  const line = document.createElement('div');
+for(let i=0;i<40;i++){
+  const line=document.createElement('div');
   line.classList.add('line');
-  line.style.left = Math.random()*100 + 'vw';
-  line.style.animationDuration = (5+Math.random()*10)+'s';
+  line.style.left=Math.random()*100+'vw';
+  line.style.animationDuration=(3+Math.random()*10)+'s';
   linesContainer.appendChild(line);
 }
+
+// --- Фон пульсации цвета ---
+const body = document.body;
+setInterval(() => {
+  body.style.background = `radial-gradient(circle at ${Math.random()*100}% ${Math.random()*100}%, hsl(${Math.random()*360},100%,10%), #0a001f)`;
+}, 3000);
 </script>
 </body>
 </html>

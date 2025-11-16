@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Увертюра Иордан</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff0080, #7928ca);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
 
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        header nav a {
+            display: inline-block;
+            margin: 0 15px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        header nav a:hover {
+            color: #ff0;
+            transform: scale(1.2);
+        }
+
+        section.album {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        section.album img {
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        section.album h2 {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 2em;
+            text-shadow: 1px 1px 4px black;
+        }
+
+        details {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 5px;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Увертюра Иордан</h1>
+        <nav>
+            <a href="#album1">Альбомы</a>
+            <a href="#gallery">Галерея</a>
+        </nav>
+    </header>
+
+    <section id="album1" class="album">
+        <img src="images/album1.jpg" alt="Обложка альбома">
+        <h2>Психоделический Регги</h2>
+        <details>
+            <summary>Треки</summary>
+            <ul>
+                <li>
+                    1. Труп
+                    <audio controls>
+                        <source src="audio/track1.mp3" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </li>
+                <li>
+                    2. Одна
+                    <audio controls>
+                        <source src="audio/track2.mp3" type="audio/mpeg">
+                    </audio>
+                </li>
+                <li>
+                    3. Первый признак
+                    <audio controls>
+                        <source src="audio/track3.mp3" type="audio/mpeg">
+                    </audio>
+                </li>
+            </ul>
+        </details>
+    </section>
+
+    <section id="gallery" class="album">
+        <h2>Галерея</h2>
+        <img src="images/photo1.jpg" alt="Фото группы">
+        <img src="images/photo2.jpg" alt="Фото группы">
+    </section>
+</body>
+</html>

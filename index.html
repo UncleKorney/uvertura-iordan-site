@@ -3,15 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан</title>
+<title>Увертюра Иордан — Кислотный хаос</title>
 <style>
-/* Сброс стилей */
+/* RESET */
 * {margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif;}
-body, html {width:100%; height:100%; overflow-x:hidden;}
+html, body {width:100%; height:100%; overflow-x:hidden; scroll-behavior:smooth;}
 
-/* Основной кислотный фон */
-canvas#tripCanvas {position:fixed; top:0; left:0; width:100%; height:100%; z-index:-3;}
-canvas#smokeCanvas {position:fixed; top:0; left:0; width:100%; height:100%; z-index:-2; pointer-events:none;}
+/* Кислотный фон */
+canvas#tripCanvas, canvas#smokeCanvas, canvas#burstCanvas {
+    position:fixed; top:0; left:0; width:100%; height:100%; z-index:-5;
+}
+canvas#smokeCanvas {z-index:-4; pointer-events:none;}
+canvas#burstCanvas {z-index:-3; pointer-events:none;}
+
+/* Психоделический градиент */
+body {
+    background: linear-gradient(45deg, #ff0, #f0f, #0ff, #0f0, #f00, #0f0, #ff0);
+    background-size: 400% 400%;
+    animation: gradientShift 25s ease infinite;
+}
+@keyframes gradientShift {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
 /* Главный экран */
 .home {
@@ -24,30 +39,43 @@ canvas#smokeCanvas {position:fixed; top:0; left:0; width:100%; height:100%; z-in
     color:white;
     position:relative;
     z-index:1;
+    perspective: 1200px;
 }
 .home h1 {
-    font-size:6vw;
+    font-size:7vw;
     text-transform:uppercase;
     text-shadow:0 0 20px #fff,0 0 40px #f0f,0 0 80px #0ff;
     margin-bottom:30px;
+    display:inline-block;
+    animation:glitchText 2s infinite;
 }
+@keyframes glitchText {
+    0%{transform: skew(0deg,0deg);}
+    25%{transform: skew(5deg,-5deg);}
+    50%{transform: skew(-5deg,5deg);}
+    75%{transform: skew(8deg,-8deg);}
+    100%{transform: skew(0deg,0deg);}
+}
+
 .menu {
     display:flex;
     gap:50px;
     flex-wrap:wrap;
+    margin-top:30px;
 }
 .menu a {
     color:white;
     text-decoration:none;
-    font-size:2vw;
+    font-size:2.5vw;
     position:relative;
     transition:0.3s;
+    display:inline-block;
 }
 .menu a::after {
     content:'';
     position:absolute;
     left:0; bottom:-5px;
-    width:100%; height:2px;
+    width:100%; height:3px;
     background:#fff;
     transform:scaleX(0);
     transition:transform 0.3s;
@@ -63,45 +91,83 @@ canvas#smokeCanvas {position:fixed; top:0; left:0; width:100%; height:100%; z-in
   100%{text-shadow:0 0 #fff;}
 }
 
-/* Контентные секции */
-.content-section {padding:80px 5%; min-height:80vh; color:white; position:relative; z-index:1;}
-.content-section h2 {font-size:3vw; text-align:center; margin-bottom:40px; text-shadow:0 0 15px #fff,0 0 30px #f0f,0 0 60px #0ff;}
+/* Контент */
+.content-section {
+    padding:80px 5%;
+    min-height:80vh;
+    color:white;
+    position:relative;
+    z-index:1;
+    perspective: 500px;
+}
+.content-section h2 {
+    font-size:3vw;
+    text-align:center;
+    margin-bottom:40px;
+    text-shadow:0 0 15px #fff,0 0 30px #f0f,0 0 60px #0ff;
+}
 
 /* Альбомы */
 .album-grid {display:flex; flex-wrap:wrap; justify-content:center; gap:40px;}
 .album-card {
-    width:280px;
-    background:rgba(0,0,0,0.35);
+    width:300px;
+    background:rgba(0,0,0,0.25);
     border-radius:25px;
     padding:25px;
     text-align:center;
     backdrop-filter:blur(8px);
-    transition:transform 0.35s;
+    transition:transform 0.35s, filter 0.5s;
+    cursor:pointer;
+    position:relative;
 }
-.album-card:hover {transform:scale(1.1);}
-.album-card img {width:100%; border-radius:20px; margin-bottom:15px;}
+.album-card:hover {
+    transform:scale(1.2) rotateZ(5deg) skew(10deg,-10deg);
+    filter: hue-rotate(180deg) saturate(2) brightness(1.3);
+}
+.album-card img {
+    width:100%;
+    border-radius:20px;
+    margin-bottom:15px;
+}
 .album-card h3 {margin-bottom:15px; font-size:1.3em; color:#fff;}
 audio {width:100%; outline:none; margin-top:10px;}
 
 /* Галерея */
 #gallery img {
-    width:300px;
-    border-radius:15px;
-    transition: transform 0.3s;
+    width:320px;
+    border-radius:20px;
+    transition: transform 0.5s, filter 0.5s;
+    cursor:pointer;
 }
-#gallery img:hover {transform:scale(1.05) rotate(2deg);}
+#gallery img:hover {
+    transform:scale(1.3) rotate(10deg) skew(-10deg,10deg);
+    filter: hue-rotate(200deg) brightness(1.6) blur(1px);
+}
 
-/* Плавная анимация градиента всего сайта */
-body {
-    background: linear-gradient(45deg, #ff0, #f0f, #0ff, #0f0, #f00, #0f0, #ff0);
-    background-size: 400% 400%;
-    animation: gradientShift 20s ease infinite;
+/* Текстовые искажения */
+.glitch-text {
+    position:relative;
+    display:inline-block;
+    color:white;
+    font-weight:bold;
+    font-size:2.5vw;
+    animation:glitchMove 3s infinite;
 }
-@keyframes gradientShift {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
+.glitch-text::before, .glitch-text::after {
+    content:attr(data-text);
+    position:absolute;
+    left:0; top:0;
+    color:white;
+    mix-blend-mode:screen;
 }
+.glitch-text::before { animation:glitchBefore 2s infinite; }
+.glitch-text::after { animation:glitchAfter 2s infinite; }
+@keyframes glitchMove {0%{transform:translate(0);}50%{transform:translate(-5px,3px);}100%{transform:translate(0);}}
+@keyframes glitchBefore {0%{transform:translate(-2px,-2px);}50%{transform:translate(2px,2px);}100%{transform:translate(-2px,-2px);}}
+@keyframes glitchAfter {0%{transform:translate(2px,2px);}50%{transform:translate(-2px,-2px);}100%{transform:translate(2px,2px);}}
+
+/* Мелкие стили */
+section {margin-bottom:80px;}
 </style>
 </head>
 <body>
@@ -109,10 +175,11 @@ body {
 <!-- Canvas для кислотного трипа -->
 <canvas id="tripCanvas"></canvas>
 <canvas id="smokeCanvas"></canvas>
+<canvas id="burstCanvas"></canvas>
 
 <!-- Главный экран -->
 <section class="home">
-  <h1>Увертюра Иордан</h1>
+  <h1 class="glitch-text" data-text="Увертюра Иордан">Увертюра Иордан</h1>
   <div class="menu">
     <a href="#albums">Альбомы</a>
     <a href="#gallery">Галерея</a>
@@ -122,18 +189,18 @@ body {
 
 <!-- Альбомы -->
 <section id="albums" class="content-section">
-  <h2>Альбомы</h2>
+  <h2 class="glitch-text" data-text="Альбомы">Альбомы</h2>
   <div class="album-grid">
     <div class="album-card">
       <img src="albums/album1.jpg" alt="Album 1">
-      <h3>Психоделика I</h3>
+      <h3 class="glitch-text" data-text="Психоделика I">Психоделика I</h3>
       <audio controls>
         <source src="albums/album1_track1.mp3" type="audio/mpeg">
       </audio>
     </div>
     <div class="album-card">
       <img src="albums/album2.jpg" alt="Album 2">
-      <h3>Психоделика II</h3>
+      <h3 class="glitch-text" data-text="Психоделика II">Психоделика II</h3>
       <audio controls>
         <source src="albums/album2_track1.mp3" type="audio/mpeg">
       </audio>
@@ -143,39 +210,38 @@ body {
 
 <!-- Галерея -->
 <section id="gallery" class="content-section">
-  <h2>Галерея</h2>
+  <h2 class="glitch-text" data-text="Галерея">Галерея</h2>
   <div class="album-grid">
     <img src="gallery/img1.jpg" alt="Art 1">
     <img src="gallery/img2.jpg" alt="Art 2">
+    <img src="gallery/img3.jpg" alt="Art 3">
   </div>
 </section>
 
-<!-- Скрипт для трипа и дыма -->
 <script>
-// ===== Кислотный фон: точки и линии =====
+// ===== Кислотный трип: точки =====
 const canvas = document.getElementById('tripCanvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
-for(let i=0;i<300;i++){
+for(let i=0;i<500;i++){
     particles.push({
         x: Math.random()*canvas.width,
         y: Math.random()*canvas.height,
-        vx: (Math.random()-0.5)*2,
-        vy: (Math.random()-0.5)*2,
+        vx: (Math.random()-0.5)*3,
+        vy: (Math.random()-0.5)*3,
         r: Math.random()*3+1,
         color: `hsl(${Math.random()*360},100%,50%)`
     });
 }
 
 function drawTrip(){
-    ctx.fillStyle='rgba(0,0,0,0.05)';
+    ctx.fillStyle='rgba(0,0,0,0.08)';
     ctx.fillRect(0,0,canvas.width,canvas.height);
     particles.forEach(p=>{
-        p.x+=p.vx;
-        p.y+=p.vy;
+        p.x+=p.vx; p.y+=p.vy;
         if(p.x<0)p.x=canvas.width;
         if(p.x>canvas.width)p.x=0;
         if(p.y<0)p.y=canvas.height;
@@ -189,15 +255,15 @@ function drawTrip(){
 }
 drawTrip();
 
-// ===== Дымный фон =====
+// ===== Дым =====
 const smokeCanvas = document.getElementById('smokeCanvas');
 const sctx = smokeCanvas.getContext('2d');
 smokeCanvas.width = window.innerWidth;
 smokeCanvas.height = window.innerHeight;
 
 let smokeParticles = [];
-for(let i=0;i<100;i++){
-    smokeParticles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:20+Math.random()*50, speed:0.2+Math.random()*0.4});
+for(let i=0;i<150;i++){
+    smokeParticles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:20+Math.random()*60, speed:0.2+Math.random()*0.5});
 }
 
 function drawSmoke(){
@@ -214,14 +280,56 @@ function drawSmoke(){
 }
 drawSmoke();
 
-// ===== Подстройка под ресайз =====
+// ===== Вспышки при наведении =====
+const burstCanvas = document.getElementById('burstCanvas');
+const bctx = burstCanvas.getContext('2d');
+burstCanvas.width = window.innerWidth;
+burstCanvas.height = window.innerHeight;
+
+let bursts = [];
+document.querySelectorAll('.album-card, #gallery img').forEach(el=>{
+    el.addEventListener('mouseenter', e=>{
+        const rect = el.getBoundingClientRect();
+        bursts.push({x: rect.left + rect.width/2, y: rect.top + rect.height/2, r:0, alpha:1});
+    });
+});
+
+function drawBursts(){
+    bctx.clearRect(0,0,burstCanvas.width,burstCanvas.height);
+    bursts.forEach((b,i)=>{
+        b.r += 4;
+        b.alpha -= 0.02;
+        if(b.alpha <=0){bursts.splice(i,1);}
+        else {
+            bctx.beginPath();
+            bctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+            bctx.strokeStyle=`hsla(${Math.random()*360},100%,50%,${b.alpha})`;
+            bctx.lineWidth = 2;
+            bctx.stroke();
+        }
+    });
+    requestAnimationFrame(drawBursts);
+}
+drawBursts();
+
+// ===== Скролл искажения =====
+window.addEventListener('scroll', ()=>{
+    const scroll = window.scrollY;
+    document.querySelectorAll('.album-card, #gallery img').forEach(el=>{
+        el.style.transform = `translateY(${Math.sin(scroll/40)*15}px) rotate(${Math.sin(scroll/60)*10}deg) skew(${Math.sin(scroll/50)*10}deg,${Math.sin(scroll/70)*10}deg)`;
+        el.style.filter = `hue-rotate(${scroll%360}deg)`;
+    });
+});
+
+// ===== Resize =====
 window.addEventListener('resize',()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     smokeCanvas.width = window.innerWidth;
     smokeCanvas.height = window.innerHeight;
+    burstCanvas.width = window.innerWidth;
+    burstCanvas.height = window.innerHeight;
 });
 </script>
-
 </body>
 </html>

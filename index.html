@@ -14,22 +14,6 @@
             font-family: "Arial", sans-serif;
             overflow-x: hidden;
             position: relative;
-            font-size: 16px;
-        }
-
-        /* ---------------------- ГЛИЧЕВЫЙ ТЕКСТ ---------------------- */
-        .glitch {
-            position: relative;
-            color: #e8e8e8;
-            font-family: "Courier", sans-serif;
-            font-size: 1.5em;
-            animation: glitch-animation 1s infinite;
-        }
-
-        @keyframes glitch-animation {
-            0% { text-shadow: -2px 0 red, 2px 0 blue, 0 2px green, 0 -2px yellow; }
-            50% { text-shadow: 2px 2px orange, -2px -2px purple, 0 0px lime, 0 0px red; }
-            100% { text-shadow: 0 0 0 white, 0 0 10px gray, 0 0 5px darkred; }
         }
 
         /* ---------------------- МРЯКОТНАЯ ФОНА ТУМАНА ---------------------- */
@@ -249,25 +233,26 @@
     const albumCover = document.getElementById('album');
     const modal = document.getElementById('modal');
     const closeModal = document.getElementById('close-modal');
+    const tracklist = document.getElementById('tracklist');
+    let isTracklistOpen = false;
 
+    // Открытие модального окна
     albumCover.addEventListener('click', () => {
         modal.classList.add('active');
     });
 
+    // Закрытие модального окна
     closeModal.addEventListener('click', () => {
         modal.classList.remove('active');
     });
 
-    // Показ трек-листа
-    albumCover.addEventListener('mouseenter', () => {
-        document.getElementById('tracklist').style.maxHeight = '300px';
+    // Открытие трек-листа при клике на обложку
+    albumCover.addEventListener('click', () => {
+        isTracklistOpen = !isTracklistOpen;
+        tracklist.style.maxHeight = isTracklistOpen ? '500px' : '0';
     });
 
-    albumCover.addEventListener('mouseleave', () => {
-        document.getElementById('tracklist').style.maxHeight = '0';
-    });
-
-    // Интерактив с крысами
+    // Крысы
     setInterval(() => {
         const rat = document.createElement('div');
         rat.classList.add('rat');
@@ -275,14 +260,13 @@
         setTimeout(() => rat.remove(), 3000);
     }, 4000);
 
-    // Интерактив с тенями
+    // Тени
     setInterval(() => {
         const shadow = document.createElement('div');
         shadow.classList.add('shadow-creature');
         document.body.appendChild(shadow);
         setTimeout(() => shadow.remove(), 4000);
     }, 7000);
-
 </script>
 
 </body>

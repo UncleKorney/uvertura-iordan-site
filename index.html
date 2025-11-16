@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Увертюра Иордан — Сюрреализм</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Monoton&display=swap" rel="stylesheet">
+    <title>Увертюра Иордан</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Абстрактный фон -->
+    <!-- Канвас для живого фона -->
     <canvas id="scene-canvas"></canvas>
 
-    <!-- Скрытое меню, появляется при наведении -->
+    <!-- Навигация -->
     <nav id="main-nav">
         <ul>
             <li><a href="#home">Главная</a></li>
@@ -23,11 +23,9 @@
 
     <!-- Главная секция -->
     <section id="home" class="section home-section">
-        <h1 class="band-title">УВЕРТЮРА ИОРДАН</h1>
-        <p class="band-tagline">Психоделический сюрреализм в каждом аккорде</p>
-        <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior: 'smooth'})">
-            Перейти к альбомам
-        </button>
+        <h1 class="band-title">Увертюра Иордан</h1>
+        <p class="band-tagline">Психоделический рок и регги в абсурдном измерении</p>
+        <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({ behavior: 'smooth' });">Смотреть альбомы</button>
     </section>
 
     <!-- Альбомы -->
@@ -35,20 +33,22 @@
         <h2>Альбомы</h2>
         <div class="albums-container">
             <div class="album-card">
-                <img src="albums/album1.jpg" alt="Альбом 1">
-                <h3>Психоделическая ночь</h3>
+                <img src="assets/albums/album1.jpg" alt="Album 1">
+                <h3>Album 1</h3>
                 <audio controls>
-                    <source src="albums/album1/track1.mp3" type="audio/mpeg">
+                    <source src="assets/albums/track1.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио.
                 </audio>
             </div>
             <div class="album-card">
-                <img src="albums/album2.jpg" alt="Альбом 2">
-                <h3>Регги в космосе</h3>
+                <img src="assets/albums/album2.jpg" alt="Album 2">
+                <h3>Album 2</h3>
                 <audio controls>
-                    <source src="albums/album2/track1.mp3" type="audio/mpeg">
+                    <source src="assets/albums/track2.mp3" type="audio/mpeg">
+                    Ваш браузер не поддерживает аудио.
                 </audio>
             </div>
-            <!-- Добавь остальные альбомы -->
+            <!-- Добавляй новые альбомы по образцу -->
         </div>
     </section>
 
@@ -56,13 +56,14 @@
     <section id="gallery" class="section gallery-section">
         <h2>Галерея</h2>
         <div class="gallery-container">
-            <img src="gallery/img1.jpg" alt="Галерея 1">
-            <img src="gallery/img2.jpg" alt="Галерея 2">
-            <img src="gallery/img3.jpg" alt="Галерея 3">
-            <!-- Добавь остальные изображения -->
+            <img src="assets/gallery/img1.jpg" alt="Gallery 1">
+            <img src="assets/gallery/img2.jpg" alt="Gallery 2">
+            <img src="assets/gallery/img3.jpg" alt="Gallery 3">
+            <!-- Добавляй новые изображения по образцу -->
         </div>
     </section>
 
+    <!-- JS -->
     <script src="script.js"></script>
 </body>
 </html>

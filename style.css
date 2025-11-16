@@ -1,20 +1,40 @@
-/* Общий стиль */
-body {
+/* Глобальные стили */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 1; /* контент всегда над фоном */
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
     background: #000;
     overflow-x: hidden;
     font-family: "Orbitron", sans-serif;
-    color: #fff;
+    z-index: 0;
 }
 
-/* Психоделические кольца */
+/* --- ФОН CANVAS --- */
+#waves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: -3; /* самый задний слой */
+    pointer-events: none;
+}
+
+/* --- ПСИХОДЕЛИЧЕСКИЕ КОЛЬЦА --- */
 .psy-ring {
     position: fixed;
     border-radius: 50%;
     mix-blend-mode: screen;
-    filter: blur(80px);
-    animation: pulse 10s infinite alternate ease-in-out;
+    filter: blur(100px);
+    animation: pulse 12s infinite alternate ease-in-out;
     pointer-events: none;
+    z-index: -2; /* над canvas, но ПОЗАДИ контента */
 }
 
 .ring1 {
@@ -45,12 +65,38 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scale(0.8) rotate(0deg); opacity: 0.5; }
-    100% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+    0% { transform: scale(0.7) rotate(0deg); opacity: 0.4; }
+    100% { transform: scale(1.3) rotate(180deg); opacity: 1; }
 }
 
+/* --- НАВИГАЦИЯ --- */
+#main-nav {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 20px;
+    z-index: 5;
+}
 
-/* Главная секция */
+#main-nav ul {
+    list-style: none;
+    display: inline-flex;
+    gap: 30px;
+}
+
+#main-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+#main-nav a:hover {
+    text-shadow: 0 0 10px #fff;
+    transform: scale(1.1);
+}
+
+/* --- ГЛАВНАЯ --- */
 .home-section {
     height: 100vh;
     display: flex;
@@ -62,59 +108,71 @@ body {
 .band-title {
     font-family: "Monoton";
     font-size: 5rem;
-    text-shadow: 0 0 20px #ff33cc, 0 0 50px #33ccff;
-}
-
-/* ГЛЮК ЭФФЕКТ текста */
-.glitch {
-    position: relative;
-}
-.glitch::before,
-.glitch::after {
-    content: attr(class);
-}
-
-.color-shift {
     animation: hue 8s infinite linear;
+    text-shadow: 0 0 25px #ff33cc, 0 0 60px #33ccff, 0 0 90px #ffcc33;
 }
 
-/* Кнопка */
+@keyframes hue {
+    from { filter: hue-rotate(0deg); }
+    to { filter: hue-rotate(360deg); }
+}
+
 .btn-scroll {
     margin-top: 20px;
     padding: 15px 40px;
-    font-size: 1.3rem;
-    color: #fff;
-    cursor: pointer;
     border: none;
-    border-radius: 50px;
+    cursor: pointer;
+    border-radius: 40px;
+    font-size: 1.3rem;
     background: linear-gradient(45deg, #ff33cc, #33ccff, #ffcc33);
-    background-size: 300% 300%;
-    animation: btnFlow 6s infinite alternate;
-}
-@keyframes btnFlow {
-    0% { background-position: 0%; }
-    100% { background-position: 100%; }
+    background-size: 400% 400%;
+    animation: btnFlow 5s infinite alternate;
 }
 
-/* Альбомы */
-.album-card {
-    width: 320px;
-    padding: 20px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(8px);
-    animation: float 6s infinite ease-in-out alternate;
+@keyframes btnFlow {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
 }
+
+/* --- АЛЬБОМЫ --- */
+.section {
+    padding: 120px 40px;
+    text-align: center;
+}
+
+.albums-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.album-card {
+    width: 340px;
+    padding: 20px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    animation: float 8s infinite ease-in-out alternate;
+}
+
 @keyframes float {
     0% { transform: translateY(0px) rotate(0deg); }
     100% { transform: translateY(-12px) rotate(2deg); }
 }
 
-/* Галерея */
+/* --- ГАЛЕРЕЯ --- */
+.gallery-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .gallery-img {
-    width: 320px;
-    border-radius: 20px;
-    animation: sway 6s infinite ease-in-out alternate;
+    width: 340px;
+    border-radius: 15px;
+    animation: sway 7s infinite ease-in-out alternate;
 }
 
 @keyframes sway {

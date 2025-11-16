@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Лизергиновый трип</title>
+<title>Увертюра Иордан — Психоделический хаос</title>
 <style>
-/* --- Общий стиль --- */
+/* --- Базовый стиль --- */
 body {
   margin: 0;
   padding: 0;
@@ -13,9 +13,10 @@ body {
   overflow-x: hidden;
   background: #0a001f;
   color: #fff;
+  transition: background 3s;
 }
 
-/* --- Заголовок с глитчем и самопроизвольным дрожанием --- */
+/* --- Заголовок с глитчем и аномалиями --- */
 h1 {
   font-size: 4em;
   text-align: center;
@@ -43,6 +44,46 @@ h1 span {
   90%{transform:translate(0,2px) rotate(0deg);}
 }
 
+/* --- Альбом --- */
+.album {
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+  z-index: 5;
+  animation: subtleShake 10s infinite;
+}
+.album img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border: 4px solid #fff;
+  transition: transform 0.5s, filter 0.5s;
+}
+.album img:hover {
+  transform: scale(1.05) rotate(2deg) hue-rotate(120deg);
+}
+.tracklist {
+  margin-top: 20px;
+  display: none;
+  text-align: left;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tracklist audio {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.show-tracks {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
 /* --- Галерея --- */
 .gallery {
   display: flex;
@@ -65,72 +106,28 @@ h1 span {
   filter: hue-rotate(90deg) blur(1px);
 }
 
-/* --- Альбом --- */
-.album {
-  text-align: center;
-  margin-bottom: 80px;
-  position: relative;
-  z-index: 5;
-}
-.album img {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
-  border: 4px solid #fff;
-  transition: transform 0.5s, filter 0.5s;
-}
-.album img:hover {
-  transform: scale(1.05) rotate(2deg);
-  filter: hue-rotate(120deg);
-}
-.tracklist {
-  margin-top: 20px;
-  display: none;
-  text-align: left;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.tracklist audio {
-  width: 100%;
-  margin-bottom: 10px;
-}
-.show-tracks {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #fff;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1em;
-  transition: background 0.3s, color 0.3s;
-}
-.show-tracks:hover {
-  background: #000;
-  color: #fff;
-}
-
-/* --- Фон с туманом и кислотными линиями --- */
+/* --- Туман и линии --- */
 .fog {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url('https://i.ibb.co/YdKvGvV/fog.png') repeat;
-  opacity: 0.15;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: url('images/photo1.jpg') repeat; /* временно для примера */
+  opacity: 0.1;
   pointer-events: none;
-  animation: fogmove 80s linear infinite;
-  z-index: 2;
+  animation: fogmove 60s linear infinite;
+  z-index: 1;
+  filter: blur(10px);
 }
 @keyframes fogmove {
-  0% { background-position: 0 0; }
-  100% { background-position: 1000px 1000px; }
+  0%{background-position:0 0;}
+  100%{background-position:1000px 1000px;}
 }
 .lines {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top:0; left:0;
+  width:100%; height:100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
 }
 .line {
@@ -138,63 +135,70 @@ h1 span {
   width: 2px;
   height: 100%;
   background: linear-gradient(to bottom, #f0f, #0ff, #ff0);
-  opacity: 0.2;
-  animation: lineMove 10s linear infinite;
+  opacity: 0.15;
+  animation: lineMove 5s linear infinite;
 }
 @keyframes lineMove {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(100vw); }
+  0%{transform:translateX(0);}
+  100%{transform:translateX(100vw);}
 }
 
-/* --- Психоделический курсор --- */
-body { cursor: none; }
-.cursor {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  animation: pulse 2s infinite;
-  background: conic-gradient(#ff0, #f0f, #0ff, #f0f, #ff0);
-  mix-blend-mode: difference;
+/* --- Курсор --- */
+body{cursor:none;}
+.cursor{
+  width:50px;height:50px;
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  animation:pulse 2s infinite;
+  background:conic-gradient(#ff0,#f0f,#0ff,#f0f,#ff0);
+  mix-blend-mode:difference;
 }
-@keyframes pulse {
-  0%,100% { transform: scale(1) translate(-50%, -50%); }
-  50% { transform: scale(1.5) translate(-50%, -50%); }
+@keyframes pulse{
+  0%,100%{transform:scale(1) translate(-50%,-50%);}
+  50%{transform:scale(1.5) translate(-50%,-50%);}
 }
-.trail {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: conic-gradient(#ff0,#f0f,#0ff,#f0f,#ff0);
-  pointer-events: none;
-  mix-blend-mode: difference;
-  animation: fadeOut 1s forwards;
+.trail{
+  position:absolute;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:conic-gradient(#ff0,#f0f,#0ff,#f0f,#ff0);
+  pointer-events:none;
+  mix-blend-mode:difference;
+  animation:fadeOut 1s forwards;
 }
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; transform: scale(0); }
+@keyframes fadeOut{
+  0%{opacity:1;}
+  100%{opacity:0; transform:scale(0);}
 }
 
 /* --- Аномалии текста --- */
-.anom {
-  display: inline-block;
-  position: relative;
-  animation: shake 3s infinite;
+.anom{
+  display:inline-block;
+  position:relative;
+  animation:shake 3s infinite;
 }
-@keyframes shake {
-  0%,100% { transform: translate(0,0) rotate(0deg); }
-  10% { transform: translate(-2px,1px) rotate(-1deg); }
-  20% { transform: translate(1px,-1px) rotate(1deg); }
-  30% { transform: translate(-1px,2px) rotate(0deg); }
-  40% { transform: translate(1px,-2px) rotate(-1deg); }
-  50% { transform: translate(-1px,1px) rotate(1deg); }
-  60% { transform: translate(2px,-1px) rotate(0deg); }
-  70% { transform: translate(-2px,1px) rotate(1deg); }
-  80% { transform: translate(1px,-1px) rotate(-1deg); }
-  90% { transform: translate(0,2px) rotate(0deg); }
+@keyframes shake{
+  0%,100%{transform:translate(0,0) rotate(0deg);}
+  10%{transform:translate(-2px,1px) rotate(-1deg);}
+  20%{transform:translate(1px,-1px) rotate(1deg);}
+  30%{transform:translate(-1px,2px) rotate(0deg);}
+  40%{transform:translate(1px,-2px) rotate(-1deg);}
+  50%{transform:translate(-1px,1px) rotate(1deg);}
+  60%{transform:translate(2px,-1px) rotate(0deg);}
+  70%{transform:translate(-2px,1px) rotate(1deg);}
+  80%{transform:translate(1px,-1px) rotate(-1deg);}
+  90%{transform:translate(0,2px) rotate(0deg);}
+}
+
+/* --- Слабая дрожь альбома --- */
+@keyframes subtleShake{
+  0%,100%{transform:translate(0,0);}
+  25%{transform:translate(1px,-1px);}
+  50%{transform:translate(-1px,1px);}
+  75%{transform:translate(1px,1px);}
 }
 </style>
 </head>
@@ -203,21 +207,21 @@ body { cursor: none; }
 <div class="lines"></div>
 
 <h1 id="title">
-  <span class="glitch">У</span>
-  <span class="glitch">в</span>
-  <span class="glitch">е</span>
-  <span class="glitch">р</span>
-  <span class="glitch">т</span>
-  <span class="glitch">ю</span>
-  <span class="glitch">р</span>
-  <span class="glitch">а</span>
-  <span class="glitch"> </span>
-  <span class="glitch">И</span>
-  <span class="glitch">о</span>
-  <span class="glitch">р</span>
-  <span class="glitch">д</span>
-  <span class="glitch">а</span>
-  <span class="glitch">н</span>
+  <span class="anom">У</span>
+  <span class="anom">в</span>
+  <span class="anom">е</span>
+  <span class="anom">р</span>
+  <span class="anom">т</span>
+  <span class="anom">ю</span>
+  <span class="anom">р</span>
+  <span class="anom">а</span>
+  <span class="anom"> </span>
+  <span class="anom">И</span>
+  <span class="anom">о</span>
+  <span class="anom">р</span>
+  <span class="anom">д</span>
+  <span class="anom">а</span>
+  <span class="anom">н</span>
 </h1>
 
 <div class="album">
@@ -237,42 +241,39 @@ body { cursor: none; }
 <div class="cursor"></div>
 
 <script>
-// --- Курсор с кислотным следом ---
-const cursor = document.querySelector('.cursor');
-document.addEventListener('mousemove', e => {
-  cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  // Частицы
-  for(let i=0; i<3; i++){
-    const trail = document.createElement('div');
+// --- Курсор и следы ---
+const cursor=document.querySelector('.cursor');
+document.addEventListener('mousemove', e=>{
+  cursor.style.transform=`translate(${e.clientX}px,${e.clientY}px)`;
+  for(let i=0;i<3;i++){
+    const trail=document.createElement('div');
     trail.classList.add('trail');
-    trail.style.left = e.clientX + Math.random()*30-15 + 'px';
-    trail.style.top = e.clientY + Math.random()*30-15 + 'px';
-    trail.style.width = 10+Math.random()*10+'px';
-    trail.style.height = trail.style.width;
+    trail.style.left=e.clientX+Math.random()*30-15+'px';
+    trail.style.top=e.clientY+Math.random()*30-15+'px';
+    trail.style.width=10+Math.random()*10+'px';
+    trail.style.height=trail.style.width;
     document.body.appendChild(trail);
-    setTimeout(()=>trail.remove(), 1200);
+    setTimeout(()=>trail.remove(),1200);
   }
 });
 
-// --- Раскрытие треков ---
-const btn = document.querySelector('.show-tracks');
-const tracklist = document.querySelector('.tracklist');
-btn.addEventListener('click', () => {
-  tracklist.style.display = tracklist.style.display === 'block' ? 'none' : 'block';
-});
+// --- Треклист ---
+const btn=document.querySelector('.show-tracks');
+const tracklist=document.querySelector('.tracklist');
+btn.addEventListener('click',()=>{tracklist.style.display=tracklist.style.display==='block'?'none':'block';});
 
-// --- Случайные аномалии текста ---
-const anomElems = document.querySelectorAll('.anom');
-setInterval(() => {
-  anomElems.forEach(el => {
-    el.style.transform = `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px) rotate(${Math.random()*10-5}deg)`;
-    el.style.filter = `hue-rotate(${Math.random()*360}deg) blur(${Math.random()*2}px)`;
+// --- Аномалии текста ---
+const anomElems=document.querySelectorAll('.anom');
+setInterval(()=>{
+  anomElems.forEach(el=>{
+    el.style.transform=`translate(${Math.random()*30-15}px,${Math.random()*30-15}px) rotate(${Math.random()*15-7}deg)`;
+    el.style.filter=`hue-rotate(${Math.random()*360}deg) blur(${Math.random()*3}px)`;
   });
-}, 400);
+}, 300);
 
-// --- Движущиеся кислотные линии ---
-const linesContainer = document.querySelector('.lines');
-for(let i=0;i<40;i++){
+// --- Линии ---
+const linesContainer=document.querySelector('.lines');
+for(let i=0;i<60;i++){
   const line=document.createElement('div');
   line.classList.add('line');
   line.style.left=Math.random()*100+'vw';
@@ -280,11 +281,28 @@ for(let i=0;i<40;i++){
   linesContainer.appendChild(line);
 }
 
-// --- Фон пульсации цвета ---
-const body = document.body;
-setInterval(() => {
-  body.style.background = `radial-gradient(circle at ${Math.random()*100}% ${Math.random()*100}%, hsl(${Math.random()*360},100%,10%), #0a001f)`;
-}, 3000);
+// --- Фон пульсирующий ---
+const body=document.body;
+setInterval(()=>{
+  body.style.background=`radial-gradient(circle at ${Math.random()*100}% ${Math.random()*100}%, hsl(${Math.random()*360},100%,10%), #0a001f)`;
+},2000);
+
+// --- Эксплозивные аномалии ---
+setInterval(()=>{
+  const div=document.createElement('div');
+  div.style.position='fixed';
+  div.style.width='50px';
+  div.style.height='50px';
+  div.style.borderRadius='50%';
+  div.style.left=Math.random()*window.innerWidth+'px';
+  div.style.top=Math.random()*window.innerHeight+'px';
+  div.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
+  div.style.mixBlendMode='difference';
+  div.style.opacity='0.5';
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(),1000);
+},700);
+
 </script>
 </body>
 </html>

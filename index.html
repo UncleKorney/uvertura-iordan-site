@@ -1,176 +1,166 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Увертюра Иордан — Как будто ты в фонтан упал</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Увертюра Иордан — Как будто ты в фонтан упал</title>
 
-<style>
-/* ---------------------- ГЛАВНЫЙ СТИЛЬ ---------------------- */
-body{
-    margin:0;
-    padding:0;
-    background:#050509;
-    color:#c5c5c5;
-    font-family:"Arial",sans-serif;
-    overflow-x:hidden;
-    position:relative;
-}
+    <style>
+        /* ---------------------- ГЛАВНЫЙ СТИЛЬ ---------------------- */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #050509;
+            color: #c5c5c5;
+            font-family: "Arial", sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-/* --- МРЯКОТНАЯ ФОНА ТУМАНА --- */
-.fog{
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:radial-gradient(circle at 30% 60%, rgba(30,30,40,0.4), transparent 70%),
-                radial-gradient(circle at 80% 30%, rgba(20,20,30,0.4), transparent 60%);
-    filter:blur(40px);
-    animation:fogMove 20s ease-in-out infinite alternate;
-    z-index:1;
-}
-@keyframes fogMove{
-    0%{transform:translate(-20px,-20px);}
-    100%{transform:translate(20px,20px);}
-}
+        /* --- МРЯКОТНАЯ ФОНА ТУМАНА --- */
+        .fog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 60%, rgba(30, 30, 40, 0.4), transparent 70%),
+                        radial-gradient(circle at 80% 30%, rgba(20, 20, 30, 0.4), transparent 60%);
+            filter: blur(40px);
+            animation: fogMove 20s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        @keyframes fogMove {
+            0% { transform: translate(-20px, -20px); }
+            100% { transform: translate(20px, 20px); }
+        }
 
-/* ---------------------- ЗАГОЛОВОК ---------------------- */
-h1{
-    text-align:center;
-    font-size:3.5em;
-    margin-top:40px;
-    position:relative;
-    z-index:10;
-    letter-spacing:4px;
-    color:#e8e8e8;
-    text-shadow:0 0 20px rgba(0,255,180,0.3);
-}
+        /* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            width: 60%;
+            max-width: 500px;
+            color: #fff;
+            font-size: 1.2em;
+            text-align: center;
+            z-index: 10;
+            opacity: 1;
+            display: none;
+            animation: modalSlideIn 0.5s ease-out forwards;
+        }
 
-/* ---------------------- ОПИСАНИЕ ---------------------- */
-.description{
-    text-align:center;
-    margin-top:10px;
-    position:relative;
-    z-index:10;
-    opacity:0.8;
-    font-size:1.1em;
-}
+        /* Анимация появления модального окна */
+        @keyframes modalSlideIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
 
-/* ---------------------- АЛЬБОМ ---------------------- */
-.album-container{
-    width:340px;
-    margin:60px auto;
-    position:relative;
-    z-index:5;
-}
+        /* Плавное исчезновение модального окна */
+        @keyframes modalFadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
 
-.album-cover{
-    width:100%;
-    border:4px solid #333;
-    box-shadow:0 0 20px rgba(0,0,0,0.6);
-    cursor:pointer;
-    transition:transform 0.3s, filter 0.3s;
-}
-.album-cover:hover{
-    transform:scale(1.05);
-    filter:brightness(1.2);
-}
+        /* ---------------------- КНОПКА ЗАКРЫТИЯ ---------------------- */
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            color: #fff;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
 
-.tracklist{
-    max-height:0;
-    overflow:hidden;
-    transition:max-height 0.5s ease;
-    margin-top:15px;
-    background:#0c0c0f;
-    border:1px solid #222;
-    padding:0 15px;
-}
+        /* ---------------------- ЗАГОЛОВОК ---------------------- */
+        h1 {
+            text-align: center;
+            font-size: 3.5em;
+            margin-top: 40px;
+            position: relative;
+            z-index: 10;
+            letter-spacing: 4px;
+            color: #e8e8e8;
+            text-shadow: 0 0 20px rgba(0, 255, 180, 0.3);
+        }
 
-.track{
-    padding:10px 0;
-    border-bottom:1px solid #1a1a1e;
-}
-.track:last-child{border-bottom:none;}
-.track-name{
-    margin-bottom:5px;
-    color:#9dd;
-}
-audio{
-    width:100%;
-    margin-bottom:10px;
-}
+        /* ---------------------- ОПИСАНИЕ ---------------------- */
+        .description {
+            text-align: center;
+            margin-top: 10px;
+            position: relative;
+            z-index: 10;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
 
-/* ---------------------- КРЫСЫ ---------------------- */
-.rat{
-    position:fixed;
-    bottom:0;
-    width:80px;
-    height:40px;
-    background:url('images/rat-silhouette.png') center/contain no-repeat;
-    opacity:0.7;
-    pointer-events:none;
-    animation:ratRun 3s linear forwards;
-    z-index:50;
-}
-@keyframes ratRun{
-    0%{ transform:translateX(-150px); }
-    100%{ transform:translateX(120vw); }
-}
+        /* ---------------------- АЛЬБОМ ---------------------- */
+        .album-container {
+            width: 340px;
+            margin: 60px auto;
+            position: relative;
+            z-index: 5;
+        }
 
-@keyframes ratCrawl{
-    0%{ transform:translateX(-150px); }
-    50%{ transform:translateY(10px); }
-    100%{ transform:translateX(120vw); }
-}
+        .album-cover {
+            width: 100%;
+            border: 4px solid #333;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+        }
 
-/* ---------------------- ТЕНИ СУЩЕСТВ ---------------------- */
-.shadow-creature{
-    position:fixed;
-    width:180px;
-    height:330px;
-    background:rgba(0,0,0,0.3);
-    filter:blur(25px);
-    pointer-events:none;
-    animation:creep 4s linear forwards;
-    z-index:4;
-}
-@keyframes creep{
-    0%{ transform:translateX(-200px); opacity:0; }
-    20%{ opacity:0.4; }
-    80%{ opacity:0.4; }
-    100%{ transform:translateX(130vw); opacity:0; }
-}
+        .album-cover:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
 
-/* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
-.modal {
-    position: fixed;
-    top: 50%;
-    left: -300px;  /* Начальная позиция за пределами экрана */
-    transform: translateY(-50%);
-    width: 300px;
-    height: 200px;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index:100; /* Модальное окно всегда поверх всего */
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 255, 180, 0.3);
-    padding: 20px;
-    color: #fff;
-    text-align: center;
-}
+        .tracklist {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 15px;
+            background: #0c0c0f;
+            border: 1px solid #222;
+            padding: 0 15px;
+        }
 
-.modal-content {
-    font-size: 1.2em;
-    line-height: 1.5;
-    padding: 10px;
-}
+        .track {
+            padding: 10px 0;
+            border-bottom: 1px solid #1a1a1e;
+        }
 
-@keyframes modalSlideIn {
-    0% { left: -300px; }
-    100% { left: 20px; }
-}
-</style>
+        .track:last-child {
+            border-bottom: none;
+        }
+
+        .track-name {
+            margin-bottom: 5px;
+            color: #9dd;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -185,7 +175,6 @@ audio{
     <img class="album-cover" id="album" src="images/album1.jpg" alt="Album cover">
 
     <div class="tracklist" id="tracklist">
-
         <div class="track">
             <div class="track-name">Трек 1 — (название позже)</div>
             <audio controls src="audio/track1.mp3"></audio>
@@ -200,91 +189,52 @@ audio{
             <div class="track-name">Трек 3 — (название позже)</div>
             <audio controls src="audio/track3.mp3"></audio>
         </div>
-
     </div>
+</div>
+
+<!-- ------------------- МОДАЛЬНОЕ ОКНО ------------------- -->
+<div class="modal" id="modal">
+    <button class="modal-close" id="close-modal">&times;</button>
+    <p>
+        Ты шагаешь, не замечая, как земля под ногами теряет прочность. В одно мгновение всё привычное уходит. 
+        Лишь на мгновение твой взгляд скользит по открывшемуся люку, и ты понимаешь — слишком поздно.
+    </p>
 </div>
 
 <!-- ------------------- ЗВУК РАСКРЫТИЯ ------------------- -->
 <audio id="open-sound" src="audio/open.mp3" preload="auto"></audio>
 
-<!-- ------------------- МОДАЛЬНОЕ ОКНО ------------------- -->
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <p>Проходя по неосвещённой улице, ты не замечаешь открытый люк, так удачно расположившийся на твоём пути. Внезапно ты падаешь, поглощённый темнотой, и перед тобой открывается мир, забытый и заброшенный. Канализация. Она ждала тебя.</p>
-    </div>
-</div>
-
 <script>
-/* ---------------------- ТРЕКЛИСТ ---------------------- */
-const album = document.getElementById("album");
-const tracklist = document.getElementById("tracklist");
-const openSound = document.getElementById("open-sound");
-const modal = document.getElementById('modal');
-let modalShown = false;
+    const album = document.getElementById("album");
+    const tracklist = document.getElementById("tracklist");
+    const openSound = document.getElementById("open-sound");
+    const modal = document.getElementById("modal");
+    const closeModal = document.getElementById("close-modal");
 
-let open = false;
+    let open = false;
+    let modalShown = false;
 
-album.addEventListener("click", () => {
-    open = !open;
-    tracklist.style.maxHeight = open ? "500px" : "0";
+    album.addEventListener("click", () => {
+        open = !open;
+        tracklist.style.maxHeight = open ? "500px" : "0";
+        if (open) {
+            openSound.currentTime = 0;
+            openSound.play();
+        }
 
-    if (open) {
-        openSound.currentTime = 0;
-        openSound.play();
-    }
+        if (!modalShown) {
+            modal.style.display = "flex";  // Показываем модальное окно
+            setTimeout(() => {
+                modal.style.animation = "modalFadeOut 2s forwards";  // Модальное окно исчезает
+            }, 3000);  // После 3 секунд плавное исчезновение
+            modalShown = true;
+        }
+    });
 
-    // Показ модального окна только один раз
-    if (!modalShown) {
-        modal.style.display = "flex";
-        modal.style.animation = "modalSlideIn 0.5s ease-out forwards";
-        modalShown = true;
-    }
-});
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";  // Закрытие модального окна по кнопке
+    });
 
-/* ---------------------- КРЫСЫ ---------------------- */
-function spawnRat(){
-    const r = document.createElement("div");
-    r.classList.add("rat");
-
-    // Настроим случайную позицию старта и скорость
-    const speed = Math.random() * 5 + 3; // Случайная скорость от 3 до 8 секунд
-    const direction = Math.random() > 0.5 ? 1 : -1;  // Случайное направление
-    r.style.animationDuration = speed + 's'; // задаём скорость крысы
-
-    r.style.animation = direction === 1 ? 'ratRun 3s linear forwards' : 'ratCrawl 5s linear forwards';
-
-    document.body.appendChild(r);
-    setTimeout(() => r.remove(), speed * 1000); // Удаляем крысу через определённое время
-
-    // Звук
-    const ratSound = new Audio('audio/rat-sound.mp3');
-    ratSound.play();
-}
-
-setInterval(() => {
-    if (Math.random() < 0.9) spawnRat();  // Почти всегда появляется крыса
-}, 2000);  // Частота появления крыс — каждую секунду
-
-/* ---------------------- ТЕНИ ---------------------- */
-function spawnShadow(){
-    const s = document.createElement("div");
-    s.classList.add("shadow-creature");
-    s.style.top = (Math.random() * 50) + "vh";
-    document.body.appendChild(s);
-    setTimeout(() => s.remove(), 4000);
-}
-setInterval(() => {
-    if (Math.random() < 0.25) spawnShadow();  // Появление теней — 25% шанс
-}, 8000);
-
-/* ---------------------- МОДАЛЬНОЕ ОКНО ---------------------- */
-album.addEventListener("click", () => {
-    if (!modalShown) {
-        modal.style.display = "flex";
-        modal.style.animation = "modalSlideIn 0.5s ease-out forwards";
-        modalShown = true;
-    }
-});
 </script>
 
 </body>

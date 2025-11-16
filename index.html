@@ -3,20 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Психоделический Хаос</title>
+<title>Nightmare Trip 9000</title>
 <style>
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
   overflow: hidden;
   background: #0a001f;
-  color: #fff;
+  font-family: 'Arial', sans-serif;
   cursor: none;
+  color: white;
   position: relative;
 }
-
-/* --- Заголовок --- */
 h1 {
   font-size: 4em;
   text-align: center;
@@ -28,23 +26,25 @@ h1 span {
   display: inline-block;
   transition: transform 0.1s, color 0.1s;
 }
-
-/* --- Лизергиновый курсор --- */
-.cursor{
+/* --- Курсор лизергин --- */
+.cursor {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  position:fixed;
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
-  background: conic-gradient(hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%), hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%));
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%), 
+    hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%)
+  );
   mix-blend-mode: difference;
   animation: pulse 1.5s infinite linear;
 }
-@keyframes pulse{
-  0%,100%{transform:translate(-50%,-50%) scale(1);}
-  50%{transform:translate(-50%,-50%) scale(1.4);}
+@keyframes pulse {
+  0%,100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.4); }
 }
 
 /* --- Лизергиновое облако --- */
@@ -55,13 +55,58 @@ h1 span {
   border-radius: 50%;
   pointer-events: none;
   z-index: 998;
-  background: conic-gradient(hsl(0,100%,50%),hsl(60,100%,50%),hsl(120,100%,50%),hsl(180,100%,50%),hsl(240,100%,50%),hsl(300,100%,50%),hsl(360,100%,50%));
+  background: conic-gradient(
+    hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%), 
+    hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%)
+  );
   mix-blend-mode: difference;
   opacity: 0.6;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 
-/* --- Всплывающие странные элементы --- */
+/* --- Шум экрана --- */
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.05),
+    rgba(255,255,255,0.05) 1px,
+    rgba(0,0,0,0.05) 2px
+  );
+  mix-blend-mode: difference;
+  animation: noiseAnim 0.05s infinite;
+}
+@keyframes noiseAnim {
+  0%,100%{opacity:0.05;}
+  50%{opacity:0.3;}
+}
+
+/* --- Вспышки --- */
+.flash {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle, white 0%, transparent 80%);
+  opacity: 0;
+  mix-blend-mode: difference;
+  animation: flashAnim 0.3s forwards;
+}
+@keyframes flashAnim {
+  0%{opacity:0;}
+  50%{opacity:0.7;}
+  100%{opacity:0;}
+}
+
+/* --- Странные объекты --- */
 .strange {
   position: fixed;
   pointer-events: none;
@@ -73,116 +118,187 @@ h1 span {
   opacity: 0.8;
   transition: transform 0.5s, opacity 0.5s;
 }
+
+/* --- Мелкие частицы шлейфа --- */
+.trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1000;
+  mix-blend-mode: difference;
+  opacity: 0.7;
+}
 </style>
 </head>
 <body>
-
 <h1 id="title">
-  <span>Т</span><span>р</span><span>и</span><span>п</span><span>о</span><span>в</span>
-  <span>ы</span> <span>й</span> <span>Х</span><span>а</span><span>о</span><span>с</span>
+  <span>П</span><span>с</span><span>и</span><span>х</span><span>о</span><span>д</span><span>е</span><span>л</span><span>и</span><span>ч</span><span>е</span><span>с</span><span>к</span><span>и</span>
+  <span>й</span> <span>Х</span><span>а</span><span>о</span><span>с</span>
 </h1>
 
 <div class="cursor"></div>
+<div class="noise"></div>
 
 <script>
 // --- Курсор ---
-const cursor=document.querySelector('.cursor');
-let mouseX=0, mouseY=0;
+const cursor = document.querySelector('.cursor');
+let mouseX = 0, mouseY = 0;
 document.addEventListener('mousemove', e=>{
-  mouseX=e.clientX;
-  mouseY=e.clientY;
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = e.clientX+'px';
+  cursor.style.top = e.clientY+'px';
 });
 
-// --- Лизергиновое облако --- 
-let cloud = [];
-for(let i=0;i<40;i++){
+// --- Лизергиновое облако ---
+let cloud=[];
+for(let i=0;i<120;i++){
   const c=document.createElement('div');
   c.classList.add('psy-cloud');
-  c.style.width = c.style.height = (Math.random()*30+10)+'px';
-  c.style.opacity = Math.random()*0.6+0.2;
+  c.style.width=c.style.height=(Math.random()*40+10)+'px';
+  c.style.opacity=Math.random()*0.6+0.2;
   document.body.appendChild(c);
   cloud.push({
-    el: c,
-    x: mouseX,
-    y: mouseY,
-    vx: (Math.random()-0.5)*5,
-    vy: (Math.random()-0.5)*5
+    el:c,
+    x:mouseX,
+    y:mouseY,
+    vx:(Math.random()-0.5)*6,
+    vy:(Math.random()-0.5)*6
   });
 }
 
 function updateCloud(){
   cloud.forEach(p=>{
-    // движемся к мыши плавно
-    let dx = mouseX - p.x + (Math.random()*50-25);
-    let dy = mouseY - p.y + (Math.random()*50-25);
-    p.vx += dx*0.02;
-    p.vy += dy*0.02;
-    p.vx *= 0.9;
-    p.vy *= 0.9;
-    p.x += p.vx;
-    p.y += p.vy;
-    p.el.style.left = p.x+'px';
-    p.el.style.top = p.y+'px';
-    p.el.style.background = `conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
+    let dx=mouseX-p.x+(Math.random()*150-75);
+    let dy=mouseY-p.y+(Math.random()*150-75);
+    p.vx+=(dx*0.02);
+    p.vy+=(dy*0.02);
+    p.vx*=0.8;
+    p.vy*=0.8;
+    p.x+=p.vx;
+    p.y+=p.vy;
+    p.el.style.left=p.x+'px';
+    p.el.style.top=p.y+'px';
+    p.el.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
   });
   requestAnimationFrame(updateCloud);
 }
 updateCloud();
 
-// --- Текст убегает от курсора ---
-const titleSpans=document.querySelectorAll('h1 span');
+// --- Текст убегает ---
+const titleSpans = document.querySelectorAll('h1 span');
 document.addEventListener('mousemove', e=>{
   titleSpans.forEach(span=>{
-    const rect=span.getBoundingClientRect();
-    const dx = rect.left + rect.width/2 - e.clientX;
-    const dy = rect.top + rect.height/2 - e.clientY;
-    const dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<200){
-      const moveX = dx/dist*50;
-      const moveY = dy/dist*50;
-      span.style.transform=`translate(${moveX}px,${moveY}px) rotate(${Math.random()*30-15}deg)`;
+    const rect = span.getBoundingClientRect();
+    const dx = rect.left+rect.width/2 - e.clientX;
+    const dy = rect.top+rect.height/2 - e.clientY;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    if(dist < 300){
+      const moveX = dx/dist * 90;
+      const moveY = dy/dist * 90;
+      span.style.transform = `translate(${moveX}px,${moveY}px) rotate(${Math.random()*90-45}deg) scale(${Math.random()*1.5+0.5})`;
+      span.style.color = `hsl(${Math.random()*360},100%,50%)`;
     } else {
-      span.style.transform='translate(0,0)';
+      span.style.transform = 'translate(0,0)';
     }
   });
 });
 
-// --- Случайные странные всплывающие элементы ---
+// --- Странные элементы ---
 function spawnStrange(){
-  const s = document.createElement('div');
+  const s=document.createElement('div');
   s.classList.add('strange');
-  const texts = ['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥'];
-  s.textContent = texts[Math.floor(Math.random()*texts.length)];
-  s.style.left = Math.random()*100+'vw';
-  s.style.top = Math.random()*100+'vh';
-  s.style.transform = `rotate(${Math.random()*360}deg) scale(${Math.random()*2})`;
+  const texts=['👁️','💀','☠️','😱','🕷️','⚡','☢️','🔥','👹','👽','🩸','☣️','☂️','👻','🧟','🦴'];
+  s.textContent=texts[Math.floor(Math.random()*texts.length)];
+  s.style.left=Math.random()*100+'vw';
+  s.style.top=Math.random()*100+'vh';
+  s.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*3})`;
+  s.style.color=`hsl(${Math.random()*360},100%,50%)`;
   document.body.appendChild(s);
   setTimeout(()=>{
     s.style.opacity=0;
     setTimeout(()=>s.remove(),500);
-  }, Math.random()*3000+2000);
+  },Math.random()*4000+1000);
 }
-setInterval(spawnStrange, 800);
+setInterval(spawnStrange,250);
 
-// --- Вспышки при клике ---
-document.addEventListener('click', e => {
-  const flash = document.createElement('div');
-  flash.style.position='fixed';
-  flash.style.left=e.clientX+'px';
-  flash.style.top=e.clientY+'px';
-  flash.style.width='120px';
-  flash.style.height='120px';
-  flash.style.borderRadius='50%';
-  flash.style.background='radial-gradient(circle,#fff,transparent)';
-  flash.style.opacity=0.8;
-  flash.style.pointerEvents='none';
-  flash.style.transform='translate(-50%,-50%) scale(0)';
-  flash.style.transition='transform 0.5s, opacity 0.5s';
+// --- Вспышки на клик ---
+document.addEventListener('click', e=>{
+  const flash=document.createElement('div');
+  flash.classList.add('flash');
   document.body.appendChild(flash);
-  requestAnimationFrame(()=>{ flash.style.transform='translate(-50%,-50%) scale(3)'; flash.style.opacity=0; });
-  setTimeout(()=>flash.remove(),500);
+  setTimeout(()=>flash.remove(),300);
+});
+
+// --- Экранный шум ---
+const noise=document.querySelector('.noise');
+setInterval(()=>{
+  noise.style.opacity=Math.random()*0.3+0.05;
+},50);
+
+// --- Постоянные хаотичные объекты ---
+function spawnChaos(){
+  const c=document.createElement('div');
+  c.classList.add('strange');
+  c.textContent=['⚡','🔥','☣️','💀','👹','💉','☠️','👁️','🕷️'][Math.floor(Math.random()*9)];
+  c.style.left=Math.random()*100+'vw';
+  c.style.top=Math.random()*100+'vh';
+  c.style.transform=`rotate(${Math.random()*360}deg) scale(${Math.random()*4})`;
+  c.style.color=`hsl(${Math.random()*360},100%,50%)`;
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),Math.random()*3000+1000);
+}
+setInterval(spawnChaos,80);
+
+// --- Эксплозивные объекты ---
+function explode(){
+  const e=document.createElement('div');
+  e.classList.add('psy-cloud');
+  e.style.width=e.style.height=(Math.random()*70+20)+'px';
+  e.style.left=Math.random()*window.innerWidth+'px';
+  e.style.top=Math.random()*window.innerHeight+'px';
+  e.style.background=`conic-gradient(hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%),hsl(${Math.random()*360},100%,50%))`;
+  e.style.opacity=0.7;
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),1500);
+}
+setInterval(explode,400);
+
+// --- Борода шлейфа частиц за курсором ---
+let trail=[];
+function spawnTrail(){
+  for(let i=0;i<8;i++){
+    const t=document.createElement('div');
+    t.classList.add('trail');
+    t.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    t.x=mouseX; t.y=mouseY;
+    t.vx=(Math.random()-0.5)*10;
+    t.vy=(Math.random()-0.5)*10;
+    document.body.appendChild(t);
+    trail.push(t);
+    setTimeout(()=>{t.remove(); trail.splice(trail.indexOf(t),1)},3000);
+  }
+}
+document.addEventListener('mousemove',spawnTrail);
+
+function updateTrail(){
+  trail.forEach(t=>{
+    t.x+=t.vx;
+    t.y+=t.vy;
+    t.style.left=t.x+'px';
+    t.style.top=t.y+'px';
+  });
+  requestAnimationFrame(updateTrail);
+}
+updateTrail();
+
+// --- Дрожащая страница ---
+document.addEventListener('mousemove', e=>{
+  const shakeX = (Math.random()-0.5)*5;
+  const shakeY = (Math.random()-0.5)*5;
+  document.body.style.transform = `translate(${shakeX}px,${shakeY}px)`;
 });
 </script>
 </body>

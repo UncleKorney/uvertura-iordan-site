@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Увертюра Иордан — Сюрреализм</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Monoton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Абстрактный фон -->
+    <canvas id="scene-canvas"></canvas>
+
+    <!-- Скрытое меню, появляется при наведении -->
+    <nav id="main-nav">
+        <ul>
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#albums">Альбомы</a></li>
+            <li><a href="#gallery">Галерея</a></li>
+        </ul>
+    </nav>
+
+    <!-- Главная секция -->
+    <section id="home" class="section home-section">
+        <h1 class="band-title">УВЕРТЮРА ИОРДАН</h1>
+        <p class="band-tagline">Психоделический сюрреализм в каждом аккорде</p>
+        <button class="btn-scroll" onclick="document.getElementById('albums').scrollIntoView({behavior: 'smooth'})">
+            Перейти к альбомам
+        </button>
+    </section>
+
+    <!-- Альбомы -->
+    <section id="albums" class="section albums-section">
+        <h2>Альбомы</h2>
+        <div class="albums-container">
+            <div class="album-card">
+                <img src="albums/album1.jpg" alt="Альбом 1">
+                <h3>Психоделическая ночь</h3>
+                <audio controls>
+                    <source src="albums/album1/track1.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            <div class="album-card">
+                <img src="albums/album2.jpg" alt="Альбом 2">
+                <h3>Регги в космосе</h3>
+                <audio controls>
+                    <source src="albums/album2/track1.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+            <!-- Добавь остальные альбомы -->
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section id="gallery" class="section gallery-section">
+        <h2>Галерея</h2>
+        <div class="gallery-container">
+            <img src="gallery/img1.jpg" alt="Галерея 1">
+            <img src="gallery/img2.jpg" alt="Галерея 2">
+            <img src="gallery/img3.jpg" alt="Галерея 3">
+            <!-- Добавь остальные изображения -->
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
